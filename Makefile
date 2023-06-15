@@ -77,3 +77,22 @@ fclean: clean ## Remove all generated files
 .PHONY: clean fclean
 
 include $(wildcard $(Objects:.o=.d)) # To know on which header each .o depends
+
+$(Subfolders:$(ImplementationFolder)%=$(BuildFolder)%): # Create the build folder and its subfolders
+	mkdir -p $@
+
+$(Objects): $(BuildFolder)/%.o: $(ImplementationFolder)/%.c # declare the dependency between objects sources
+
+$(Static): $(Objects) # Group all the compiled objects into an indexed archive
+	$(AR) rcs $@ $^
+
+$(Shared): $(Objects) # Create a shared object
+	$(CC) $(CFLAGS) -shared $^ $(LDFLAGS) $(LDLIBS) -o $@
+
+# When a rule is expanded, both the target and the prerequisites
+# are immediately evaluated. Enabling a second expansion allows
+# a prerequisite to use automatic variables like $@, $*, etc
+.SECONDEXPANSION:
+
+$(Objects): | $$(@D) # Compile a single object
+	$(CC) $(CFLAGS) $(CPPFLAGS) -c $< -o $@
