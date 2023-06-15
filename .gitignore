@@ -1,0 +1,12 @@
+#*#
+*~
+*.a
+*conan*.sh
+*.conf
+*.d
+*info.txt
+*.json
+*.lock
+*.o
+*.out
+*.so
