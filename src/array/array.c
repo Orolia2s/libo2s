@@ -14,7 +14,15 @@
 
 #include "o2s/array.h"
 
+#define INITIAL_SIZE   16
+#define REALLOC_FACTOR 2
+
 array_t array_new(size_t type_size)
 {
-	return (array_t){};
+	return (array_t){.start = NULL, .type_size = type_size, .count = 0, .capacity = 0};
+}
+
+array_t array_grow()
+{
+	//INITIAL_SIZE ...
 }
