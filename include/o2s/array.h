@@ -17,8 +17,16 @@
 #include <stdbool.h>
 #include <stddef.h>
 
+/**
+ * ceci est considéré comme le bref.
+ *
+ */
 typedef struct array
 {
+    void* start;
+    size_t type_size;
+    size_t count;
+    size_t capacity;
 } array_t;
 
 #define Array(T) array_new(sizeof(T))
@@ -37,3 +45,4 @@ void*   array_get(array_t* self, size_t index);
 
 bool    array_reserve(array_t* self, size_t count);
 bool    array_clear(array_t* self);
+bool    array_trim(array_t* self);
