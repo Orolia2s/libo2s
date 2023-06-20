@@ -23,7 +23,7 @@ class LibO2sConan(ConanFile):
     }
 
     generators = 'AutotoolsToolchain'
-    exports_sources = 'Makefile', 'src', 'include', 'README.md'
+    exports_sources = 'Makefile', 'src/*.[ch]', 'include/*.h', 'README.md'
 
     def export(self):
         # Only files that are necessary for the evaluation of the conanfile.py

@@ -1,0 +1,5 @@
+[requires]
+libunit/1.4
+
+[generators]
+PkgConfigDeps

@@ -9,4 +9,5 @@
 *.lock
 *.o
 *.out
+*.pc
 *.so
