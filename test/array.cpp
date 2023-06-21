@@ -75,6 +75,7 @@ SCENARIO("An array limits reallocations", "[array]")
 
 		REQUIRE( initial_allocated != NULL );
 		REQUIRE( initial_capacity > 0 );
+		REQUIRE( tested.type_size == sizeof(double) );
 
 		WHEN("More elements are appended, to fill the capacity")
 		{
@@ -96,30 +97,43 @@ SCENARIO("An array limits reallocations", "[array]")
 
 SCENARIO("We can iterate on array type", "[array]")
 {
-	GIVEN("An array of int with 12 element")
+	GIVEN("An array of short with 12 element")
 	{
-		array_t tested = Array(int);
-		int tab[12] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 516, 2123};
+		array_t tested  = Array(short);
+		short   tab[12] = {111, 222, 333, -50, 5, 6, 7, 8, 9, 10, 516, 2123};
 
 		array_push_back_n(&tested, tab, 12);
 
-		WHEN("Iteration on array")
+		THEN("The size is 12 and the capacity at least 12")
 		{
-			THEN("The size becomes 12 and the capacity is at least 12");
-			{
-				REQUIRE( tested.count == 12 );
-				REQUIRE( tested.capacity >= 12 );
-			}
+			REQUIRE( tested.count == 12 );
+			REQUIRE( tested.capacity >= 12 );
+			REQUIRE( tested.type_size == sizeof(short) );
+		}
 
-			THEN("Test the iterator on 12 elements");
+		THEN("We can iterate over its elements conveniently")
+		{
+			short index = 0;
+			short elt;
+
+			array_foreach(short, &tested, &elt)
 			{
-				int index = 0;
-				int elt;
-				for_array(int, &tested, elt)
-				{
-					REQUIRE( elt == tab[index] );
-					index ++;
-				}
+				REQUIRE( elt == tab[index] );
+				index++;
+			}
+		}
+
+		THEN("We can iterate over its elements conveniently, with the index as well")
+		{
+			short  index = 0;
+			short  elt = -17;
+			int    i = -18;
+
+			array_enumerate(short, &tested, &elt, &i)
+			{
+				REQUIRE( index == i );
+				REQUIRE( elt == tab[index] );
+				index++;
 			}
 		}
 	}

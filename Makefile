@@ -107,6 +107,8 @@ $(Shared): $(Objects) # Create a shared object
 $(Tester): $(Static)
 	$(MAKE) -C $(@D) conan_build
 
+.PHONY: $(Tester)
+
 # When a rule is expanded, both the target and the prerequisites
 # are immediately evaluated. Enabling a second expansion allows
 # a prerequisite to use automatic variables like $@, $*, etc
