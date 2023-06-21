@@ -27,23 +27,9 @@ array_t array_new(size_t type_size)
 	return (array_t){.start = NULL, .type_size = type_size, .count = 0, .capacity = 0};
 }
 
-bool _realloc(void* start, size_t content_size, size_t allocation_size)
-{
-	void* p = malloc(allocation_size);
-	if (p != NULL)
-	{
-		memcpy(p, start, content_size);
-		free(start);
-		start = p;
-		return true;
-	}
-	else
-		return false;
-}
-
 size_t _array_offset(array_t* self, size_t count)
 {
-	return(self->type_size * count);
+	return(count * self->type_size);
 }
 
 size_t _array_end(array_t* self)
@@ -51,11 +37,12 @@ size_t _array_end(array_t* self)
 	return((void*)self->start + _array_offset(self, self->count));
 }
 
-
 bool _array_realloc(array_t* self, size_t capacity_to_alloc)
 {
-	if (_realloc(self->start, _array_offset(self, self->count), _array_offset(self, capacity_to_alloc)))
+	void* p = reallocarray(self->start, capacity_to_alloc, self->type_size);
+	if (p != NULL)
 	{
+		self->start = p;
 		self->capacity = capacity_to_alloc;
 		return true;
 	}
@@ -74,7 +61,7 @@ bool _array_grow(array_t* self, size_t grow_count)
 		{
 			required_capacity = required_capacity * REALLOC_FACTOR;
 		}
-		return _array_realloc(self, _array_offset(self, required_capacity));
+		return _array_realloc(self, required_capacity);
 	}
 	else
 		return true;
