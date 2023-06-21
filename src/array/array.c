@@ -13,6 +13,8 @@
 /* ************************************************************************** */
 
 #include "o2s/array.h"
+#include <string.h> //enable use of 'memcpy'
+#include <stdlib.h> //enable use of 'malloc' and 'free'
 
 #define INITIAL_SIZE   16
 #define REALLOC_FACTOR 2
