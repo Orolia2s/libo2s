@@ -29,7 +29,8 @@ AlignConsecutiveMacros: AcrossEmptyLinesAndComments
 #    Enabled: true
 #    AcrossEmptyLines: true
 #    AcrossComments: true
-AlignEscapedNewlines: Left
+AlignEscapedNewlines: DontAlign
+ForEachMacros: ['array_foreach', 'array_enumerate']
 
 # ----- Align -----
 AlignAfterOpenBracket: 'Align'

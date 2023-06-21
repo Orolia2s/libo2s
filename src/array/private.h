@@ -20,6 +20,6 @@
 #define MIN(i, j)      (((i) < (j)) ? (i) : (j))
 #define MAX(i, j)      (((i) > (j)) ? (i) : (j))
 
-void* array_end(array_t* self);
+void*  array_end(array_t* self);
 size_t array_offset(array_t* self, size_t count);
-bool array_grow(array_t* self, size_t grow_count);
+bool   array_grow(array_t* self, size_t grow_count);

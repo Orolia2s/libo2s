@@ -68,10 +68,14 @@ shared: $(Shared) ## Compile the shared library. Appropriate compilation flags l
 
 .PHONY: static shared
 
-##@ Testing
+##@ Developping
 
 test: $(Tester)
 	./$<
+
+format: $(Sources)
+	echo $^ | xargs -L1 clang-format -i
+	find $(ImplementationFolder) $(InterfaceFolder) -type f -name '*.h' | xargs -L1 clang-format -i
 
 .PHONY: test
 

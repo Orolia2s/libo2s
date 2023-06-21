@@ -20,7 +20,7 @@
  */
 void* array_end(array_t* self)
 {
-	return((void*)self->start + array_offset(self, self->count));
+	return ((void*)self->start + array_offset(self, self->count));
 }
 
 /**
@@ -41,7 +41,6 @@ void* array_last(array_t* self)
 	if (self->count <= 0)
 		return NULL;
 	return self->start + array_offset(self, self->count - 1);
-
 }
 
 /**
@@ -51,6 +50,6 @@ void* array_last(array_t* self)
 void* array_get(array_t* self, size_t index)
 {
 	if (index + 1 > self->count)
-        return NULL;
+		return NULL;
 	return self->start + array_offset(self, index);
 }

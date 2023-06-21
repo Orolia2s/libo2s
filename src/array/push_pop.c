@@ -14,8 +14,10 @@
 
 #include "o2s/array.h"
 #include "private.h"
-#include <string.h> // memcpy
+
 #include <iso646.h> // not
+
+#include <string.h> // memcpy
 
 /**
  * Adds one n elements at the end of the array.
@@ -24,10 +26,10 @@
 bool array_push_back_n(array_t* self, void* elements, size_t count)
 {
 	if (not array_grow(self, count))
-    	return false;
-    memcpy(array_end(self), elements, array_offset(self, count));
-    self->count = self->count + count;
-    return true;
+		return false;
+	memcpy(array_end(self), elements, array_offset(self, count));
+	self->count = self->count + count;
+	return true;
 }
 
 /**
@@ -46,11 +48,11 @@ bool array_push_back(array_t* self, void* element)
 bool array_pop_back_n(array_t* self, void* destination, size_t count)
 {
 	if (count > self->count)
-	    return false;
-    void* source = (void*)self->start + array_offset(self, self->count - count);
-    memcpy(destination, source, array_offset(self, count));
-    self->count = self->count - count;
-    return true;
+		return false;
+	void* source = (void*)self->start + array_offset(self, self->count - count);
+	memcpy(destination, source, array_offset(self, count));
+	self->count = self->count - count;
+	return true;
 }
 
 /**

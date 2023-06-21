@@ -13,9 +13,10 @@
 /* ************************************************************************** */
 
 #include "o2s/array.h"
-#include <string.h> // memcpy
-#include <stdlib.h> // malloc, free
 #include "private.h"
+
+#include <stdlib.h> // malloc, free
+#include <string.h> // memcpy
 
 /**
  * Contructs an array.
@@ -31,7 +32,7 @@ array_t array_new(size_t type_size)
  */
 size_t array_offset(array_t* self, size_t count)
 {
-	return(count * self->type_size);
+	return (count * self->type_size);
 }
 
 /**
@@ -43,7 +44,7 @@ bool array_realloc(array_t* self, size_t capacity_to_alloc)
 	void* p = reallocarray(self->start, capacity_to_alloc, self->type_size);
 	if (p == NULL)
 		return false;
-	self->start = p;
+	self->start    = p;
 	self->capacity = capacity_to_alloc;
 	return true;
 }
@@ -58,7 +59,7 @@ bool array_grow(array_t* self, size_t grow_count)
 	if (next_count <= self->capacity)
 		return true;
 	size_t required_capacity =
-		MAX(INITIAL_SIZE, self->capacity - (self->capacity % INITIAL_SIZE));
+	    MAX(INITIAL_SIZE, self->capacity - (self->capacity % INITIAL_SIZE));
 	while (required_capacity < next_count)
 	{
 		required_capacity = required_capacity * REALLOC_FACTOR;
