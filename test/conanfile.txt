@@ -1,5 +1,5 @@
 [requires]
-libunit/1.4
+catch2/3.3.2
 
 [generators]
-PkgConfigDeps
+AutotoolsDeps
