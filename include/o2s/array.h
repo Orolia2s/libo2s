@@ -14,8 +14,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdbool.h>
-#include <stddef.h>
+#include <stdbool.h> // bool
+#include <stddef.h> // size_t
 
 /**
  * ceci est considéré comme le bref.
@@ -46,3 +46,5 @@ void*   array_get(array_t* self, size_t index);
 bool    array_reserve(array_t* self, size_t count);
 bool    array_clear(array_t* self);
 bool    array_trim(array_t* self);
+
+#define for_array(T, A, E) for (size_t i = 0, E = *(T*)((A)->start); i < (A)->count; i++, E = *(T*)((char*)(A)->start + i * (A)->type_size))

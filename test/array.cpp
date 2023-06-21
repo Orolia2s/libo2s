@@ -93,3 +93,34 @@ SCENARIO("An array limits reallocations", "[array]")
 		}
 	}
 }
+
+SCENARIO("We can iterate on array type", "[array]")
+{
+	GIVEN("An array of int with 12 element")
+	{
+		array_t tested = Array(int);
+		int tab[12] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 516, 2123};
+
+		array_push_back_n(&tested, tab, 12);
+
+		WHEN("Iteration on array")
+		{
+			THEN("The size becomes 12 and the capacity is at least 12");
+			{
+				REQUIRE( tested.count == 12 );
+				REQUIRE( tested.capacity >= 12 );
+			}
+
+			THEN("Test the iterator on 12 elements");
+			{
+				int index = 0;
+				int elt;
+				for_array(int, &tested, elt)
+				{
+					REQUIRE( elt == tab[index] );
+					index ++;
+				}
+			}
+		}
+	}
+}
