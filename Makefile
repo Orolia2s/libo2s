@@ -28,6 +28,8 @@ CPPFLAGS += -MMD
 Sources != find $(ImplementationFolder) -type f -name '*.c'
 Objects := $(Sources:$(ImplementationFolder)/%.c=$(BuildFolder)/%.o)
 
+Tester := $(TestFolder)/test_libo2s.exe
+
 # When rendering the help, pretty print certain words
 Cyan       := \033[36m
 Yellow     := \033[33m
@@ -66,6 +68,13 @@ shared: $(Shared) ## Compile the shared library. Appropriate compilation flags l
 
 .PHONY: static shared
 
+##@ Testing
+
+test: $(Tester)
+	./$<
+
+.PHONY: test
+
 ##@ Cleaning
 
 clean: ## Remove intermediate objects
@@ -75,6 +84,8 @@ fclean: clean ## Remove all generated files
 	$(RM) $(Static) $(Shared)
 
 .PHONY: clean fclean
+
+# Non phony rules
 
 include $(wildcard $(Objects:.o=.d)) # To know on which header each .o depends
 
@@ -88,6 +99,9 @@ $(Static): $(Objects) # Group all the compiled objects into an indexed archive
 
 $(Shared): $(Objects) # Create a shared object
 	$(CC) $(CFLAGS) -shared $^ $(LDFLAGS) $(LDLIBS) -o $@
+
+$(Tester): $(Static)
+	$(MAKE) -C $(@D) conan_build
 
 # When a rule is expanded, both the target and the prerequisites
 # are immediately evaluated. Enabling a second expansion allows

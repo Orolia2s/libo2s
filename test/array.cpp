@@ -5,7 +5,7 @@ extern "C"
 
 #include <catch2/catch_test_macros.hpp>
 
-SCENARIO("Arrays elements can be added to the back", "[array]")
+SCENARIO("Arrays elements can be added and popped to the back", "[array]")
 {
 	GIVEN("An empty int array")
 	{
@@ -57,6 +57,38 @@ SCENARIO("Arrays elements can be added to the back", "[array]")
 					REQUIRE( tested.count == 0 );
 					REQUIRE( tested.capacity > 0 );
 				}
+			}
+		}
+	}
+}
+
+SCENARIO("An array limits reallocations", "[array]")
+{
+	GIVEN("An array of doubles with 1 element")
+	{
+		array_t tested = Array(double);
+		double  first  = 3.14;
+		array_push_back(&tested, &first);
+
+		double* initial_allocated = (double*)array_first(&tested);
+		size_t  initial_capacity  = tested.capacity;
+
+		REQUIRE( initial_allocated != NULL );
+		REQUIRE( initial_capacity > 0 );
+
+		WHEN("More elements are appended, to fill the capacity")
+		{
+			size_t to_insert = initial_capacity - 1;
+			while (to_insert --> 0)
+			{
+				double more = -123.4;
+				array_push_back(&tested, &more);
+			}
+
+			THEN("The storage has not been re-allocated")
+			{
+				REQUIRE( tested.start == initial_allocated );
+				REQUIRE( tested.capacity == initial_capacity );
 			}
 		}
 	}

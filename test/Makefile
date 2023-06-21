@@ -11,13 +11,22 @@ LDFLAGS  += -L $(LIBO2S_PATH)
 LDLIBS   += -lo2s
 LDLIBS   += $(LIBS)
 
+CONAN_ENV := conanbuild.sh
+
+conan_build: $(CONAN_ENV)
+	bash -c "( . $< && $(MAKE) --no-print-directory build )"
+
 build: $(NAME)
 
 clean:
 	$(RM) $(OBJECTS)
 
-$(NAME): $(OBJECTS) | $(LIBO2S)
+$(NAME): $(LIBO2S)
+$(NAME): $(OBJECTS)
 	$(CXX) $(CXXFLAGS) $^ $(LDFLAGS) $(LDLIBS) -o $@
 
 $(LIBO2S):
 	$(MAKE) -C $(@D) $(@F)
+
+$(CONAN_ENV):
+	conan install .

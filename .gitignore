@@ -4,6 +4,7 @@
 *conan*.sh
 *.conf
 *.d
+*.exe
 *info.txt
 *.json
 *.lock
