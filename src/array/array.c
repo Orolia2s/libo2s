@@ -27,15 +27,36 @@ array_t array_new(size_t type_size)
 	return (array_t){.start = NULL, .type_size = type_size, .count = 0, .capacity = 0};
 }
 
-bool _array_realloc(array_t* self, size_t allocation_size)
+bool _realloc(void* start, size_t content_size, size_t allocation_size)
 {
 	void* p = malloc(allocation_size);
 	if (p != NULL)
 	{
-		memcpy(p, self->start, self->count * self->type_size);
-		self->capacity = allocation_size;
-		free(self->start);
-		self->start = p;
+		memcpy(p, start, content_size);
+		free(start);
+		start = p;
+		return true;
+	}
+	else
+		return false;
+}
+
+size_t _array_offset(array_t* self, size_t count)
+{
+	return(self->type_size * count);
+}
+
+size_t _array_end(array_t* self)
+{
+	return((void*)self->start + _array_offset(self, self->count));
+}
+
+
+bool _array_realloc(array_t* self, size_t capacity_to_alloc)
+{
+	if (_realloc(self->start, _array_offset(self, self->count), _array_offset(self, capacity_to_alloc)))
+	{
+		self->capacity = capacity_to_alloc;
 		return true;
 	}
 	else
@@ -44,30 +65,26 @@ bool _array_realloc(array_t* self, size_t allocation_size)
 
 bool _array_grow(array_t* self, size_t grow_count)
 {
-	size_t next_real_size = (self->count + grow_count) * sizeof(self->type_size);
-	if (next_real_size > self->capacity)
+	size_t next_count = (self->count + grow_count);
+	if (next_count > self->capacity)
 	{
-		size_t allocation_chunk_size =
+		size_t required_capacity =
 		    MAX(INITIAL_SIZE, self->capacity - (self->capacity % INITIAL_SIZE)); // avoid cases with invalid capacity due to trim
-		while (allocation_chunk_size < next_real_size)
+		while (required_capacity < next_count)
 		{
-			allocation_chunk_size = allocation_chunk_size * REALLOC_FACTOR;
+			required_capacity = required_capacity * REALLOC_FACTOR;
 		}
-		return _array_realloc(self, allocation_chunk_size);
+		return _array_realloc(self, _array_offset(self, required_capacity));
 	}
 	else
 		return true;
 }
 
 bool array_push_back_n(array_t* self, void* elements, size_t count)
-// What if user send wrong type ?
-// if too large a troncated part of this elt will be copied but will be probably
-// unusable if too small could end by a core dumped
 {
 	if (_array_grow(self, count))
 	{
-		void* end = (void*)self->start + (self->count * self->type_size);
-		memcpy(end, elements, count * self->type_size);
+		memcpy(_array_end(self), elements, _array_offset(self, count));
 		self->count = self->count + count;
 		return true;
 	}
@@ -83,8 +100,8 @@ bool array_pop_back_n(array_t* self, void* destination, size_t count)
 {
 	if (count <= self->count)
 	{
-		void* source = (void*)self->start + (self->count - count) * self->type_size;
-		memcpy(destination, source, count * self->type_size);
+		void* source = (void*)self->start + _array_offset(self, self->count - count);
+		memcpy(destination, source, _array_offset(self, count));
 		self->count = self->count - count;
 		return true;
 	}
@@ -105,7 +122,7 @@ void* array_last(array_t* self)
 {
 	if (self->count > 0)
 	{
-		return self->start + (self->count - 1) * self->type_size;
+		return self->start + _array_offset(self, self->count - 1);
 	}
 	else
 		return NULL;
@@ -115,7 +132,7 @@ void* array_get(array_t* self, size_t index)
 {
 	if (index + 1 <= self->count)
 	{
-		return self->start + index * self->type_size;
+		return self->start + _array_offset(self, index);
 	}
 	else
 		return NULL;
@@ -136,5 +153,5 @@ bool array_clear(array_t* self)
 
 bool array_trim(array_t* self)
 {
-	return _array_realloc(self, self->count * self->type_size);
+	return _array_realloc(self, self->count);
 }
