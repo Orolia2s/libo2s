@@ -28,6 +28,11 @@ conan_build: $(CONAN_ENV)
 
 build: $(NAME)
 
+##@ Executing
+
+run: $(NAME)
+	./$<
+
 ##@ Cleaning
 
 clean:
@@ -35,6 +40,8 @@ clean:
 
 fclean: clean
 	$(RM) $(NAME)
+
+.PHONY: conan_build build run clean fclean
 
 # Non phony rules
 

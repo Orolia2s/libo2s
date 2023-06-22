@@ -1,0 +1,43 @@
+image: registry.orolia.com/mirrors/public-images/conan-runner:1.53.0-clang
+
+stages:
+  - build
+  - test
+  - publish
+
+build:
+  stage: build
+  tags:
+    - gcc
+    - make
+  script:
+    - make static -j $(nproc)
+  artifacts:
+    expire_in: 1 week
+    paths:
+      - libo2s.a
+      - include/
+
+test:
+  stage: test
+  tags:
+    - conan
+    - make
+  dependencies:
+    - build
+  script:
+    - conan install test --build=missing
+    - make -C test conan_build -j $(nproc)
+    - make -C test run
+
+publish:
+  stage: publish
+  tags:
+    - conan
+    - make
+  script:
+    - conan remote add gitlab ${CI_API_V4_URL}/packages/conan
+    - export VERSION=$(make version)
+    - export PACKAGE="libo2s/$VERSION@orolia2s+libo2s/bleeding"
+    - conan create . $PACKAGE
+    - CONAN_LOGIN_USERNAME=ci_user CONAN_PASSWORD=${CI_JOB_TOKEN} conan upload $PACKAGE --remote gitlab
