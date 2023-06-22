@@ -42,19 +42,19 @@ void*   array_first(array_t* self);
 void*   array_last(array_t* self);
 void*   array_get(array_t* self, size_t index);
 
+bool    array_is_empty(array_t* self);
+
 bool    array_reserve(array_t* self, size_t count);
 void    array_clear(array_t* self);
 bool    array_trim(array_t* self);
 
 #define array_foreach(T, A, E) \
 	*E = *(T*)(A)->start; \
-	for (size_t _i = 0; \
-	     _i < (A)->count; \
+	for (size_t _i = 0; _i < (A)->count; \
 	     _i++, *E = *(T*)(((char*)(A)->start) + _i * (A)->type_size))
 
 #define array_enumerate(T, A, E, I) \
 	*E = *(T*)(A)->start; \
 	*I = 0; \
-	for (size_t _i = 0; \
-	     _i < (A)->count; \
+	for (size_t _i = 0; _i < (A)->count; \
 	     _i++, *E = *(T*)(((char*)(A)->start) + _i * (A)->type_size), *I = _i)

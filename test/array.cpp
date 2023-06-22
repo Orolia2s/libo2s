@@ -91,6 +91,19 @@ SCENARIO("An array limits reallocations", "[array]")
 				REQUIRE( tested.start == initial_allocated );
 				REQUIRE( tested.capacity == initial_capacity );
 			}
+
+			WHEN("All elements are popped")
+			{
+				array_pop_back_n(&tested, NULL, tested.count);
+
+				THEN("The array is empty, but the capacity remains, and no reallocation has happened")
+				{
+					REQUIRE( array_is_empty(&tested) );
+					REQUIRE( tested.count == 0 );
+					REQUIRE( tested.capacity == initial_capacity );
+					REQUIRE( tested.start == initial_allocated );
+				}
+			}
 		}
 	}
 }

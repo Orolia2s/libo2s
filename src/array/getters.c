@@ -38,9 +38,9 @@ void* array_first(array_t* self)
  */
 void* array_last(array_t* self)
 {
-	if (self->count <= 0)
+	if (array_is_empty(self))
 		return NULL;
-	return self->start + array_offset(self, self->count - 1);
+	return array_get(self, self->count - 1);
 }
 
 /**
@@ -49,7 +49,15 @@ void* array_last(array_t* self)
  */
 void* array_get(array_t* self, size_t index)
 {
-	if (index + 1 > self->count)
+	if (index >= self->count)
 		return NULL;
 	return self->start + array_offset(self, index);
+}
+
+/**
+ * True if the array contains no element.
+ */
+bool array_is_empty(array_t* self)
+{
+	return self->count == 0;
 }

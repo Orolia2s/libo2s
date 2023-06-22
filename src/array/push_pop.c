@@ -28,7 +28,7 @@ bool array_push_back_n(array_t* self, void* elements, size_t count)
 	if (not array_grow(self, count))
 		return false;
 	memcpy(array_end(self), elements, array_offset(self, count));
-	self->count = self->count + count;
+	self->count += count;
 	return true;
 }
 
@@ -43,15 +43,17 @@ bool array_push_back(array_t* self, void* element)
 
 /**
  * Moves to destination the n last elements of the array.
+ * Destination can be NULL to just discard the elements.
  * @return false if not enough element in the array.
  */
 bool array_pop_back_n(array_t* self, void* destination, size_t count)
 {
 	if (count > self->count)
 		return false;
-	void* source = (void*)self->start + array_offset(self, self->count - count);
-	memcpy(destination, source, array_offset(self, count));
-	self->count = self->count - count;
+	void* source = array_get(self, self->count - count);
+	if (destination != NULL)
+		memcpy(destination, source, array_offset(self, count));
+	self->count -= count;
 	return true;
 }
 
