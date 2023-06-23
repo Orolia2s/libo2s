@@ -1,6 +1,6 @@
 import os
 from conan import ConanFile
-from conan.tools.gnu import Autotools
+from conan.tools.gnu import Autotools, AutotoolsToolchain, AutotoolsDeps
 from conan.tools.scm import Git
 from conan.tools.files import save, load
 
@@ -22,7 +22,6 @@ class LibO2sConan(ConanFile):
         'fPIC': True
     }
 
-    generators = 'AutotoolsToolchain'
     exports_sources = 'Makefile', 'src/*.[ch]', 'include/*.h', 'README.md'
 
     def export(self):
@@ -35,13 +34,23 @@ class LibO2sConan(ConanFile):
         save(self, os.path.join(self.export_folder, 'version.txt'), version)
 
     def set_version(self):
-        self.version = load(self, 'version.txt')
+        try:
+            self.version = load(self, 'version.txt')
+        except:
+            git = Git(self, folder=self.recipe_folder)
+            self.version = git.run('tag --sort "-version:refname" --merged').split('\n', 1)[0]
 
     def configure(self):
         self.settings.rm_safe('compiler.libcxx')
         self.settings.rm_safe('compiler.cppstd')
         if self.options.shared:
             self.options.rm_safe("fPIC")
+
+    def generate(self):
+        autotools = AutotoolsDeps(self)
+        autotools.environment.define('Version', self.version)
+        autotools.generate()
+        AutotoolsToolchain(self).generate()
 
     def build(self):
         autotools = Autotools(self)
@@ -52,6 +61,7 @@ class LibO2sConan(ConanFile):
         self.copy('*.h',  dst='include', src='include')
         self.copy('*.a',  dst='lib', keep_path=False)
         self.copy('*.so', dst='lib', keep_path=False)
+        self.copy('version.txt')
         self.copy('README.md')
 
     def package_info(self):
