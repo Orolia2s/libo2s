@@ -24,26 +24,23 @@ typedef struct deque
 {
 	void*        first;
 	size_t       first_index;
-	void*        last;
-	size_t       last_index;
+	void*        end;
+	size_t       end_index;
 	const size_t type_size;
 	const size_t capacity;
 } deque_t;
 
-#define Deque(Type, Capacity) deque_new(sizeof(Type), Capacity)
+#define Deque(Pointer, Type, Capacity) \
+	deque_new(Pointer, sizeof(Type), Capacity)
 
-deque_t deque_new(size_t type_size, size_t capacity);
-
-void    deque_push_front(deque_t* self, void* element);
-void    deque_push_front_n(deque_t* self, void* elements, size_t count);
-
-void    deque_push_back(deque_t* self, void* element);
+deque_t deque_new(void* p, size_t type_size, size_t capacity);
+size_t  deque_count(deque_t* self);
+bool    deque_push_front(deque_t* self, void* element);
+bool    deque_push_front_n(deque_t* self, void* elements, size_t count);
+bool    deque_pop_front(deque_t* self, void* element);
+bool    deque_pop_front_n(deque_t* self, void* destination, size_t count);
+bool    deque_push_back(deque_t* self, void* destination);
 bool    deque_push_back_n(deque_t* self, void* elements, size_t count);
-
-// void    deque_pop_front(deque_t* self, void* destination);
-// void    deque_pop_front_n(deque_t* self, void* destination, size_t count);
-
-// void    deque_pop_back(deque_t* self, void* destination);
-// void    deque_pop_back_n(deque_t* self, void* destination, size_t count);
-
-// void    deque_clear(deque_t* self);
+bool    deque_pop_back(deque_t* self, void* destination);
+bool    deque_pop_back_n(deque_t* self, void* destination, size_t count);
+bool    deque_clear(deque_t* self);

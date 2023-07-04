@@ -17,7 +17,8 @@
 size_t deque_offset(deque_t* self, size_t count);
 size_t deque_count(deque_t* self);
 size_t deque_remaining_capacity(deque_t* self);
-size_t deque_remaining_back_capacity(deque_t* self);
-void*  deque_end(deque_t* self);
-void   deque_front_shift(deque_t* self, size_t shift);
-void   deque_back_shift(deque_t* self, size_t shift);
+size_t deque_right_distance(deque_t* self, size_t index);
+size_t deque_index_shift(deque_t* self, size_t index, int shift);
+bool   deque_front_shift(deque_t* self, int shift);
+bool   deque_back_shift(deque_t* self, int shift);
+void*  deque_get_element_from_index(deque_t* self, size_t index);

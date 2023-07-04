@@ -27,8 +27,7 @@ array_t array_new(size_t type_size)
 }
 
 /**
- * Adds one n elements at the end of the array.
- * @return false if allocation failed.
+ * Gives allocation size of given count.
  */
 size_t array_offset(array_t* self, size_t count)
 {
