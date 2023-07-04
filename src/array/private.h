@@ -9,7 +9,7 @@
 /*                                                                            */
 /* Copyright 2023, SAFRAN T4DS, ALL RIGHTS RESERVED                           */
 /*                                                                            */
-/* @file new.c                                                                */
+/* @file private.h                                                            */
 /* @author Hugo FOLCHER                                                       */
 /*                                                                            */
 /* ************************************************************************** */

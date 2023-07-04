@@ -7,7 +7,7 @@
 /*                                                                            */
 /* Copyright 2023, SAFRAN T4DS, ALL RIGHTS RESERVED                           */
 /*                                                                            */
-/* @file core.c                                                               */
+/* @file push_pop.c                                                           */
 /* @author Hugo FOLCHER                                                       */
 /*                                                                            */
 /* ************************************************************************** */
