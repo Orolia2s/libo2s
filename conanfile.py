@@ -11,6 +11,7 @@ class LibO2sConan(ConanFile):
     license = 'proprietary'
     description = 'Fundamental datastructures for C'
     topics = ('datastructures')
+    requires = 'log.c/cci.20200620'
 
     settings = ('os', 'arch', 'compiler', 'build_type')
     options = {
