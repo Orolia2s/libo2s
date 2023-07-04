@@ -22,12 +22,13 @@
  */
 typedef struct deque
 {
-	void*        first;
-	size_t       first_index;
-	void*        end;
-	size_t       end_index;
-	const size_t type_size;
-	const size_t capacity;
+	void*  data;
+	void*  first;
+	size_t first_index;
+	void*  end;
+	size_t end_index;
+	size_t type_size;
+	size_t capacity;
 } deque_t;
 
 #define Deque(Pointer, Type, Capacity) \
@@ -35,6 +36,9 @@ typedef struct deque
 
 deque_t deque_new(void* p, size_t type_size, size_t capacity);
 size_t  deque_count(deque_t* self);
+bool    deque_is_empty(deque_t* self);
+size_t  deque_capacity(deque_t* self);
+size_t  deque_room(deque_t* self);
 bool    deque_push_front(deque_t* self, void* element);
 bool    deque_push_front_n(deque_t* self, void* elements, size_t count);
 bool    deque_pop_front(deque_t* self, void* element);
@@ -43,4 +47,6 @@ bool    deque_push_back(deque_t* self, void* destination);
 bool    deque_push_back_n(deque_t* self, void* elements, size_t count);
 bool    deque_pop_back(deque_t* self, void* destination);
 bool    deque_pop_back_n(deque_t* self, void* destination, size_t count);
+bool    deque_intent(deque_t* self, char intent);
 bool    deque_clear(deque_t* self);
+void    deque_free(deque_t* self);

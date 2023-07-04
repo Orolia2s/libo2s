@@ -16,7 +16,7 @@
 
 size_t deque_offset(deque_t* self, size_t count);
 size_t deque_count(deque_t* self);
-size_t deque_remaining_capacity(deque_t* self);
+size_t deque_room(deque_t* self);
 size_t deque_right_distance(deque_t* self, size_t index);
 size_t deque_index_shift(deque_t* self, size_t index, int shift);
 bool   deque_front_shift(deque_t* self, int shift);

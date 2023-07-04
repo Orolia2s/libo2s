@@ -63,7 +63,7 @@ bool deque_pop_front(deque_t* self, void* element)
  */
 bool deque_pop_front_n(deque_t* self, void* destination, size_t count)
 {
-	if (deque_remaining_capacity(self) < count)
+	if (deque_room(self) < count)
 		return false;
 
 	size_t distance_from_right = deque_right_distance(self, self->first_index);
@@ -92,7 +92,7 @@ bool deque_pop_front_n(deque_t* self, void* destination, size_t count)
  */
 bool deque_push_back_n(deque_t* self, void* elements, size_t count)
 {
-	if (deque_remaining_capacity(self) < count)
+	if (deque_room(self) < count)
 		return false;
 
 	size_t distance_from_right = deque_right_distance(self, self->end_index);

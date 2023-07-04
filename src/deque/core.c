@@ -15,6 +15,10 @@
 #include "o2s/deque.h"
 #include "private.h"
 
+#include <iso646.h> //not
+
+#include <stdlib.h> //free
+
 /**
  * Contructs an deque.
  * note that:
@@ -25,8 +29,9 @@
  */
 deque_t deque_new(void* p, size_t type_size, size_t capacity)
 {
-	return (deque_t){.first       = p + 0,
-	                 .end         = p + 0,
+	return (deque_t){.data        = p,
+	                 .first       = p,
+	                 .end         = p,
 	                 .first_index = 0,
 	                 .end_index   = 0,
 	                 .type_size   = type_size,
@@ -50,9 +55,25 @@ size_t deque_count(deque_t* self)
 }
 
 /**
- * Gives the remaining available capacity in the deque.
+ * Tells if deque is empty or not.
  */
-size_t deque_remaining_capacity(deque_t* self)
+bool deque_is_empty(deque_t* self)
+{
+	return (deque_count(self) == 0);
+}
+
+/**
+ * Gives the capacity.
+ */
+size_t deque_capacity(deque_t* self)
+{
+	return self->capacity;
+}
+
+/**
+ * Gives the remaining capacity in the deque.
+ */
+size_t deque_room(deque_t* self)
 {
 	return (self->capacity - deque_count(self));
 }
@@ -73,8 +94,7 @@ void* deque_get_element_from_index(deque_t* self, size_t index)
 {
 	if (index >= self->capacity)
 		return NULL;
-	int offset = deque_offset(self, index - self->first_index);
-	return ((void*)(self->first + offset));
+	return ((void*)(self->data + deque_offset(self, index)));
 }
 
 /**
@@ -114,10 +134,51 @@ bool deque_back_shift(deque_t* self, int shift)
 	return true;
 }
 
+/*
+** Before pushing any element,
+** we can clarify our intentions to lower the chances of splitting data
+** 'B' : will only push back
+** 'b' : will mostly push back
+** '2' : will push on both side
+** 'f' : will mostly push front
+** 'F' : will only push front
+*/
+
+bool deque_intent(deque_t* self, char intent)
+{
+	if (not deque_is_empty(self))
+		return (false);
+	if (intent == 'B')
+		self->first_index = 0;
+	else if (intent == 'b')
+		self->first_index = self->capacity / 4;
+	else if (intent == '2')
+		self->first_index = self->capacity / 2;
+	else if (intent == 'f')
+		self->first_index = self->capacity - (self->capacity / 4);
+	else if (intent == 'F')
+		self->first_index = self->capacity - 1;
+	else
+		return (false);
+	self->first     = deque_get_element_from_index(self, self->first_index);
+	self->end       = self->first;
+	self->end_index = self->first_index;
+	return (true);
+}
+
 /**
  * Clears properly the deque.
  */
 bool deque_clear(deque_t* self)
 {
 	return deque_front_shift(self, deque_count(self));
+}
+
+/**
+ * Frees properly the deque.
+ */
+void deque_free(deque_t* self)
+{
+	free(self->data);
+	self->data = NULL;
 }
