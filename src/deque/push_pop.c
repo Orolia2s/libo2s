@@ -46,13 +46,10 @@ bool deque_push_front_n(deque_t* self, void* elements, size_t count)
 /**
  * Pops the first element in the deque.
  */
-bool deque_pop_front(deque_t* self, void* element)
+bool deque_pop_front(deque_t* self, void* destination)
 {
-	if (element == NULL)
-	{
-		return false;
-	}
-	memcpy(element, self->first, deque_offset(self, 1));
+	if (destination != NULL)
+		memcpy(destination, self->first, deque_offset(self, 1));
 	if (not deque_front_shift(self, 1))
 		return false;
 	return true;
@@ -69,18 +66,21 @@ bool deque_pop_front_n(deque_t* self, void* destination, size_t count)
 	size_t distance_from_right = deque_right_distance(self, self->first_index);
 	if (distance_from_right >= count)
 	{
-		memcpy(destination, self->first, deque_offset(self, count));
+		if (destination != NULL)
+			memcpy(destination, self->first, deque_offset(self, count));
 		if (not deque_front_shift(self, count))
 			return false;
 	}
 	else
 	{
-		memcpy(destination, self->first, deque_offset(self, distance_from_right));
+		if (destination != NULL)
+			memcpy(destination, self->first, deque_offset(self, distance_from_right));
 		if (not deque_front_shift(self, distance_from_right))
 			return false;
-		memcpy(destination + deque_offset(self, distance_from_right),
-		       self->first,
-		       deque_offset(self, count - distance_from_right));
+		if (destination != NULL)
+			memcpy(destination + deque_offset(self, distance_from_right),
+			       self->first,
+			       deque_offset(self, count - distance_from_right));
 		if (not deque_front_shift(self, count - distance_from_right))
 			return false;
 	}
@@ -129,13 +129,14 @@ bool deque_push_back(deque_t* self, void* destination)
  */
 bool deque_pop_back(deque_t* self, void* destination)
 {
-	if (destination == NULL || deque_count(self) == 0)
+	if (deque_count(self) == 0)
 		return false;
 	size_t last_index = deque_index_shift(self, self->end_index, -1);
 	void*  element    = deque_get_element_from_index(self, last_index);
 	if (element == NULL)
 		return false;
-	memcpy(destination, element, deque_offset(self, 1));
+	if (destination != NULL)
+		memcpy(destination, element, deque_offset(self, 1));
 	if (not deque_back_shift(self, -1))
 		return false;
 	return true;
