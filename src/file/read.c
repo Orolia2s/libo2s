@@ -16,6 +16,7 @@
 #include "o2s/file_input_stream.h"
 
 #include <unistd.h> // read
+#include <stdio.h> //printf
 
 /**
  * Read as much as possible.
@@ -29,10 +30,26 @@ ssize_t file_single_read(ifstream_t* file)
 	uint8_t  buffer[room];
 	ssize_t  result = read(file->descriptor, buffer, room);
 
+	printf("[DEQUE] Inserting %d elements ", result);
+    printf("[ ");
+    for (size_t i = 0; i < result; i++)
+    {
+        printf("%02x ", buffer[i]);
+    }
+    printf("]\n");
 	if (result > 0)
 	{
-		if (deque_push_back_n(queue, buffer, room))
-			return room;
+		if (deque_push_back_n(queue, buffer, result))
+		{
+			printf("[DEQUE] Inserted %d elements ", result);
+			printf("[ ");
+			for (size_t i = 0; i < deque_count(queue); i++)
+			{
+				printf("%02x ", *((uint8_t*) deque_first(queue) + i));
+			}
+			printf("]\n");
+			return result;
+		}
 		else
 			return 0;
 	}

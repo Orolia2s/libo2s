@@ -18,7 +18,8 @@
 #include <iso646.h> // not
 
 #include <string.h> // memcpy
-
+#include <stdio.h> //printf
+#include <stdint.h> //uint8_t
 /**
  * Inserts an element in the deque on the front side.
  */
@@ -27,7 +28,18 @@ bool deque_push_front(deque_t* self, void* element)
 	if (not deque_front_shift(self, -1))
 		return false;
 	memcpy(self->first, element, self->type_size);
+	self->count = self->count + 1;
 	return true;
+}
+
+void deque_print(deque_t* self)
+{
+	printf("[");
+	for (size_t i = 0; i < deque_count(self); i++)
+	{
+		printf(" %01x", *((uint8_t*) deque_get_element_from_index(self, (self->first_index + i) % self->capacity)));
+	}
+	printf(" ]\n");
 }
 
 /**
@@ -48,10 +60,13 @@ bool deque_push_front_n(deque_t* self, void* elements, size_t count)
  */
 bool deque_pop_front(deque_t* self, void* destination)
 {
+	if (deque_is_empty(self))
+		return false;
 	if (destination != NULL)
 		memcpy(destination, self->first, deque_offset(self, 1));
 	if (not deque_front_shift(self, 1))
 		return false;
+	self->count = self->count - 1;
 	return true;
 }
 
@@ -60,7 +75,7 @@ bool deque_pop_front(deque_t* self, void* destination)
  */
 bool deque_pop_front_n(deque_t* self, void* destination, size_t count)
 {
-	if (deque_room(self) < count)
+	if (deque_count(self) < count)
 		return false;
 
 	size_t distance_from_right = deque_right_distance(self, self->first_index);
@@ -84,6 +99,7 @@ bool deque_pop_front_n(deque_t* self, void* destination, size_t count)
 		if (not deque_front_shift(self, count - distance_from_right))
 			return false;
 	}
+	self->count = self->count - count;
 	return true;
 }
 
@@ -113,6 +129,7 @@ bool deque_push_back_n(deque_t* self, void* elements, size_t count)
 		if (not deque_back_shift(self, count - distance_from_right))
 			return false;
 	}
+	self->count = self->count + count;
 	return true;
 }
 
@@ -129,7 +146,7 @@ bool deque_push_back(deque_t* self, void* destination)
  */
 bool deque_pop_back(deque_t* self, void* destination)
 {
-	if (deque_count(self) == 0)
+	if (deque_is_empty(self))
 		return false;
 	size_t last_index = deque_index_shift(self, self->end_index, -1);
 	void*  element    = deque_get_element_from_index(self, last_index);
@@ -139,6 +156,7 @@ bool deque_pop_back(deque_t* self, void* destination)
 		memcpy(destination, element, deque_offset(self, 1));
 	if (not deque_back_shift(self, -1))
 		return false;
+	self->count = self->count - 1;
 	return true;
 }
 

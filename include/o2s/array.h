@@ -23,7 +23,7 @@
 typedef struct array
 {
 	void*        start;
-	const size_t type_size;
+	size_t       type_size;
 	size_t       count;
 	size_t       capacity;
 } array_t;

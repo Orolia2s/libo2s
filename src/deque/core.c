@@ -33,7 +33,8 @@ deque_t deque_new(void* p, size_t type_size, size_t capacity)
 	                 .first       = p,
 	                 .end         = p,
 	                 .first_index = 0,
-	                 .end_index   = 0,
+	                 .end_index = 0,
+	                 .count   = 0,
 	                 .type_size   = type_size,
 	                 .capacity    = capacity};
 }
@@ -51,7 +52,17 @@ size_t deque_offset(deque_t* self, size_t count)
  */
 size_t deque_count(deque_t* self)
 {
-	return ((self->capacity + self->end_index - self->first_index) % self->capacity);
+	return (self->count);
+}
+
+/**
+ * Gives the current first element in the deque.
+ */
+void* deque_first(deque_t* self)
+{
+	if (self->count == 0)
+		return NULL;
+	return (self->first);
 }
 
 /**
@@ -169,9 +180,13 @@ bool deque_intent(deque_t* self, char intent)
 /**
  * Clears properly the deque.
  */
-bool deque_clear(deque_t* self)
+void deque_clear(deque_t* self)
 {
-	return deque_front_shift(self, deque_count(self));
+	self->first = self->data;
+	self->end = self->data;
+	self->first_index = 0;
+	self->end_index = 0;
+	self->count = 0;
 }
 
 /**
