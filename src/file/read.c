@@ -29,25 +29,10 @@ ssize_t file_single_read(ifstream_t* file)
 	size_t   room  = deque_room(queue);
 	uint8_t  buffer[room];
 	ssize_t  result = read(file->descriptor, buffer, room);
-
-	printf("[DEQUE] Inserting %d elements ", result);
-    printf("[ ");
-    for (size_t i = 0; i < result; i++)
-    {
-        printf("%02x ", buffer[i]);
-    }
-    printf("]\n");
 	if (result > 0)
 	{
 		if (deque_push_back_n(queue, buffer, result))
 		{
-			printf("[DEQUE] Inserted %d elements ", result);
-			printf("[ ");
-			for (size_t i = 0; i < deque_count(queue); i++)
-			{
-				printf("%02x ", *((uint8_t*) deque_first(queue) + i));
-			}
-			printf("]\n");
 			return result;
 		}
 		else
