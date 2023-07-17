@@ -22,10 +22,10 @@
  */
 typedef struct array
 {
-	void*        start;
-	size_t       type_size;
-	size_t       count;
-	size_t       capacity;
+	void*  start;
+	size_t type_size;
+	size_t count;
+	size_t capacity;
 } array_t;
 
 #define Array(T) array_new(sizeof(T))

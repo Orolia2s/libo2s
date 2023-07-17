@@ -28,7 +28,7 @@ CPPFLAGS += -MMD
 Sources != find $(ImplementationFolder) -type f -name '*.c'
 Objects := $(Sources:$(ImplementationFolder)/%.c=$(BuildFolder)/%.o)
 
-Tester := $(TestFolder)/test_libo2s.exe
+Tester  := $(TestFolder)/test_libo2s.exe
 
 # When rendering the help, pretty print certain words
 Cyan       := \033[36m

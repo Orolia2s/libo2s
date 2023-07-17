@@ -17,6 +17,7 @@
 #include <termios.h>
 
 #include <stdint.h>
+
 /**
  * Convert the baudrate from termios to bits per second
  *

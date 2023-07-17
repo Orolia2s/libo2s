@@ -15,8 +15,8 @@
 #include "o2s/deque.h"
 #include "o2s/file_input_stream.h"
 
+#include <stdio.h>  //printf
 #include <unistd.h> // read
-#include <stdio.h> //printf
 
 /**
  * Read as much as possible.

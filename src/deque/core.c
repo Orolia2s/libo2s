@@ -33,8 +33,8 @@ deque_t deque_new(void* p, size_t type_size, size_t capacity)
 	                 .first       = p,
 	                 .end         = p,
 	                 .first_index = 0,
-	                 .end_index = 0,
-	                 .count   = 0,
+	                 .end_index   = 0,
+	                 .count       = 0,
 	                 .type_size   = type_size,
 	                 .capacity    = capacity};
 }
@@ -190,11 +190,11 @@ void deque_iter(deque_t* self, void (*f)())
  */
 void deque_clear(deque_t* self)
 {
-	self->first = self->data;
-	self->end = self->data;
+	self->first       = self->data;
+	self->end         = self->data;
 	self->first_index = 0;
-	self->end_index = 0;
-	self->count = 0;
+	self->end_index   = 0;
+	self->count       = 0;
 }
 
 /**

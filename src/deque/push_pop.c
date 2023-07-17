@@ -17,9 +17,10 @@
 
 #include <iso646.h> // not
 
-#include <string.h> // memcpy
-#include <stdio.h> //printf
 #include <stdint.h> //uint8_t
+#include <stdio.h>  //printf
+#include <string.h> // memcpy
+
 /**
  * Inserts an element in the deque on the front side.
  */
