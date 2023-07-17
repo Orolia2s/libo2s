@@ -52,4 +52,4 @@ bool    deque_pop_back_n(deque_t* self, void* destination, size_t count);
 bool    deque_intent(deque_t* self, char intent);
 void    deque_clear(deque_t* self);
 void    deque_free(deque_t* self);
-void deque_print(deque_t* self);
+void deque_iter(deque_t* self, void (*f)());

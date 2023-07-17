@@ -177,6 +177,14 @@ bool deque_intent(deque_t* self, char intent)
 	return (true);
 }
 
+void deque_iter(deque_t* self, void (*f)())
+{
+	for (size_t i = 0; i < deque_count(self); i++)
+	{
+		f(deque_get_element_from_index(self, i));
+	}
+}
+
 /**
  * Clears properly the deque.
  */
