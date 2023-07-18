@@ -2,45 +2,11 @@
 
 #include <stdio.h> //printf
 
-#define log_trace(...) \
-	do \
-	{ \
-		printf("[TRACE] "); \
-		printf(__VA_ARGS__); \
-		printf("\n"); \
-	} while (0)
-#define log_debug(...) \
-	do \
-	{ \
-		printf("[DEBUG] "); \
-		printf(__VA_ARGS__); \
-		printf("\n"); \
-	} while (0)
-#define log_info(...) \
-	do \
-	{ \
-		printf("[INFO] "); \
-		printf(__VA_ARGS__); \
-		printf("\n"); \
-	} while (0)
-#define log_warn(...) \
-	do \
-	{ \
-		printf("[WARN] "); \
-		printf(__VA_ARGS__); \
-		printf("\n"); \
-	} while (0)
-#define log_error(...) \
-	do \
-	{ \
-		printf("[ERROR] "); \
-		printf(__VA_ARGS__); \
-		printf("\n"); \
-	} while (0)
-#define log_fatal(...) \
-	do \
-	{ \
-		printf("[FATAL] "); \
-		printf(__VA_ARGS__); \
-		printf("\n"); \
-	} while (0)
+#define log_log(LEVEL, FORMAT, ...) printf("[" LEVEL "]" FORMAT "\n" , ## __VA_ARGS__ )
+
+#define log_trace(...) log_log("TRACE", __VA_ARGS__)
+#define log_debug(...) log_log("DEBUG", __VA_ARGS__)
+#define log_info(...)  log_log("INFO", __VA_ARGS__)
+#define log_warn(...)  log_log("WARN", __VA_ARGS__)
+#define log_error(...) log_log("ERROR", __VA_ARGS__)
+#define log_fatal(...) log_log("FATAL", __VA_ARGS__)

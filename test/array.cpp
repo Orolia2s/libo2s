@@ -84,6 +84,7 @@ SCENARIO("Arrays elements can be added and popped to the back", "[array]")
 		{
 			REQUIRE( tested.count == 0 );
 			REQUIRE( tested.type_size == sizeof(long) );
+			REQUIRE( array_is_empty(&tested) );
 		}
 
 		WHEN("9 elements are pushed to the back")
@@ -97,6 +98,7 @@ SCENARIO("Arrays elements can be added and popped to the back", "[array]")
 			{
 				REQUIRE( tested.count == 9 );
 				REQUIRE( tested.capacity >= 9 );
+				REQUIRE_FALSE( array_is_empty(&tested) );
 			}
 
 			THEN("First and last elements are correct")
@@ -105,7 +107,7 @@ SCENARIO("Arrays elements can be added and popped to the back", "[array]")
 				REQUIRE( *(long*)array_last(&tested) == added[length - 1] );
 			}
 
-			THEN("All elements accessed with get are correct")
+			THEN("All elements, accessed with get, are correct")
 			{
 				for (int i = 0; i < length; i++)
 				{
@@ -127,9 +129,12 @@ SCENARIO("An array limits reallocations", "[array]")
 		double* initial_allocated = (double*)array_first(&tested);
 		size_t  initial_capacity  = tested.capacity;
 
-		REQUIRE( initial_allocated != NULL );
-		REQUIRE( initial_capacity > 0 );
-		REQUIRE( tested.type_size == sizeof(double) );
+		THEN("Memory is allocated, with enough room for more than 1 element")
+		{
+			REQUIRE( initial_allocated != NULL );
+			REQUIRE( initial_capacity > 1 );
+			REQUIRE( tested.type_size == sizeof(double) );
+		}
 
 		WHEN("More elements are appended, to fill the capacity")
 		{
