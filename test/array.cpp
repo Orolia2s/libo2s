@@ -24,6 +24,11 @@ SCENARIO("Arrays elements can be added and popped to the back", "[array]")
 			REQUIRE( array_get(&tested, 0) == NULL );
 		}
 
+		THEN("It is considered empty")
+		{
+			REQUIRE( array_is_empty(&tested) );
+		}
+
 		WHEN("An element is appended")
 		{
 			int i = 42;
@@ -33,6 +38,11 @@ SCENARIO("Arrays elements can be added and popped to the back", "[array]")
 			{
 				REQUIRE( tested.count == 1 );
 				REQUIRE( tested.capacity >= 1 );
+			}
+
+			THEN("It is no longer considered empty")
+			{
+				REQUIRE_FALSE( array_is_empty(&tested) );
 			}
 
 			THEN("The array contains the right value, acessed as first, last, or by index")
@@ -56,6 +66,50 @@ SCENARIO("Arrays elements can be added and popped to the back", "[array]")
 				{
 					REQUIRE( tested.count == 0 );
 					REQUIRE( tested.capacity > 0 );
+				}
+
+				THEN("Is is considered empty again")
+				{
+					REQUIRE( array_is_empty(&tested) );
+				}
+			}
+		}
+	}
+
+	GIVEN("An empty array of longs")
+	{
+		array_t tested = Array(long);
+
+		THEN("It has a size of 0 and a type size of sizeof(long)")
+		{
+			REQUIRE( tested.count == 0 );
+			REQUIRE( tested.type_size == sizeof(long) );
+		}
+
+		WHEN("9 elements are pushed to the back")
+		{
+			long added[] = {1, 4, 7, 9, 2, 5, 8, 3, 6};
+			size_t length = sizeof(added) / sizeof(*added);
+
+			array_push_back_n(&tested, added, length);
+
+			THEN("Size becomes 9, capacity at least 9")
+			{
+				REQUIRE( tested.count == 9 );
+				REQUIRE( tested.capacity >= 9 );
+			}
+
+			THEN("First and last elements are correct")
+			{
+				REQUIRE( *(long*)array_first(&tested) == added[0] );
+				REQUIRE( *(long*)array_last(&tested) == added[length - 1] );
+			}
+
+			THEN("All elements accessed with get are correct")
+			{
+				for (int i = 0; i < length; i++)
+				{
+					REQUIRE( *(long*)array_get(&tested, i) == added[i] );
 				}
 			}
 		}
