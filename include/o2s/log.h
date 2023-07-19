@@ -15,7 +15,7 @@
 # define LOG_LEVEL LOG_LEVEL_INFO
 #endif
 
-#define log_log(FILE, LEVEL, COLOR, FORMAT, ...) fprintf(FILE, "[\e[" COLOR "m" LEVEL "\e[0m] " __FILE__ " " FORMAT "\n" , ## __VA_ARGS__ )
+#define log_log(FILE, LEVEL, COLOR, FORMAT, ...) fprintf(FILE, "[\e[" COLOR "m" LEVEL "\e[0m]\e[2m %s@%s:%03i \e[0m" FORMAT "\n", __FILE__, __FUNCTION__, __LINE__ , ## __VA_ARGS__ )
 
 #if LOG_LEVEL >= LOG_LEVEL_TRACE
 # define log_trace(...) log_log(stdout, "TRACE", "0", __VA_ARGS__)
@@ -30,7 +30,7 @@
 #endif
 
 #if LOG_LEVEL >= LOG_LEVEL_INFO
-# define log_info(...)  log_log(stdout, "INFO ", "1;35", __VA_ARGS__)
+# define log_info(...)  log_log(stdout, "INFO ", "1;32", __VA_ARGS__)
 #else
 # define log_info(...)
 #endif
