@@ -48,7 +48,6 @@ ifstream_t file_open(const char* file_name, int flags)
 		return file;
 	}
 	file.opened = true;
-	file.buffer = Deque(buffer, char, BUFFER_SIZE);
-	deque_intent(&file.buffer, 'B'); // Will only push back
+	file.buffer = DequeNew(buffer, char, BUFFER_SIZE);
 	return file;
 }

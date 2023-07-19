@@ -20,12 +20,12 @@
 #include <string.h> // memcpy
 
 /**
- * Adds one n elements at the end of the array.
+ * Adds n elements at the end of the array.
  * @return false if allocation failed.
  */
 bool array_push_back_n(array_t* self, void* elements, size_t count)
 {
-	if (not array_grow(self, count))
+	if (not array_reserve(self, count))
 		return false;
 	memcpy(array_end(self), elements, array_offset(self, count));
 	self->count += count;

@@ -22,4 +22,3 @@
 
 void*  array_end(array_t* self);
 size_t array_offset(array_t* self, size_t count);
-bool   array_grow(array_t* self, size_t grow_count);

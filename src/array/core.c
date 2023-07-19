@@ -27,7 +27,7 @@ array_t array_new(size_t type_size)
 }
 
 /**
- * Gives allocation size of given count.
+ * @return the size in memory of _count_ elements
  */
 size_t array_offset(array_t* self, size_t count)
 {
@@ -35,7 +35,7 @@ size_t array_offset(array_t* self, size_t count)
 }
 
 /**
- * Adds one n elements at the end of the array.
+ * Re-allocated a storage to a new capacity
  * @return false if allocation failed.
  */
 bool array_realloc(array_t* self, size_t capacity_to_alloc)
@@ -49,34 +49,26 @@ bool array_realloc(array_t* self, size_t capacity_to_alloc)
 }
 
 /**
- * Checks if the array can handle 'grow_count' new elements and reallocate if not.
+ * Ensures the array has enough capacity to fit 'count' new elements,
+ * reallocating if needed.
  * @return false if allocation was needed and failed.
  */
-bool array_grow(array_t* self, size_t grow_count)
+bool array_reserve(array_t* self, size_t count)
 {
-	size_t next_count = (self->count + grow_count);
+	size_t next_count = (self->count + count);
 	if (next_count <= self->capacity)
 		return true;
 	size_t required_capacity =
 	    MAX(INITIAL_SIZE, self->capacity - (self->capacity % INITIAL_SIZE));
 	while (required_capacity < next_count)
-	{
-		required_capacity = required_capacity * REALLOC_FACTOR;
-	}
+		required_capacity *= REALLOC_FACTOR;
 	return array_realloc(self, required_capacity);
 }
 
 /**
- * Forces allocation to handle 'count' new elements.
- * @return false if allocation failed.
- */
-bool array_reserve(array_t* self, size_t count)
-{
-	return array_grow(self, count);
-}
-
-/**
  * Clears properly the array.
+ * Frees the underlying storage,
+ * and leaves the array in a usable state
  */
 void array_clear(array_t* self)
 {
@@ -86,7 +78,7 @@ void array_clear(array_t* self)
 }
 
 /**
- * Resizes the underlying storage to match current elements count.
+ * Resizes the underlying storage to fit exactly the current elements count.
  * @return false if allocation failed.
  */
 bool array_trim(array_t* self)

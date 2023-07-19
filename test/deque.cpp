@@ -15,7 +15,7 @@ SCENARIO("We can populate on deque type", "[deque]")
 		int capacity = 45;
 		void* p = malloc(sizeof(uint8_t) * capacity);
 		REQUIRE(p != NULL);
-		deque_t tested  = Deque(p ,uint8_t, capacity);
+		deque_t tested  = DequeNew(p, uint8_t, capacity);
 		REQUIRE(tested.capacity == capacity);
 		REQUIRE(tested.type_size == sizeof(uint8_t));
 		REQUIRE(deque_count(&tested) == 0);
@@ -41,7 +41,7 @@ SCENARIO("We can populate on deque type", "[deque]")
 		int capacity = 45;
 		void* p = malloc(sizeof(uint8_t) * capacity);
 		REQUIRE(p != NULL);
-		deque_t tested  = Deque(p ,uint8_t, capacity);
+		deque_t tested  = DequeNew(p ,uint8_t, capacity);
 		REQUIRE(tested.capacity == capacity);
 		REQUIRE(tested.type_size == sizeof(uint8_t));
 		REQUIRE(deque_count(&tested) == 0);
@@ -69,7 +69,7 @@ SCENARIO("We can populate on deque type", "[deque]")
 		int capacity = 45;
 		void* p = malloc(sizeof(uint8_t) * capacity);
 		REQUIRE(p != NULL);
-		deque_t tested  = Deque(p ,uint8_t, capacity);
+		deque_t tested  = DequeNew(p ,uint8_t, capacity);
 		REQUIRE(tested.capacity == capacity);
 		REQUIRE(tested.type_size == sizeof(uint8_t));
 		REQUIRE(deque_count(&tested) == 0);
@@ -98,7 +98,7 @@ SCENARIO("We can populate on deque type", "[deque]")
 		int capacity = 45;
 		void* p = malloc(sizeof(uint8_t) * capacity);
 		REQUIRE(p != NULL);
-		deque_t tested  = Deque(p ,uint8_t, capacity);
+		deque_t tested  = DequeNew(p ,uint8_t, capacity);
 		REQUIRE(tested.capacity == capacity);
 		REQUIRE(tested.type_size == sizeof(uint8_t));
 		REQUIRE(deque_count(&tested) == 0);
@@ -127,7 +127,7 @@ SCENARIO("We can populate on deque type", "[deque]")
 		int capacity = 45;
 		void* p = malloc(sizeof(uint8_t) * capacity);
 		REQUIRE(p != NULL);
-		deque_t tested  = Deque(p ,uint8_t, capacity);
+		deque_t tested  = DequeNew(p ,uint8_t, capacity);
 		REQUIRE(tested.capacity == capacity);
 		REQUIRE(tested.type_size == sizeof(uint8_t));
 		REQUIRE(deque_count(&tested) == 0);
@@ -164,7 +164,7 @@ SCENARIO("We can populate on deque type", "[deque]")
 		int capacity = 45;
 		void* p = malloc(sizeof(uint8_t) * capacity);
 		REQUIRE(p != NULL);
-		deque_t tested  = Deque(p ,uint8_t, capacity);
+		deque_t tested  = DequeNew(p ,uint8_t, capacity);
 		REQUIRE(tested.capacity == capacity);
 		REQUIRE(tested.type_size == sizeof(uint8_t));
 		REQUIRE(deque_count(&tested) == 0);
@@ -217,7 +217,7 @@ SCENARIO("We can populate on deque type", "[deque]")
 		int capacity = 10;
 		void* p = malloc(sizeof(uint8_t) * capacity);
 		REQUIRE(p != NULL);
-		deque_t tested  = Deque(p ,uint8_t, capacity);
+		deque_t tested  = DequeNew(p ,uint8_t, capacity);
 
 		REQUIRE(tested.capacity == capacity);
 		REQUIRE(tested.type_size == sizeof(uint8_t));
@@ -239,5 +239,3 @@ SCENARIO("We can populate on deque type", "[deque]")
 		}
 	}
 }
-
-
