@@ -22,7 +22,7 @@
 #include <string.h> // strerror
 
 /**
- * Ask the port for its configurations.
+ * Ask the port for its configuration.
  */
 bool serial_get_options(serial_port_t* port)
 {

@@ -37,6 +37,7 @@ struct serial_port
 
 serial_port_t serial_open(const char* port_name);
 void          serial_close(serial_port_t* port);
+
 bool          serial_get_options(serial_port_t* port);
 
 bool          serial_make_raw(serial_port_t* port);

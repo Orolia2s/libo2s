@@ -21,7 +21,7 @@
 #include <stdbool.h>
 #include <stdint.h> // uint*_t
 
-/**  */
+/** File Input Stream */
 typedef struct file_input_stream
 {
 	deque_t buffer;     /**< Circular buffer */

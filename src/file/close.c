@@ -35,7 +35,7 @@ void file_close(ifstream_t* file)
 	}
 	if (!file->opened)
 	{
-		log_warn("Attempting to close a file that isn't open.");
+		log_warning("Attempting to close a file that isn't open.");
 		return;
 	}
 	if (close(file->descriptor) != 0)

@@ -9,7 +9,7 @@ SCENARIO("Arrays elements can be added and popped to the back", "[array]")
 {
 	GIVEN("An empty int array")
 	{
-		array_t tested = Array(int);
+		array_t tested = ArrayNew(int);
 
 		THEN("It has a size of 0 and a type size of sizeof(int)")
 		{
@@ -78,7 +78,7 @@ SCENARIO("Arrays elements can be added and popped to the back", "[array]")
 
 	GIVEN("An empty array of longs")
 	{
-		array_t tested = Array(long);
+		array_t tested = ArrayNew(long);
 
 		THEN("It has a size of 0 and a type size of sizeof(long)")
 		{
@@ -122,7 +122,7 @@ SCENARIO("An array limits reallocations", "[array]")
 {
 	GIVEN("An array of doubles with 1 element")
 	{
-		array_t tested = Array(double);
+		array_t tested = ArrayNew(double);
 		double  first  = 3.14;
 		array_push_back(&tested, &first);
 
@@ -171,7 +171,7 @@ SCENARIO("We can iterate on array type", "[array]")
 {
 	GIVEN("An array of short with 12 element")
 	{
-		array_t tested  = Array(short);
+		array_t tested  = ArrayNew(short);
 		short   tab[12] = {111, 222, 333, -50, 5, 6, 7, 8, 9, 10, 516, 2123};
 
 		array_push_back_n(&tested, tab, 12);

@@ -28,9 +28,10 @@ typedef struct array
 	size_t capacity;
 } array_t;
 
-#define Array(T) array_new(sizeof(T))
-
 array_t array_new(size_t type_size);
+void    array_clear(array_t* self);
+
+#define ArrayNew(Type) array_new(sizeof(Type))
 
 bool    array_push_back(array_t* self, void* element);
 bool    array_push_back_n(array_t* self, void* elements, size_t count);
@@ -45,7 +46,6 @@ void*   array_get(array_t* self, size_t index);
 bool    array_is_empty(array_t* self);
 
 bool    array_reserve(array_t* self, size_t count);
-void    array_clear(array_t* self);
 bool    array_trim(array_t* self);
 
 #define array_foreach(T, A, E) \
