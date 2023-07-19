@@ -114,6 +114,32 @@ SCENARIO("Arrays elements can be added and popped to the back", "[array]")
 					REQUIRE( *(long*)array_get(&tested, i) == added[i] );
 				}
 			}
+
+			THEN("It is not possible to pop 10 elements")
+			{
+				long destination[10];
+
+				REQUIRE_FALSE( array_pop_back_n(&tested, destination, 10) );
+			}
+
+			WHEN("7 elements are popped")
+			{
+				long destination[7];
+
+				REQUIRE( array_pop_back_n(&tested, destination, 7) );
+
+				THEN("Only the first two elements remain")
+				{
+					REQUIRE( tested.count == 2 );
+					REQUIRE( *(long*)array_first(&tested) == added[0] );
+					REQUIRE( *(long*)array_last(&tested) == added[1] );
+				}
+
+				THEN("The popped elements are correct")
+				{
+					REQUIRE( memcmp(destination, added + 2, sizeof(destination)) == 0 );
+				}
+			}
 		}
 	}
 }

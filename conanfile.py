@@ -48,7 +48,7 @@ class LibO2sConan(ConanFile):
 
     def generate(self):
         autotools = AutotoolsDeps(self)
-        autotools.environment.define('LIBO2S_VERSION', self.version)
+        autotools.environment.define('Version', self.version)
         autotools.generate()
         AutotoolsToolchain(self).generate()
 
