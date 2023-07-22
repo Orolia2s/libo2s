@@ -223,9 +223,9 @@ SCENARIO("We can iterate on array type", "[array]")
 
 		THEN("We can iterate over its elements conveniently, with the index as well")
 		{
-			short  index = 0;
-			short  elt = -17;
-			int    i = -18;
+			int   index = 0;
+			short elt   = -17;
+			int   i     = -18;
 
 			array_enumerate(short, &tested, &elt, &i)
 			{

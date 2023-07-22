@@ -29,7 +29,7 @@ array_t array_new(size_t type_size)
 /**
  * @return the size in memory of _count_ elements
  */
-size_t array_offset(array_t* self, size_t count)
+size_t array_offset(const array_t* self, size_t count)
 {
 	return (count * self->type_size);
 }

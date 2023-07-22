@@ -18,7 +18,7 @@
 /**
  * One-past-the-end pointer of the array
  */
-void* array_end(array_t* self)
+void* array_end(const array_t* self)
 {
 	return ((void*)self->start + array_offset(self, self->count));
 }
@@ -27,7 +27,7 @@ void* array_end(array_t* self)
  * Pointer of the first element of the array.
  * @return NULL if the array is empty.
  */
-void* array_first(array_t* self)
+void* array_first(const array_t* self)
 {
 	return array_get(self, 0);
 }
@@ -36,7 +36,7 @@ void* array_first(array_t* self)
  * Pointer of the last element of the array.
  * @return NULL if the array is empty.
  */
-void* array_last(array_t* self)
+void* array_last(const array_t* self)
 {
 	if (array_is_empty(self))
 		return NULL;
@@ -47,7 +47,7 @@ void* array_last(array_t* self)
  * Pointer of the element at position 'index' of the array.
  * @return NULL if invalid index.
  */
-void* array_get(array_t* self, size_t index)
+void* array_get(const array_t* self, size_t index)
 {
 	if (index >= self->count)
 		return NULL;
@@ -57,7 +57,7 @@ void* array_get(array_t* self, size_t index)
 /**
  * True if the array contains no element.
  */
-bool array_is_empty(array_t* self)
+bool array_is_empty(const array_t* self)
 {
 	return self->count == 0;
 }
