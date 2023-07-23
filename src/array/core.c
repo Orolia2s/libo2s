@@ -75,6 +75,7 @@ void array_clear(array_t* self)
 	free(self->start);
 	self->count    = 0;
 	self->capacity = 0;
+	self->start    = NULL;
 }
 
 /**

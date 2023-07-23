@@ -236,3 +236,63 @@ SCENARIO("We can iterate on array type", "[array]")
 		}
 	}
 }
+
+
+SCENARIO("Array resources are correctly managed", "[array]")
+{
+	GIVEN("An array of 5 doubles")
+	{
+		array_t tested    = ArrayNew(double);
+		double  content[] = {9.8, 7.6, 5.4, 3.2, 1.0};
+
+		array_push_back_n(&tested, content, 5);
+
+		THEN("Its capacity is greater than 5")
+		{
+			REQUIRE( tested.count == 5 );
+			REQUIRE( tested.capacity > 5 );
+		}
+
+		WHEN("Too much memory is requested")
+		{
+			double* allocated = (double*)tested.start;
+			REQUIRE_FALSE( array_reserve(&tested, 1024 * 1024 * 1024) );
+			REQUIRE_FALSE( array_push_back_n(&tested, content, 1024 * 1024 * 1024) );
+
+			THEN("The previous content remains untouched")
+			{
+				REQUIRE( allocated == tested.start );
+				REQUIRE( memcmp(tested.start, content, sizeof(content)) == 0 );
+			}
+		}
+
+		WHEN("The array is trimmed")
+		{
+			REQUIRE( array_trim(&tested) );
+
+			THEN("The capacity becomes exactly 5")
+			{
+				REQUIRE( tested.capacity == 5 );
+			}
+
+			THEN("The content doesn't change")
+			{
+				REQUIRE( tested.count == 5 );
+				REQUIRE( memcmp(tested.start, content, sizeof(content)) == 0 );
+			}
+		}
+
+		WHEN("The array is cleared")
+		{
+			array_clear(&tested);
+
+			THEN("It is empty, with no memory allocated")
+			{
+				REQUIRE( array_is_empty(&tested) );
+				REQUIRE( tested.count == 0 );
+				REQUIRE( tested.capacity == 0 );
+				REQUIRE( tested.start == NULL );
+			}
+		}
+	}
+}

@@ -8,6 +8,7 @@
 *.gcda
 *.gcno
 *.gcov
+generated_html
 *.info
 *info.txt
 *.json
