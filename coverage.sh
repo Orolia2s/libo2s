@@ -7,7 +7,7 @@ CXXFLAGS="-fprofile-arcs -ftest-coverage" make -C test conan_build
 
 ./test/test_libo2s.exe
 
-lcov --capture --directory . --output-file coverage.info
+lcov --no-external --capture --directory . --output-file coverage.info
 genhtml coverage.info --output-directory generated_html
 
 xdg-open generated_html/index.html
