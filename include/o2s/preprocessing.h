@@ -15,7 +15,7 @@
 /* ************************************************************************** */
 
 /** Changes token type to string literal */
-#define LIBO2S_PREPRO_STRING_DIRECT(EXPRESSION) # EXPRESSION
+#define LIBO2S_PREPRO_STRING_DIRECT(EXPRESSION) #EXPRESSION
 
 /** Create a string literal from the evaluation of its argument */
-#define LIBO2S_PREPRO_STRING(EXPRESSION) LIBO2S_PREPRO_STRING_DIRECT(EXPRESSION)
+#define LIBO2S_PREPRO_STRING(EXPRESSION)        LIBO2S_PREPRO_STRING_DIRECT(EXPRESSION)

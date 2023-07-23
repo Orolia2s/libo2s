@@ -32,7 +32,6 @@ typedef struct deque
 	size_t capacity;    /**< Maximum number of elements that can be stored */
 } deque_t;
 
-
 deque_t deque_new(void* p, size_t type_size, size_t capacity);
 void    deque_clear(deque_t* self);
 
