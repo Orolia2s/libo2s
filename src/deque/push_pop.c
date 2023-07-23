@@ -33,21 +33,13 @@ bool deque_push_front(deque_t* self, void* element)
 	return true;
 }
 
-void deque_print(deque_t* self)
-{
-	printf("[");
-	for (size_t i = 0; i < deque_count(self); i++)
-	{
-		printf(" %01x", *((uint8_t*) deque_get_element_from_index(self, (self->first_index + i) % self->capacity)));
-	}
-	printf(" ]\n");
-}
-
 /**
  * Inserts n elements in the deque on the front side.
  */
 bool deque_push_front_n(deque_t* self, void* elements, size_t count)
 {
+	if (count > deque_room(self))
+		return false;
 	for (size_t i = 0; i < count; i++)
 	{
 		if (not deque_push_front(self, elements + deque_offset(self, i)))
