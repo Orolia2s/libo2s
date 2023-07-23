@@ -6,7 +6,7 @@ extern "C"
 
 #include <catch2/catch_test_macros.hpp>
 
-SCENARIO("We can populate on deque type", "[deque]")
+SCENARIO("We can populate a deque", "[deque]")
 {
 	uint8_t   tab[60] = {111, 222, 33, 50, 5, 6, 7, 8, 9, 10, 16, 123, 111, 222, 33, 50, 5, 6, 7, 8, 9, 10, 16, 223, 111, 222, 33, 50, 5, 6, 7, 8, 9, 10, 16, 223, 111, 222, 33, 50, 5, 6, 7, 8, 9, 10, 56, 223, 111, 222, 33, 50, 5, 6, 7, 8, 9, 10, 16, 223};
 
@@ -20,9 +20,11 @@ SCENARIO("We can populate on deque type", "[deque]")
 		REQUIRE(tested.type_size == sizeof(uint8_t));
 		REQUIRE(deque_count(&tested) == 0);
 
-		WHEN("1 elements are pushed front")
+		WHEN("1 element is pushed at the front")
 		{
 			deque_push_front(&tested, (void*) tab);
+
+
 			REQUIRE(*((uint8_t*) tested.first) == tab[0]);
 			REQUIRE(deque_count(&tested) == 1);
 

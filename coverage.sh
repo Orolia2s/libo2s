@@ -1,4 +1,6 @@
 
+set -e # Stop on failure
+
 make fclean
 make -C test clean
 

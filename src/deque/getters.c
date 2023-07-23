@@ -33,7 +33,7 @@ size_t deque_count(const deque_t* self)
  */
 void* deque_first(const deque_t* self)
 {
-	if (dequeue_is_empty(self))
+	if (deque_is_empty(self))
 		return NULL;
 	return (self->first);
 }
