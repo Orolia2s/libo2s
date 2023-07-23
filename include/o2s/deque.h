@@ -41,13 +41,13 @@ void    deque_clear(deque_t* self);
 deque_t deque_allocate(size_t type_size, size_t capacity);
 void    deque_free(deque_t* self);
 
-void*   deque_first(deque_t* self);
-void*   deque_last(deque_t* self);
+void*   deque_first(const deque_t* self);
+void*   deque_last(const deque_t* self);
 
-bool    deque_is_empty(deque_t* self);
-size_t  deque_count(deque_t* self);
-size_t  deque_capacity(deque_t* self);
-size_t  deque_room(deque_t* self);
+bool    deque_is_empty(const deque_t* self);
+size_t  deque_count(const deque_t* self);
+size_t  deque_capacity(const deque_t* self);
+size_t  deque_room(const deque_t* self);
 
 bool    deque_push_front(deque_t* self, void* element);
 bool    deque_push_front_n(deque_t* self, void* elements, size_t count);
