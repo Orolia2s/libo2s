@@ -5,6 +5,10 @@
 *.conf
 *.d
 *.exe
+*.gcda
+*.gcno
+*.gcov
+*.info
 *info.txt
 *.json
 *.lock
