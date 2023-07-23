@@ -109,7 +109,7 @@ SCENARIO("Arrays elements can be added and popped to the back", "[array]")
 
 			THEN("All elements, accessed with get, are correct")
 			{
-				for (int i = 0; i < length; i++)
+				for (unsigned i = 0; i < length; i++)
 				{
 					REQUIRE( *(long*)array_get(&tested, i) == added[i] );
 				}
@@ -211,8 +211,8 @@ SCENARIO("We can iterate on array type", "[array]")
 
 		THEN("We can iterate over its elements conveniently")
 		{
-			short index = 0;
-			short elt;
+			unsigned index = 0;
+			short    elt;
 
 			array_foreach(short, &tested, &elt)
 			{
@@ -223,9 +223,9 @@ SCENARIO("We can iterate on array type", "[array]")
 
 		THEN("We can iterate over its elements conveniently, with the index as well")
 		{
-			int   index = 0;
-			short elt   = -17;
-			int   i     = -18;
+			unsigned index = 0;
+			short    elt   = -17;
+			unsigned i     = 999;
 
 			array_enumerate(short, &tested, &elt, &i)
 			{

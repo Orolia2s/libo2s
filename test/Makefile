@@ -6,6 +6,7 @@ NAME        := test_libo2s.exe
 SOURCES     != find . -type f -name '*.cpp'
 OBJECTS     := $(SOURCES:.cpp=.o)
 
+CXXFLAGS   += -g -Wall -Wextra
 CPPFLAGS += -I $(LIBO2S_PATH)/include
 LDFLAGS  += -L $(LIBO2S_PATH)
 LDLIBS   += -lo2s
