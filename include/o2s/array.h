@@ -52,16 +52,15 @@ bool    array_trim(array_t* self);
  * To be used like a for loop
  */
 #define array_foreach(T, A, E) \
-	*E = *(T*)(A)->start; \
-	for (size_t _i = 0; _i < (A)->count; \
-	     _i++, *E = *(T*)(((char*)(A)->start) + _i * (A)->type_size))
+	for (char* _pointer = (char*)array_first(A); \
+	     _pointer <= (char*)array_last(A) && ((*(E) = *(T*)_pointer) || true); \
+	     _pointer += (A)->type_size)
 
 /**
  * Iterate over the elements of the array, with the index.
  * To be used like a for loop
  */
 #define array_enumerate(T, A, E, I) \
-	*E = *(T*)(A)->start; \
-	*I = 0; \
-	for (size_t _i = 0; _i < (A)->count; \
-	     _i++, *E = *(T*)(((char*)(A)->start) + _i * (A)->type_size), *I = _i)
+	for (*(I) = 0; \
+	     *(I) < (A)->count && ((*(E) = *(T*)array_get(A, *(I))) || true); \
+	     (*(I))++)
