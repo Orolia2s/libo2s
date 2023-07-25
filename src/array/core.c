@@ -51,11 +51,13 @@ bool array_realloc(array_t* self, size_t capacity_to_alloc)
  */
 bool array_reserve(array_t* self, size_t count)
 {
-	const size_t wanted   = (self->count + count);
-	const size_t required = (self->capacity == 0 ? ARRAY_INITIAL_SIZE : self->capacity);
+	const size_t wanted   = self->count + count;
+	size_t       required = self->capacity;
 
-	if (next_count <= self->capacity)
+	if (wanted <= self->capacity)
 		return true;
+	if (required == 0)
+		required = ARRAY_INITIAL_SIZE;
 	while (required < wanted)
 		required *= ARRAY_GROWTH_FACTOR;
 	return array_realloc(self, required);

@@ -14,11 +14,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#define INITIAL_SIZE   16
-#define REALLOC_FACTOR 2
-
-#define MIN(i, j)      (((i) < (j)) ? (i) : (j))
-#define MAX(i, j)      (((i) > (j)) ? (i) : (j))
+#define ARRAY_INITIAL_SIZE  16
+#define ARRAY_GROWTH_FACTOR 2
 
 void*  array_end(const array_t* self);
 size_t array_offset(const array_t* self, size_t count);
