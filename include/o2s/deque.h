@@ -30,12 +30,35 @@ typedef struct deque
 
 deque_t deque_new(void* storage, size_t capacity, size_t type_size);
 void    deque_clear(deque_t* self);
+void    deque_clear_f(deque_t* self, void (*cleanup)());
 
-#define DequeNew(Pointer, Capacity, Type) \
-	deque_new(Pointer, Capacity, sizeof(Type))
+/** Wrapper arround the non-owning constructor */
+#define DequeNew(Storage, Capacity, Type) \
+	deque_new(Storage, Capacity, sizeof(Type))
 
 deque_t deque_allocate(size_t capacity, size_t type_size);
 void    deque_free(deque_t* self);
+void    deque_free_f(deque_t* self, void (*cleanup)());
+
+/** Wrapper around the owning constructor */
+#define DequeAllocate(Capacity, Type) deque_allocate(Capacity, sizeof(Type))
+
+/**
+ * Automatically free the alloacted storage when going out of scope.
+ *
+ * In a situation where one wants to declare a Deque in a local scope,
+ * this "typedef" can be used for that Deque to release the allocated memory
+ * automatically when the variable goes out of scope.
+ *
+ * It means this "typedef" can only be used like this:
+ * @code{.c}
+ * {
+ *     Deque my_deque = DequeAllocate(512, float);
+ *     ...
+ * } // <- the underlying storage will be freed at that point
+ * @endcode
+ */
+#define Deque __attribute__((cleanup(deque_free)))
 
 void*   deque_first(const deque_t* self);
 void*   deque_last(const deque_t* self);
