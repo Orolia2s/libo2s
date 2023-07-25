@@ -1,243 +1,213 @@
 extern "C"
 {
 #include "o2s/deque.h"
-#include <stdio.h>
 }
 
 #include <catch2/catch_test_macros.hpp>
 
 SCENARIO("We can populate a deque", "[deque]")
 {
-	uint8_t   tab[60] = {111, 222, 33, 50, 5, 6, 7, 8, 9, 10, 16, 123, 111, 222, 33, 50, 5, 6, 7, 8, 9, 10, 16, 223, 111, 222, 33, 50, 5, 6, 7, 8, 9, 10, 16, 223, 111, 222, 33, 50, 5, 6, 7, 8, 9, 10, 56, 223, 111, 222, 33, 50, 5, 6, 7, 8, 9, 10, 16, 223};
-
-	GIVEN("An empty deque with a capacity of 45")
+	GIVEN("An empty deque of ints with a capacity of 45")
 	{
-		int capacity = 45;
-		void* p = malloc(sizeof(uint8_t) * capacity);
-		REQUIRE(p != NULL);
-		deque_t tested  = DequeNew(p, uint8_t, capacity);
-		REQUIRE(tested.capacity == capacity);
-		REQUIRE(tested.type_size == sizeof(uint8_t));
-		REQUIRE(deque_count(&tested) == 0);
+		const size_t capacity = 45;
+		Deque tested = DequeAllocate(capacity, int);
 
-		WHEN("1 element is pushed at the front")
+		THEN("It has a size of 0, a capacity of 45")
 		{
-			deque_push_front(&tested, (void*) tab);
-
-
-			REQUIRE(*((uint8_t*) tested.first) == tab[0]);
-			REQUIRE(deque_count(&tested) == 1);
-
-			WHEN("1 elements are poped front")
-			{
-				uint8_t popped_element;
-				REQUIRE(deque_pop_front(&tested, &popped_element));
-				REQUIRE(deque_count(&tested) == 0);
-				REQUIRE(popped_element == tab[0]);
-			}
+			REQUIRE( deque_count(&tested) == 0 );
+			REQUIRE( deque_capacity(&tested) == capacity );
+			REQUIRE( deque_is_empty(&tested) );
+			REQUIRE( tested.type_size == sizeof(int) );
+			REQUIRE_FALSE( deque_is_full(&tested) );
 		}
-	}
 
-	GIVEN("An empty deque with a capacity of 45")
-	{
-		int capacity = 45;
-		void* p = malloc(sizeof(uint8_t) * capacity);
-		REQUIRE(p != NULL);
-		deque_t tested  = DequeNew(p ,uint8_t, capacity);
-		REQUIRE(tested.capacity == capacity);
-		REQUIRE(tested.type_size == sizeof(uint8_t));
-		REQUIRE(deque_count(&tested) == 0);
-
-		WHEN("20 elements are pushed front")
+		THEN("It has no first nor last element")
 		{
-			deque_push_front_n(&tested, (void*) tab, 20);
-			REQUIRE(deque_count(&tested) == 20);
+			REQUIRE( deque_first(&tested) == NULL );
+			REQUIRE( deque_last(&tested) == NULL );
+			REQUIRE( deque_get(&tested, 0) == NULL );
+		}
 
-			WHEN("20 elements are poped front")
+		THEN("It is not possible to pop, from the front or back")
+		{
+			int popped;
+			REQUIRE_FALSE( deque_pop_front(&tested, &popped) );
+			REQUIRE_FALSE( deque_pop_back(&tested, &popped) );
+		}
+
+		WHEN("1 element is pushed to the front")
+		{
+			int pushed = 42;
+			deque_push_front(&tested, &pushed);
+
+			THEN("It has a size of 1, is no longer empty, capacity didn't change")
 			{
-				uint8_t popped_element[20];
-				REQUIRE(deque_pop_front_n(&tested, popped_element, 20));
-				REQUIRE(deque_count(&tested) == 0);
-				for (size_t i = 0; i < 20; i++)
+				REQUIRE( deque_count(&tested) == 1 );
+				REQUIRE( deque_capacity(&tested) == capacity );
+				REQUIRE_FALSE( deque_is_empty(&tested) );
+				REQUIRE_FALSE( deque_is_full(&tested) );
+			}
+
+			THEN("The value is correct, accessed from the front or back")
+			{
+				REQUIRE( *(int*)deque_first(&tested) == pushed );
+				REQUIRE( *(int*)deque_last(&tested) == pushed );
+			}
+
+			WHEN("1 element is popped from the front")
+			{
+				int popped;
+				CHECK( deque_pop_front(&tested, &popped) );
+
+				THEN("The size becomes 0")
 				{
-					REQUIRE(popped_element[i] == tab[19 - i]);
+					REQUIRE( deque_count(&tested) == 0 );
+					REQUIRE( deque_capacity(&tested) == capacity );
+					REQUIRE( deque_is_empty(&tested) );
+					REQUIRE_FALSE( deque_is_full(&tested) );
+				}
+
+				THEN("The popped value is correct")
+				{
+					REQUIRE( popped == pushed );
+				}
+			}
+
+			WHEN("1 element is popped from the back")
+			{
+				int popped;
+				CHECK( deque_pop_back(&tested, &popped) );
+
+				THEN("The size becomes 0")
+				{
+					REQUIRE( deque_count(&tested) == 0 );
+					REQUIRE( deque_capacity(&tested) == capacity );
+					REQUIRE( deque_is_empty(&tested) );
+					REQUIRE_FALSE( deque_is_full(&tested) );
+				}
+
+				THEN("The popped value is correct")
+				{
+					REQUIRE( popped == pushed );
 				}
 			}
 		}
-	}
 
-	GIVEN("An empty deque with a capacity of 45")
-	{
-		int capacity = 45;
-		void* p = malloc(sizeof(uint8_t) * capacity);
-		REQUIRE(p != NULL);
-		deque_t tested  = DequeNew(p ,uint8_t, capacity);
-		REQUIRE(tested.capacity == capacity);
-		REQUIRE(tested.type_size == sizeof(uint8_t));
-		REQUIRE(deque_count(&tested) == 0);
-
-		WHEN("1 elements are pushed back")
+		WHEN("1 element is pushed to the back")
 		{
-			REQUIRE(deque_count(&tested) == 0);
-			deque_push_back(&tested, (void*) tab);
-			REQUIRE(deque_count(&tested) == 1);
+			int pushed = 42;
+			deque_push_back(&tested, &pushed);
 
-			WHEN("1 elements are popped back")
+			THEN("It has a size of 1, is no longer empty, capacity didn't change")
 			{
-				uint8_t popped_element[1];
-				REQUIRE(deque_pop_back(&tested, popped_element));
-				REQUIRE(deque_count(&tested) == 0);
-				for (size_t i = 0; i < 1; i++)
+				REQUIRE( deque_count(&tested) == 1 );
+				REQUIRE( deque_capacity(&tested) == capacity );
+				REQUIRE_FALSE( deque_is_empty(&tested) );
+				REQUIRE_FALSE( deque_is_full(&tested) );
+			}
+
+			THEN("The value is correct, accessed from the front or back")
+			{
+				REQUIRE( *(int*)deque_first(&tested) == pushed );
+				REQUIRE( *(int*)deque_last(&tested) == pushed );
+			}
+
+			WHEN("1 element is popped from the front")
+			{
+				int popped;
+				CHECK( deque_pop_front(&tested, &popped) );
+
+				THEN("The size becomes 0")
 				{
-					REQUIRE(popped_element[i] == tab[0 - i]);
+					REQUIRE( deque_count(&tested) == 0 );
+					REQUIRE( deque_is_empty(&tested) );
+				}
+
+				THEN("The popped value is correct")
+				{
+					REQUIRE( popped == pushed );
+				}
+			}
+
+			WHEN("1 element is popped from the back")
+			{
+				int popped;
+				CHECK( deque_pop_back(&tested, &popped) );
+
+				THEN("The size becomes 0")
+				{
+					REQUIRE( deque_count(&tested) == 0 );
+					REQUIRE( deque_is_empty(&tested) );
+				}
+
+				THEN("The popped value is correct")
+				{
+					REQUIRE( popped == pushed );
 				}
 			}
 		}
-	}
 
-	GIVEN("An empty deque with a capacity of 45")
-	{
-		int capacity = 45;
-		void* p = malloc(sizeof(uint8_t) * capacity);
-		REQUIRE(p != NULL);
-		deque_t tested  = DequeNew(p ,uint8_t, capacity);
-		REQUIRE(tested.capacity == capacity);
-		REQUIRE(tested.type_size == sizeof(uint8_t));
-		REQUIRE(deque_count(&tested) == 0);
+		int pushed[] = {
+			90, 32, 78, 54, 12, 31, 48, 76, 14, 15,
+			92, 65, 35, 89, 79, 32, 38, 46, 26, 43,
+			38, 32, 79, 50, 28, 84, 19, 71, 69, 39,
+			93, 75, 10, 58, 20, 97, 49, 44, 59, 23,
+			07, 81, 64, 06, 28, 62, 08, 99};
 
-		WHEN("20 elements are pushed back")
+		WHEN("45 elements are pushed to the back")
 		{
-			REQUIRE(deque_count(&tested) == 0);
-			deque_push_back_n(&tested, (void*) tab, 20);
-			REQUIRE(deque_count(&tested) == 20);
+			deque_push_back_n(&tested, pushed, capacity);
 
-			WHEN("20 elements are popped back")
+			THEN("It has a size of 45, is no longer empty, capacity didn't change, and is full")
 			{
-				uint8_t popped_element[20];
-				REQUIRE(deque_pop_back_n(&tested, popped_element, 20));
-				REQUIRE(deque_count(&tested) == 0);
-				for (size_t i = 0; i < 20; i++)
+				REQUIRE( deque_count(&tested) == capacity );
+				REQUIRE( deque_capacity(&tested) == capacity );
+				REQUIRE( deque_is_full(&tested) );
+				REQUIRE_FALSE( deque_is_empty(&tested) );
+			}
+
+			THEN("The value is correct, accessed from the front or back")
+			{
+				REQUIRE( *(int*)deque_first(&tested) == pushed[0] );
+				REQUIRE( *(int*)deque_last(&tested) == pushed[capacity - 1] );
+			}
+
+			WHEN("10 element is popped from the front")
+			{
+				int popped[10] = {};
+				CHECK( deque_pop_front_n(&tested, popped, 10) );
+
+				THEN("The size becomes 35")
 				{
-					REQUIRE(popped_element[i] == tab[19 - i]);
+					REQUIRE( deque_count(&tested) == capacity - 10 );
+					REQUIRE_FALSE( deque_is_full(&tested) );
+				}
+
+				THEN("The popped values are correct")
+				{
+					REQUIRE( memcmp(popped, pushed, sizeof(popped)) == 0 );
 				}
 			}
-		}
-	}
 
-	GIVEN("An empty deque with a capacity of 45")
-	{
-		int capacity = 45;
-		void* p = malloc(sizeof(uint8_t) * capacity);
-		REQUIRE(p != NULL);
-		deque_t tested  = DequeNew(p ,uint8_t, capacity);
-		REQUIRE(tested.capacity == capacity);
-		REQUIRE(tested.type_size == sizeof(uint8_t));
-		REQUIRE(deque_count(&tested) == 0);
-
-		WHEN("10 elements are pushed back and 10 other are pushed front then popped")
-		{
-			REQUIRE(deque_count(&tested) == 0);
-			deque_push_back_n(&tested, (void*) tab, 10);
-			REQUIRE(deque_count(&tested) == 10);
-
-			deque_push_front_n(&tested, (void*) tab, 10);
-			REQUIRE(deque_count(&tested) == 20);
-
-
-			uint8_t popped_element[10];
-			REQUIRE(deque_pop_back_n(&tested, popped_element, 10));
-			REQUIRE(deque_count(&tested) == 10);
-			for (size_t i = 0; i < 10; i++)
+			WHEN("10 element are popped from the back")
 			{
-				REQUIRE(popped_element[i] == tab[9 - i]);
-			}
+				int popped[10] = {};
+				CHECK( deque_pop_back_n(&tested, popped, 10) );
 
-			REQUIRE(deque_pop_front_n(&tested, popped_element, 10));
-			REQUIRE(deque_count(&tested) == 0);
-			for (size_t i = 0; i < 10; i++)
-			{
-				REQUIRE(popped_element[i] == tab[9 - i]);
-			}
-		}
-	}
-
-	GIVEN("An empty deque with a capacity of 45")
-	{
-		int capacity = 45;
-		void* p = malloc(sizeof(uint8_t) * capacity);
-		REQUIRE(p != NULL);
-		deque_t tested  = DequeNew(p ,uint8_t, capacity);
-		REQUIRE(tested.capacity == capacity);
-		REQUIRE(tested.type_size == sizeof(uint8_t));
-		REQUIRE(deque_count(&tested) == 0);
-
-		WHEN("10 elements are pushed back and 10 other are pushed front")
-		{
-			REQUIRE(deque_count(&tested) == 0);
-			deque_push_back_n(&tested, (void*) tab, 10);
-			REQUIRE(deque_count(&tested) == 10);
-
-			deque_push_front_n(&tested, (void*) tab, 10);
-			REQUIRE(deque_count(&tested) == 20);
-
-			WHEN("deque is cleared")
-			{
-				deque_clear(&tested);
-				REQUIRE(tested.first_index == tested.end_index);
-				REQUIRE(deque_count(&tested) == 0);
-				WHEN("10 elements are pushed back and 10 other are pushed front")
+				THEN("The size becomes 35")
 				{
-					REQUIRE(deque_count(&tested) == 0);
-					deque_push_back_n(&tested, (void*) tab, 10);
-					REQUIRE(deque_count(&tested) == 10);
+					REQUIRE( deque_count(&tested) == capacity - 10 );
+					REQUIRE_FALSE( deque_is_full(&tested) );
+				}
 
-					deque_push_front_n(&tested, (void*) tab, 10);
-					REQUIRE(deque_count(&tested) == 20);
-					WHEN("10 elements are popped back then 10 elements are popped front")
+				THEN("The popped values are correct")
+				{
+					for (int i = 0; i < 10; i++)
 					{
-						uint8_t popped_element[10];
-						REQUIRE(deque_pop_back_n(&tested, popped_element, 10));
-						REQUIRE(deque_count(&tested) == 10);
-						for (size_t i = 0; i < 10; i++)
-						{
-							REQUIRE(popped_element[i] == tab[9 - i]);
-						}
-
-						REQUIRE(deque_pop_front_n(&tested, popped_element, 10));
-						REQUIRE(deque_count(&tested) == 0);
-						for (size_t i = 0; i < 10; i++)
-						{
-							REQUIRE(popped_element[i] == tab[9 - i]);
-						}
+						REQUIRE( popped[i] == pushed[44 - i] );
 					}
 				}
 			}
-		}
-	}
-	GIVEN("An empty deque with a capacity of 10")
-	{
-		int capacity = 10;
-		void* p = malloc(sizeof(uint8_t) * capacity);
-		REQUIRE(p != NULL);
-		deque_t tested  = DequeNew(p ,uint8_t, capacity);
-
-		REQUIRE(tested.capacity == capacity);
-		REQUIRE(tested.type_size == sizeof(uint8_t));
-		REQUIRE(deque_count(&tested) == 0);
-
-		WHEN("10 elements are pushed back")
-		{
-			REQUIRE(deque_count(&tested) == 0);
-			REQUIRE(deque_push_back_n(&tested, (void*) tab, 10));
-			REQUIRE(deque_count(&tested) == 10);
-			REQUIRE(deque_room(&tested) == 0);
-		}
-		WHEN("1 more elements is pushed back")
-		{
-			REQUIRE(deque_push_back_n(&tested, (void*) tab, 10));
-			REQUIRE(deque_count(&tested) == 10);
-			REQUIRE(deque_push_back(&tested, (void*) tab) == false);
-			REQUIRE(deque_count(&tested) == 10);
 		}
 	}
 }

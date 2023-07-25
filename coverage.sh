@@ -1,5 +1,7 @@
-
-set -e # Stop on failure
+#!/bin/bash
+set -euo pipefail
+IFS=$'\n\t'
+# Strict mode : abort on failures
 
 make fclean
 make -C test clean
