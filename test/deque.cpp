@@ -52,6 +52,7 @@ SCENARIO("We can populate a deque", "[deque]")
 			{
 				REQUIRE( *(int*)deque_first(&tested) == pushed );
 				REQUIRE( *(int*)deque_last(&tested) == pushed );
+				REQUIRE( *(int*)deque_get(&tested, 0) == pushed );
 			}
 
 			WHEN("1 element is popped from the front")
@@ -110,6 +111,7 @@ SCENARIO("We can populate a deque", "[deque]")
 			{
 				REQUIRE( *(int*)deque_first(&tested) == pushed );
 				REQUIRE( *(int*)deque_last(&tested) == pushed );
+				REQUIRE( *(int*)deque_get(&tested, 0) == pushed );
 			}
 
 			WHEN("1 element is popped from the front")
@@ -166,10 +168,14 @@ SCENARIO("We can populate a deque", "[deque]")
 				REQUIRE_FALSE( deque_is_empty(&tested) );
 			}
 
-			THEN("The value is correct, accessed from the front or back")
+			THEN("The values are correct")
 			{
 				REQUIRE( *(int*)deque_first(&tested) == pushed[0] );
 				REQUIRE( *(int*)deque_last(&tested) == pushed[capacity - 1] );
+				for (unsigned i = 0; i < deque_count(&tested); i++)
+				{
+					REQUIRE( *(int*)deque_get(&tested, i) == pushed[i] );
+				}
 			}
 
 			THEN("More elements can't be pushed")
@@ -218,6 +224,170 @@ SCENARIO("We can populate a deque", "[deque]")
 						REQUIRE( popped[i] == pushed[44 - i] );
 					}
 				}
+			}
+		}
+
+		WHEN("45 elements are pushed to the front")
+		{
+			deque_push_front_n(&tested, pushed, capacity);
+
+			THEN("It has a size of 45, is no longer empty, capacity didn't change, and is full")
+			{
+				REQUIRE( deque_count(&tested) == capacity );
+				REQUIRE( deque_capacity(&tested) == capacity );
+				REQUIRE( deque_is_full(&tested) );
+				REQUIRE_FALSE( deque_is_empty(&tested) );
+			}
+
+			THEN("The values are correct")
+			{
+				REQUIRE( *(int*)deque_first(&tested) == pushed[capacity - 1] );
+				REQUIRE( *(int*)deque_last(&tested) == pushed[0] );
+				for (unsigned i = 0; i < deque_count(&tested); i++)
+				{
+					REQUIRE( *(int*)deque_get(&tested, i) == pushed[capacity - 1 - i] );
+				}
+			}
+
+			THEN("More elements can't be pushed")
+			{
+				int extra = 456;
+				REQUIRE_FALSE( deque_push_back(&tested, &extra) );
+				REQUIRE_FALSE( deque_push_front(&tested, &extra) );
+
+				int extras[5] = {1, 2, 3, 4, 5};
+				REQUIRE_FALSE( deque_push_back_n(&tested, extras, 5) );
+				REQUIRE_FALSE( deque_push_front_n(&tested, extras, 5) );
+			}
+
+			WHEN("10 element is popped from the front")
+			{
+				int popped[10] = {};
+				CHECK( deque_pop_front_n(&tested, popped, 10) );
+
+				THEN("The size becomes 35")
+				{
+					REQUIRE( deque_count(&tested) == capacity - 10 );
+					REQUIRE_FALSE( deque_is_full(&tested) );
+				}
+
+				THEN("The popped values are correct")
+				{
+					for (unsigned i = 0; i < 10; i++)
+					{
+						REQUIRE( popped[i] == pushed[capacity - 1 - i] );
+					}
+				}
+			}
+
+			WHEN("10 element are popped from the back")
+			{
+				int popped[10] = {};
+				CHECK( deque_pop_back_n(&tested, popped, 10) );
+
+				THEN("The size becomes 35")
+				{
+					REQUIRE( deque_count(&tested) == capacity - 10 );
+					REQUIRE_FALSE( deque_is_full(&tested) );
+				}
+
+				THEN("The popped values are correct")
+				{
+					for (int i = 0; i < 10; i++)
+					{
+						REQUIRE( popped[i] == pushed[i] );
+					}
+				}
+
+				THEN("More than 35 elements cannot be popped")
+				{
+					int out[40];
+					REQUIRE_FALSE( deque_pop_front_n(&tested, out, 36) );
+					REQUIRE_FALSE( deque_pop_back_n(&tested, out, 36) );
+				}
+			}
+		}
+	}
+}
+
+SCENARIO("Resources are correctly managed", "[deque]")
+{
+	WHEN("Allocation fails")
+	{
+		deque_t tested = DequeAllocate(1024UL * 1024 * 1024 * 97, double);
+
+		THEN("Capacity is marked as 0")
+		{
+			REQUIRE( tested.capacity == 0 );
+			REQUIRE( tested.storage == NULL );
+		}
+	}
+
+	GIVEN("An allocated deque")
+	{
+		deque_t tested = DequeAllocate(1024, double);
+
+		WHEN("It is freed")
+		{
+			deque_free(&tested);
+
+			THEN("The capacity is marked as 0")
+			{
+				REQUIRE( tested.capacity == 0 );
+				REQUIRE( tested.storage == NULL );
+			}
+		}
+	}
+}
+
+SCENARIO("The can be discontinuous", "[deque]")
+{
+	GIVEN("A deque with elements already pushed back and popped front")
+	{
+		const size_t capacity = 47;
+		Deque tested = DequeAllocate(capacity, short);
+
+		short pushed[] = {
+			90, 32, 78, 54, 12, 31, 48, 76, 14, 15,
+			92, 65, 35, 89, 79, 32, 38, 46, 26, 43,
+			38, 32, 79, 50, 28, 84, 19, 71, 69, 39,
+			93, 75, 10, 58, 20, 97, 49, 44, 59, 23,
+			 7, 81, 64,  6, 28, 62,  8, 99};
+
+		REQUIRE( deque_push_back_n(&tested, pushed, 13) );
+		REQUIRE( deque_pop_front_n(&tested, NULL, 13) );
+
+		THEN("It is in the expected state")
+		{
+			REQUIRE( deque_is_empty(&tested) );
+			REQUIRE( deque_capacity(&tested) == capacity );
+			REQUIRE( tested.type_size == sizeof(short) );
+		}
+
+		WHEN("It is filled, creating a split")
+		{
+			REQUIRE( deque_push_back_n(&tested, pushed, capacity) );
+
+			THEN("All elements can be accessed with get")
+			{
+				REQUIRE( *(short*)deque_first(&tested) == pushed[0] );
+				REQUIRE( *(short*)deque_last(&tested) == pushed[capacity - 1] );
+				REQUIRE( deque_get(&tested, capacity) == NULL );
+
+				for (size_t i = 0; i < deque_count(&tested); i++)
+				{
+					REQUIRE( *(short*)deque_get(&tested, i) == pushed[i] );
+				}
+			}
+
+			THEN("All elements can be popped in one call")
+			{
+				short out[50];
+
+				REQUIRE( deque_pop_front_n(&tested, out, capacity) );
+
+				for (unsigned i = 0; i < capacity; i++)
+					REQUIRE( out[i] == pushed[i] );
 			}
 		}
 	}

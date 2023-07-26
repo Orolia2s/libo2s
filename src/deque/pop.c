@@ -50,7 +50,8 @@ bool deque_pop_front_n(deque_t* self, void* destination, size_t count)
 		return false;
 	first_pass = min(count, deque_distance(self, self->front, deque_end(self)));
 	first_pass_size = deque_offset(self, first_pass);
-	memcpy(destination, self->front, first_pass_size);
+	if (destination)
+		memcpy(destination, self->front, first_pass_size);
 	self->front += first_pass_size;
 	self->count -= first_pass;
 	if (first_pass < count)
