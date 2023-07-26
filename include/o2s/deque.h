@@ -84,3 +84,18 @@ bool   deque_pop_back_n(deque_t* self, void* destination, size_t count);
 void   deque_iter(const deque_t* self, void (*f)());
 void   deque_iter1(const deque_t* self, void (*f)(), void* ext);
 void   deque_iter2(const deque_t* self, void (*f)(), void* ext1, void* ext2);
+
+/**
+ * Iterate over the elements of the queue.
+ * To be used like a for loop
+ */
+#define deque_foreach(T, A, E) \
+	for (unsigned _i = 0; _i < deque_count(A) && ((*(E) = *(T*)deque_get(A, _i)) || true); _i++)
+
+/**
+ * Iterate over the elements of the queue, with the index.
+ * To be used like a for loop
+ */
+#define deque_enumerate(T, A, E, I) \
+	for (*(I) = 0; *(I) < deque_count(A) && ((*(E) = *(T*)deque_get(A, *(I))) || true); \
+	     (*(I))++)

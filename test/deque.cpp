@@ -380,6 +380,32 @@ SCENARIO("The can be discontinuous", "[deque]")
 				}
 			}
 
+			THEN("Elements can be iterated over with a for each loop")
+			{
+				short element;
+				short* pointer = pushed;
+
+				deque_foreach(short, &tested, &element)
+				{
+					REQUIRE( element == *pointer );
+					pointer++;
+				}
+			}
+
+			THEN("Elements can be iterated over with the index, as a for loop")
+			{
+				short element;
+				unsigned index = 0;
+				unsigned i = 0;
+
+				deque_enumerate(short, &tested, &element, &index)
+				{
+					REQUIRE( element == pushed[i] );
+					REQUIRE( index == i );
+					i++;
+				}
+			}
+
 			THEN("All elements can be popped in one call")
 			{
 				short out[50];

@@ -62,5 +62,5 @@ bool   array_trim(array_t* self);
  * To be used like a for loop
  */
 #define array_enumerate(T, A, E, I) \
-	for (*(I) = 0; *(I) < (A)->count && ((*(E) = *(T*)array_get(A, *(I))) || true); \
+	for (*(I) = 0; *(I) < array_count(A) && ((*(E) = *(T*)array_get(A, *(I))) || true); \
 	     (*(I))++)
