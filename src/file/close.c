@@ -29,7 +29,7 @@
 void file_close(ifstream_t* file)
 {
 	log_trace("%s(%i)", __FUNCTION__, file->descriptor);
-	if (file->buffer.data)
+	if (file->buffer.storage)
 	{
 		deque_free(&file->buffer);
 	}

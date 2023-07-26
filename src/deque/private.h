@@ -18,8 +18,3 @@ void*  deque_begin(const deque_t* self);
 void*  deque_end(const deque_t* self);
 
 size_t deque_offset(const deque_t* self, size_t count);
-size_t deque_right_distance(const deque_t* self, size_t index);
-size_t deque_index_shift(const deque_t* self, size_t index, int shift);
-
-bool   deque_front_shift(deque_t* self, int shift);
-bool   deque_back_shift(deque_t* self, int shift);

@@ -152,7 +152,7 @@ SCENARIO("We can populate a deque", "[deque]")
 			92, 65, 35, 89, 79, 32, 38, 46, 26, 43,
 			38, 32, 79, 50, 28, 84, 19, 71, 69, 39,
 			93, 75, 10, 58, 20, 97, 49, 44, 59, 23,
-			07, 81, 64, 06, 28, 62, 08, 99};
+			 7, 81, 64,  6, 28, 62,  8, 99};
 
 		WHEN("45 elements are pushed to the back")
 		{
@@ -170,6 +170,17 @@ SCENARIO("We can populate a deque", "[deque]")
 			{
 				REQUIRE( *(int*)deque_first(&tested) == pushed[0] );
 				REQUIRE( *(int*)deque_last(&tested) == pushed[capacity - 1] );
+			}
+
+			THEN("More elements can't be pushed")
+			{
+				int extra = 456;
+				REQUIRE_FALSE( deque_push_back(&tested, &extra) );
+				REQUIRE_FALSE( deque_push_front(&tested, &extra) );
+
+				int extras[5] = {1, 2, 3, 4, 5};
+				REQUIRE_FALSE( deque_push_back_n(&tested, extras, 5) );
+				REQUIRE_FALSE( deque_push_front_n(&tested, extras, 5) );
 			}
 
 			WHEN("10 element is popped from the front")

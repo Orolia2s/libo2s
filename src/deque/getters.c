@@ -28,17 +28,17 @@ size_t deque_count(const deque_t* self)
 }
 
 /**
- * Gives the current first element in the queue.
+ * The current first element in the queue.
  * @return NULL if the queue is empty
  */
 void* deque_first(const deque_t* self)
 {
 	if (deque_is_empty(self))
 		return NULL;
-	return (self->first);
+	return (self->front);
 }
 
-/** Tells if deque is empty or not. */
+/** True if no elements are currently stored */
 bool deque_is_empty(const deque_t* self)
 {
 	return (deque_count(self) == 0);
@@ -50,23 +50,14 @@ size_t deque_capacity(const deque_t* self)
 	return self->capacity;
 }
 
+/** True if the queue reached its maximum capacity */
+bool deque_is_full(const deque_t* self)
+{
+	return deque_count(self) == deque_capacity(self);
+}
+
 /** The remaining number of elements that can be added */
 size_t deque_room(const deque_t* self)
 {
-	return (self->capacity - deque_count(self));
-}
-
-/** The number of slots between the given index and the right border of allocated space */
-size_t deque_right_distance(const deque_t* self, size_t index)
-{
-	return (self->capacity - index);
-}
-
-/**
- * Shift a given index consistently i.e applying the correct modulo.
- * @return new index after the shift.
- */
-size_t deque_index_shift(const deque_t* self, size_t index, int shift)
-{
-	return ((self->capacity + index + shift) % self->capacity);
+	return deque_capacity(self) - deque_count(self);
 }

@@ -26,9 +26,10 @@
  */
 bool deque_push_front(deque_t* self, void* element)
 {
-	if (not deque_front_shift(self, -1))
+	if (deque_is_full(self))
 		return false;
-	memcpy(self->first, element, self->type_size);
+
+	memcpy(self->front, element, self->type_size);
 	self->count = self->count + 1;
 	return true;
 }

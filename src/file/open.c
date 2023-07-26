@@ -32,7 +32,6 @@
 ifstream_t file_open(const char* file_name, int flags)
 {
 	ifstream_t file = {.descriptor = -1, .opened = false};
-	void*      buffer;
 
 	log_trace("%s(\"%s\")", __FUNCTION__, file_name);
 	if ((file.descriptor = open(file_name, flags)) < 0)
@@ -40,7 +39,8 @@ ifstream_t file_open(const char* file_name, int flags)
 		log_error("Unable to open \"%s\": %s", file_name, strerror(errno));
 		return file;
 	}
-	if ((buffer = malloc(BUFFER_SIZE * sizeof(char))) == NULL)
+	file.buffer = DequeAllocate(BUFFER_SIZE, char);
+	if (file.buffer.capacity == 0)
 	{
 		log_error("malloc failed: %s", strerror(errno));
 		close(file.descriptor);
@@ -48,6 +48,5 @@ ifstream_t file_open(const char* file_name, int flags)
 		return file;
 	}
 	file.opened = true;
-	file.buffer = DequeNew(buffer, char, BUFFER_SIZE);
 	return file;
 }
