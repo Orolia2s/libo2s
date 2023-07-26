@@ -15,16 +15,16 @@
 #include "o2s/deque.h"
 #include "private.h"
 
-/** The size in memory of @p count elements */
-size_t deque_offset(const deque_t* self, size_t count)
-{
-	return (count * self->type_size);
-}
-
 /** The number of elements currently held in the queue */
 size_t deque_count(const deque_t* self)
 {
 	return self->count;
+}
+
+/** The maximum number of elements that can be stored */
+size_t deque_capacity(const deque_t* self)
+{
+	return self->capacity;
 }
 
 /**
@@ -35,19 +35,25 @@ void* deque_first(const deque_t* self)
 {
 	if (deque_is_empty(self))
 		return NULL;
-	return (self->front);
+	return self->front;
+}
+
+/**
+ * The current last element in the queue.
+ * @return NULL if the queue is empty
+ */
+void* deque_last(const deque_t* self)
+{
+	if (deque_is_empty(self))
+		return NULL;
+	return (self->back == deque_begin(self) ? deque_end(self) : self->back)
+		- deque_offset(self, 1);
 }
 
 /** True if no elements are currently stored */
 bool deque_is_empty(const deque_t* self)
 {
-	return (deque_count(self) == 0);
-}
-
-/** The maximum number of elements that can be stored */
-size_t deque_capacity(const deque_t* self)
-{
-	return self->capacity;
+	return deque_count(self) == 0;
 }
 
 /** True if the queue reached its maximum capacity */
@@ -56,8 +62,12 @@ bool deque_is_full(const deque_t* self)
 	return deque_count(self) == deque_capacity(self);
 }
 
-/** The remaining number of elements that can be added */
-size_t deque_room(const deque_t* self)
+void* deque_get(const deque_t* self, size_t index)
 {
-	return deque_capacity(self) - deque_count(self);
+	if (index >= deque_count(self))
+		return NULL;
+	void* result = self->front + deque_offset(self, index);
+	if (result >= deque_end(self))
+		result -= deque_offset(self, deque_capacity(self));
+	return result;
 }

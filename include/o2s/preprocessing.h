@@ -19,3 +19,19 @@
 
 /** Create a string literal from the evaluation of its argument */
 #define LIBO2S_PREPRO_STRING(EXPRESSION)        LIBO2S_PREPRO_STRING_DIRECT(EXPRESSION)
+
+/** Evaluates as the biggest of the two parameters */
+#define max(a, b) \
+	({ \
+		__typeof__(a) _a = (a); \
+		__typeof__(b) _b = (b); \
+		_a > _b ? _a : _b; \
+	})
+
+/** Evaluates as the smallest of the two parameters */
+#define min(a, b) \
+	({ \
+		__typeof__(a) _a = (a); \
+		__typeof__(b) _b = (b); \
+		_a < _b ? _a : _b; \
+	})

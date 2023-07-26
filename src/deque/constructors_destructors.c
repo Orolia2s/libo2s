@@ -60,7 +60,7 @@ void deque_clear(deque_t* self)
 void deque_free(deque_t* self)
 {
 	if (self->storage != NULL)
-		free(self->data);
+		free(self->storage);
 	self->storage = NULL;
 	deque_clear(self);
 	self->capacity = 0;

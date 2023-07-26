@@ -18,3 +18,7 @@ void*  deque_begin(const deque_t* self);
 void*  deque_end(const deque_t* self);
 
 size_t deque_offset(const deque_t* self, size_t count);
+size_t deque_distance(const deque_t* self, void* one, void* two);
+
+void* deque_pointer_before(const deque_t* self, void* pointer);
+void* deque_pointer_after(const deque_t* self, void* pointer);

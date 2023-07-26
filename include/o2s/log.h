@@ -17,7 +17,7 @@
 
 #define log_log(FILE, LEVEL, COLOR, FORMAT, ...) \
 	fprintf(FILE, \
-	        "[\e[" COLOR "m" LEVEL "\e[0m]\e[2m %s@%s:%03i \e[0m" FORMAT "\n", \
+	        "[\e[" COLOR "m" LEVEL "\e[0m]\e[2m %s@%s:%02i \e[0m" FORMAT "\n", \
 	        __FILE__, \
 	        __FUNCTION__, \
 	        __LINE__, \

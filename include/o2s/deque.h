@@ -58,10 +58,11 @@ void    deque_free_f(deque_t* self, void (*cleanup)());
  * } // <- the underlying storage will be freed at that point
  * @endcode
  */
-#define Deque                         __attribute__((cleanup(deque_free)))
+#define Deque                         __attribute__((cleanup(deque_free))) deque_t
 
 void*  deque_first(const deque_t* self);
 void*  deque_last(const deque_t* self);
+void*  deque_get(const deque_t* self, size_t index);
 
 bool   deque_is_empty(const deque_t* self);
 bool   deque_is_full(const deque_t* self);
@@ -70,13 +71,13 @@ size_t deque_count(const deque_t* self);
 size_t deque_capacity(const deque_t* self);
 size_t deque_room(const deque_t* self);
 
-bool   deque_push_front(deque_t* self, void* element);
-bool   deque_push_front_n(deque_t* self, void* elements, size_t count);
+bool   deque_push_front(deque_t* self, const void* element);
+bool   deque_push_front_n(deque_t* self, const void* elements, size_t count);
 bool   deque_pop_front(deque_t* self, void* element);
 bool   deque_pop_front_n(deque_t* self, void* destination, size_t count);
 
-bool   deque_push_back(deque_t* self, void* destination);
-bool   deque_push_back_n(deque_t* self, void* elements, size_t count);
+bool   deque_push_back(deque_t* self, const void* destination);
+bool   deque_push_back_n(deque_t* self, const void* elements, size_t count);
 bool   deque_pop_back(deque_t* self, void* destination);
 bool   deque_pop_back_n(deque_t* self, void* destination, size_t count);
 
