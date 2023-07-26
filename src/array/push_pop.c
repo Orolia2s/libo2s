@@ -23,7 +23,7 @@
  * Adds @p count elements at the end of the array.
  * @return false if allocation failed.
  */
-bool array_push_back_n(array_t* self, void* elements, size_t count)
+bool array_push_back_n(array_t* self, const void* elements, size_t count)
 {
 	if (not array_reserve(self, count))
 		return false;
@@ -36,7 +36,7 @@ bool array_push_back_n(array_t* self, void* elements, size_t count)
  * Adds one element at the end of the array.
  * @return false if allocation failed.
  */
-bool array_push_back(array_t* self, void* element)
+bool array_push_back(array_t* self, const void* element)
 {
 	return array_push_back_n(self, element, 1);
 }

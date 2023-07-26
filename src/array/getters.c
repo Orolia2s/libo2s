@@ -57,3 +57,9 @@ bool array_is_empty(const array_t* self)
 {
 	return self->count == 0;
 }
+
+/** Number of elements stored */
+size_t array_count(const array_t* self)
+{
+	return self->count;
+}

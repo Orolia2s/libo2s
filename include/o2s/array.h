@@ -32,20 +32,21 @@ void    array_clear(array_t* self);
 /** Convenient constructor wrapper */
 #define ArrayNew(Type) array_new(sizeof(Type))
 
-bool  array_push_back(array_t* self, void* element);
-bool  array_push_back_n(array_t* self, void* elements, size_t count);
+bool   array_push_back(array_t* self, const void* element);
+bool   array_push_back_n(array_t* self, const void* elements, size_t count);
 
-bool  array_pop_back(array_t* self, void* destination);
-bool  array_pop_back_n(array_t* self, void* destination, size_t count);
+bool   array_pop_back(array_t* self, void* destination);
+bool   array_pop_back_n(array_t* self, void* destination, size_t count);
 
-void* array_first(const array_t* self);
-void* array_last(const array_t* self);
-void* array_get(const array_t* self, size_t index);
+void*  array_first(const array_t* self);
+void*  array_last(const array_t* self);
+void*  array_get(const array_t* self, size_t index);
 
-bool  array_is_empty(const array_t* self);
+bool   array_is_empty(const array_t* self);
 
-bool  array_reserve(array_t* self, size_t count);
-bool  array_trim(array_t* self);
+size_t array_count(const array_t* self);
+bool   array_reserve(array_t* self, size_t count);
+bool   array_trim(array_t* self);
 
 /**
  * Iterate over the elements of the array.

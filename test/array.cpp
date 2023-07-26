@@ -13,7 +13,7 @@ SCENARIO("Arrays elements can be added and popped to the back", "[array]")
 
 		THEN("It has a size of 0 and a type size of sizeof(int)")
 		{
-			REQUIRE( tested.count == 0 );
+			REQUIRE( array_count(&tested) == 0 );
 			REQUIRE( tested.type_size == sizeof(int) );
 		}
 
@@ -36,7 +36,7 @@ SCENARIO("Arrays elements can be added and popped to the back", "[array]")
 
 			THEN("The size becomes 1 and the capacity is at least 1")
 			{
-				REQUIRE( tested.count == 1 );
+				REQUIRE( array_count(&tested) == 1 );
 				REQUIRE( tested.capacity >= 1 );
 			}
 
@@ -64,7 +64,7 @@ SCENARIO("Arrays elements can be added and popped to the back", "[array]")
 
 				THEN("The size is 0 but the capacity remains")
 				{
-					REQUIRE( tested.count == 0 );
+					REQUIRE( array_count(&tested) == 0 );
 					REQUIRE( tested.capacity > 0 );
 				}
 
@@ -82,7 +82,7 @@ SCENARIO("Arrays elements can be added and popped to the back", "[array]")
 
 		THEN("It has a size of 0 and a type size of sizeof(long)")
 		{
-			REQUIRE( tested.count == 0 );
+			REQUIRE( array_count(&tested) == 0 );
 			REQUIRE( tested.type_size == sizeof(long) );
 			REQUIRE( array_is_empty(&tested) );
 		}
@@ -96,7 +96,7 @@ SCENARIO("Arrays elements can be added and popped to the back", "[array]")
 
 			THEN("Size becomes 9, capacity at least 9")
 			{
-				REQUIRE( tested.count == 9 );
+				REQUIRE( array_count(&tested) == 9 );
 				REQUIRE( tested.capacity >= 9 );
 				REQUIRE_FALSE( array_is_empty(&tested) );
 			}
@@ -130,7 +130,7 @@ SCENARIO("Arrays elements can be added and popped to the back", "[array]")
 
 				THEN("Only the first two elements remain")
 				{
-					REQUIRE( tested.count == 2 );
+					REQUIRE( array_count(&tested) == 2 );
 					REQUIRE( *(long*)array_first(&tested) == added[0] );
 					REQUIRE( *(long*)array_last(&tested) == added[1] );
 				}
@@ -179,12 +179,12 @@ SCENARIO("An array limits reallocations", "[array]")
 
 			WHEN("All elements are popped")
 			{
-				array_pop_back_n(&tested, NULL, tested.count);
+				array_pop_back_n(&tested, NULL, array_count(&tested));
 
 				THEN("The array is empty, but the capacity remains, and no reallocation has happened")
 				{
 					REQUIRE( array_is_empty(&tested) );
-					REQUIRE( tested.count == 0 );
+					REQUIRE( array_count(&tested) == 0 );
 					REQUIRE( tested.capacity == initial_capacity );
 					REQUIRE( tested.start == initial_allocated );
 				}
@@ -204,7 +204,7 @@ SCENARIO("We can iterate on array type", "[array]")
 
 		THEN("The size is 12 and the capacity at least 12")
 		{
-			REQUIRE( tested.count == 12 );
+			REQUIRE( array_count(&tested) == 12 );
 			REQUIRE( tested.capacity >= 12 );
 			REQUIRE( tested.type_size == sizeof(short) );
 		}
@@ -249,7 +249,7 @@ SCENARIO("Array resources are correctly managed", "[array]")
 
 		THEN("Its capacity is greater than 5")
 		{
-			REQUIRE( tested.count == 5 );
+			REQUIRE( array_count(&tested) == 5 );
 			REQUIRE( tested.capacity > 5 );
 		}
 
@@ -277,7 +277,7 @@ SCENARIO("Array resources are correctly managed", "[array]")
 
 			THEN("The content doesn't change")
 			{
-				REQUIRE( tested.count == 5 );
+				REQUIRE( array_count(&tested) == 5 );
 				REQUIRE( memcmp(tested.start, content, sizeof(content)) == 0 );
 			}
 		}
@@ -289,7 +289,7 @@ SCENARIO("Array resources are correctly managed", "[array]")
 			THEN("It is empty, with no memory allocated")
 			{
 				REQUIRE( array_is_empty(&tested) );
-				REQUIRE( tested.count == 0 );
+				REQUIRE( array_count(&tested) == 0 );
 				REQUIRE( tested.capacity == 0 );
 				REQUIRE( tested.start == NULL );
 			}

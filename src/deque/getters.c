@@ -47,7 +47,7 @@ void* deque_last(const deque_t* self)
 	if (deque_is_empty(self))
 		return NULL;
 	return (self->back == deque_begin(self) ? deque_end(self) : self->back)
-		- deque_offset(self, 1);
+	       - deque_offset(self, 1);
 }
 
 /** True if no elements are currently stored */
