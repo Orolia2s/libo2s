@@ -22,12 +22,18 @@
 typedef array_t string_t;
 
 string_t        string_new(void);
-bool            string_append(string_t* self, char* element);
-bool            string_append_n(string_t* self, char* element, size_t count);
+void            string_clear(string_t* self);
+
+bool            string_append_char(string_t* self, char element);
+bool            string_append_cstring(string_t* self, char* cstring, size_t length);
+bool            string_append(string_t* self, string_t* other);
+
 bool            string_pop(string_t* self, char* destination);
 bool            string_pop_n(string_t* self, char* destination, size_t count);
-void*           string_get(string_t* self, size_t index);
+
+char            string_get(string_t* self, size_t index);
+char*           string_at(string_t* self, size_t index);
 bool            string_is_empty(string_t* self);
+
 bool            string_reserve(string_t* self, size_t count);
-void            string_clear(string_t* self);
 bool            string_trim(string_t* self);
