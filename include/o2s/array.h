@@ -49,7 +49,7 @@ size_t array_count(const array_t* self);
 bool   array_reserve(array_t* self, size_t count);
 bool   array_trim(array_t* self);
 
-void   array_iter(const array_t* self);
+void   array_iter(const array_t* self, void (*function)());
 
 /**
  * Iterate over the elements of the array.
