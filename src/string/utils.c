@@ -14,13 +14,17 @@
 
 #include "o2s/string.h"
 
+#include <iso646.h> // not
+
 /**
  * Provide compatibility with legacy string functions.
  * Ensure the string is null-terminated, without impacting the length.
+ * @return NULL if a reallocation was necessary and failed
  */
 char* string_to_cstring(string_t* self)
 {
-	string_reserve(self, 1);
+	if (not string_reserve(self, 1))
+		return NULL;
 	*(self->count + (char*)self->start) = '\0';
 	return self->start;
 }
