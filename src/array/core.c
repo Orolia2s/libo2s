@@ -70,7 +70,8 @@ bool array_reserve(array_t* self, size_t count)
  */
 void array_clear(array_t* self)
 {
-	free(self->start);
+	if (self->start)
+		free(self->start);
 	self->count    = 0;
 	self->capacity = 0;
 	self->start    = NULL;

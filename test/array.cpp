@@ -8,6 +8,11 @@ extern "C"
 
 #include <catch2/catch_test_macros.hpp>
 
+TEST_CASE("RAII with an empty array")
+{
+	Array tested = ArrayNew(double);
+}
+
 SCENARIO("Arrays elements can be added and popped to the back", "[array]")
 {
 	GIVEN("An empty int array")

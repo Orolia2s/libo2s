@@ -33,6 +33,23 @@ void    array_clear_f(array_t* self, void (*cleanup)());
 /** Convenient constructor wrapper */
 #define ArrayNew(Type) array_new(sizeof(Type))
 
+/**
+ * Automatically free the allocated storage when going out of scope.
+ *
+ * In a situation where one wants to declare an array in a local scope,
+ * this "typedef" can be used for that array to release the allocated memory
+ * automatically when the variable goes out of scope.
+ *
+ * It means this "typedef" can only be used like this:
+ * @code{.c}
+ * {
+ *     Array my_array = ArrayNew(float);
+ *     ...
+ * } // <- the underlying storage will be freed at that point
+ * @endcode
+ */
+#define Array          __attribute__((cleanup(array_clear))) array_t
+
 bool   array_push_back(array_t* self, const void* element);
 bool   array_push_back_n(array_t* self, const void* elements, size_t count);
 
