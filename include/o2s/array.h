@@ -17,7 +17,7 @@
 #include <stdbool.h> // bool
 #include <stddef.h>  // size_t
 
-/** O2S array implemantation */
+/** O2S array implementation */
 typedef struct array
 {
 	void*  start;
@@ -28,6 +28,7 @@ typedef struct array
 
 array_t array_new(size_t type_size);
 void    array_clear(array_t* self);
+void    array_clear_f(array_t* self, void (*cleanup)());
 
 /** Convenient constructor wrapper */
 #define ArrayNew(Type) array_new(sizeof(Type))
@@ -47,6 +48,8 @@ bool   array_is_empty(const array_t* self);
 size_t array_count(const array_t* self);
 bool   array_reserve(array_t* self, size_t count);
 bool   array_trim(array_t* self);
+
+void   array_iter(const array_t* self);
 
 /**
  * Iterate over the elements of the array.

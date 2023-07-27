@@ -1,6 +1,9 @@
 extern "C"
 {
 #include "o2s/array.h"
+#include "o2s/cleanup.h" // cleanup_allocated_memory
+
+#include <string.h> // strdup
 }
 
 #include <catch2/catch_test_macros.hpp>
@@ -219,6 +222,7 @@ SCENARIO("We can iterate on array type", "[array]")
 				REQUIRE( elt == tab[index] );
 				index++;
 			}
+			REQUIRE( index == 12 );
 		}
 
 		THEN("We can iterate over its elements conveniently, with the index as well")
@@ -233,6 +237,7 @@ SCENARIO("We can iterate on array type", "[array]")
 				REQUIRE( elt == tab[index] );
 				index++;
 			}
+			REQUIRE( index == 12 );
 		}
 	}
 }
@@ -292,6 +297,69 @@ SCENARIO("Array resources are correctly managed", "[array]")
 				REQUIRE( array_count(&tested) == 0 );
 				REQUIRE( tested.capacity == 0 );
 				REQUIRE( tested.start == NULL );
+			}
+		}
+	}
+}
+
+SCENARIO("Array can hold more complex types", "[array]")
+{
+	GIVEN("An array of C strings with a few elements")
+	{
+		array_t tested = ArrayNew(char*);
+
+		char     content[][10] = {"Hello", "Bonjour", "Monde", "Ciao"};
+		unsigned length        = sizeof(content) / sizeof(*content);
+		char*    pushed;
+
+		for (unsigned i = 0; i < length; i++)
+		{
+			pushed = strdup(content[i]);
+			REQUIRE( array_push_back(&tested, &pushed) );
+		}
+
+		WHEN("It is trimmed")
+		{ /* Trimming implies a storage reallocation, which implies moving the elements. */
+			array_trim(&tested);
+
+			THEN("The elements are as expected")
+			{
+				REQUIRE( array_count(&tested) == length );
+				REQUIRE( tested.type_size == sizeof(char*) );
+
+				for (unsigned i = 0; i < array_count(&tested); i++)
+				{
+					REQUIRE( strcmp(*(char**)array_get(&tested, i), content[i]) == 0 );
+				}
+			}
+
+			THEN("We can iterate on the array")
+			{
+				char*    element;
+				unsigned index = 0;
+
+				array_foreach(char*, &tested, &element)
+				{
+					REQUIRE( strcmp(element, content[index]) == 0 );
+					index++;
+				}
+				REQUIRE( index == length );
+				array_enumerate(char*, &tested, &element, &index)
+				{
+					REQUIRE( strcmp(element, content[index]) == 0 );
+				}
+			}
+
+			AND_WHEN("The array is cleared")
+			{
+				array_clear_f(&tested, reinterpret_cast<void(*)()>(cleanup_allocated_memory));
+
+				THEN("The array should be empty")
+				{ /* And one should verify with gcov that free was called */
+					REQUIRE( array_count(&tested) == 0 );
+					REQUIRE( tested.capacity == 0 );
+					REQUIRE( tested.start == NULL );
+				}
 			}
 		}
 	}

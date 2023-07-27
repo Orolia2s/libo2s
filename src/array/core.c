@@ -84,3 +84,20 @@ bool array_trim(array_t* self)
 {
 	return array_realloc(self, self->count);
 }
+
+void array_iter(const array_t* self, void (*cleanup)())
+{
+	void* element = self->start;
+
+	while (element < array_end(self))
+	{
+		cleanup(element);
+		element += self->type_size;
+	}
+}
+
+void array_clear_f(array_t* self, void (*cleanup)())
+{
+	array_iter(self, cleanup);
+	array_clear(self);
+}
