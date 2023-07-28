@@ -266,8 +266,8 @@ SCENARIO("Array resources are correctly managed", "[array]")
 		WHEN("Too much memory is requested")
 		{
 			double* allocated = (double*)tested.start;
-			REQUIRE_FALSE( array_reserve(&tested, 1024 * 1024 * 1024) );
-			REQUIRE_FALSE( array_push_back_n(&tested, content, 1024 * 1024 * 1024) );
+			REQUIRE_FALSE( array_reserve(&tested, 1024UL * 1024 * 1024 * 97) );
+			REQUIRE_FALSE( array_push_back_n(&tested, content, 1024UL * 1024 * 1024 * 97) );
 
 			THEN("The previous content remains untouched")
 			{

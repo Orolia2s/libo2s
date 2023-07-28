@@ -26,7 +26,7 @@ SCENARIO("Strings can be manipulated intuitively", "[string]")
 			REQUIRE( string_is_empty(&tested) );
 		}
 
-		WHEN("A char is appended")
+		WHEN("A character is appended")
 		{
 			REQUIRE( string_append_char(&tested, '*') );
 
@@ -44,16 +44,42 @@ SCENARIO("Strings can be manipulated intuitively", "[string]")
 
 		WHEN("A literal is appended")
 		{
-			const char*  content = "A string Literal";
+			const char*  content = "A string Literal OMG";
 			const size_t length  = strlen(content);
 
-			REQUIRE( string_append_literal(&tested, "A string Literal") );
+			REQUIRE( string_append_literal(&tested, content) );
 
 			THEN("The content is as expected")
 			{
 				REQUIRE( string_length(&tested) == length );
 				REQUIRE( memcmp(string_to_cstring(&tested), content, length) == 0 );
 				REQUIRE( strcmp(string_to_cstring(&tested), content) == 0 );
+
+				for (unsigned i = 0; i < length; i++)
+				{
+					REQUIRE( *string_get(&tested, i) == content[i] );
+				}
+			}
+
+			THEN("We can iterate over the characters")
+			{
+				char c;
+				unsigned i;
+				unsigned index = 0;
+
+				string_foreach(&tested, &c)
+				{
+					REQUIRE( c == content[index] );
+					index++;
+				}
+
+				index = 0;
+				string_enumerate(&tested, &c, &i)
+				{
+					REQUIRE( i == index );
+					REQUIRE( c == content[index] );
+					index++;
+				}
 			}
 		}
 
@@ -68,7 +94,33 @@ SCENARIO("Strings can be manipulated intuitively", "[string]")
 			THEN("The content is as expected")
 			{
 				REQUIRE( string_length(&tested) == strlen("Bonjour Monde") );
-				REQUIRE( strcmp(string_to_cstring(&tested), "Bonjour Monde") );
+				REQUIRE( strcmp(string_to_cstring(&tested), "Bonjour Monde") == 0 );
+				REQUIRE_FALSE( string_is_empty(&tested) );
+			}
+
+			AND_WHEN("The characters are popped in different ways")
+			{
+				char popped[10];
+				char space;
+
+				REQUIRE( string_pop_n(&tested, popped, strlen("Monde")) );
+				REQUIRE( string_pop(&tested, &space) );
+
+				String hello = string_pop_as_string(&tested, strlen("Bonjour"));
+
+				THEN("The popped characters are correct")
+				{
+					REQUIRE( strcmp(popped, "Monde") == 0 );
+					REQUIRE( space == ' ' );
+					REQUIRE( string_length(&hello) == strlen("Bonjour") );
+					REQUIRE( strcmp(string_to_cstring(&hello), "Bonjour") == 0);
+				}
+
+				THEN("The string is considered empty, but kept its storage space")
+				{
+					REQUIRE( string_is_empty(&tested) );
+					REQUIRE( tested.capacity >= strlen("Bonjour Monde") );
+				}
 			}
 		}
 	}

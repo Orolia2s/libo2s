@@ -65,14 +65,12 @@ bool string_append(string_t* self, const string_t* other);
 #define string_append_literal(Self, StringLiteral) \
 	string_append_cstring(Self, StringLiteral, strlen(StringLiteral))
 
-bool string_pop(string_t* self, char* destination);
-bool string_pop_n(string_t* self, char* destination, size_t count);
-bool string_pop_as_string(string_t* self, string_t* destination, size_t count);
+bool     string_pop(string_t* self, char* destination);
+bool     string_pop_n(string_t* self, char* destination, size_t count);
+string_t string_pop_as_string(string_t* self, size_t count);
 
 size_t   string_length(const string_t* self);
-
 char*    string_get(const string_t* self, size_t index);
-
 bool     string_is_empty(const string_t* self);
 
 bool     string_reserve(string_t* self, size_t count);
