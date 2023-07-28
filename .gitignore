@@ -4,6 +4,9 @@
 *conan*.sh
 *.conf
 *.d
+doc/html
+doc/latex
+doc/man
 *.exe
 *.gcda
 *.gcno
