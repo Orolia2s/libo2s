@@ -7,11 +7,12 @@
 /*      ___) / ___ \|  _| |  _ < / ___ \| |\  |   | | |__   _| |_| |___) |    */
 /*     |____/_/   \_|_|   |_| \_/_/   \_|_| \_|   |_|    |_| |____/|____/     */
 /*                                                                            */
-/* Copyright 2023, SAFRAN T4DS, ALL RIGHTS RESERVED                           */
-/*                                                                            */
-/* @file array.h                                                              */
-/* @author Antoine GAGNIERE                                                   */
-/*                                                                            */
+/**
+ * @copyright 2023, SAFRAN T4DS, ALL RIGHTS RESERVED
+ * @file array.h
+ * @author Antoine GAGNIERE
+ * @author Hugo FOLCHER
+ */
 /* ************************************************************************** */
 
 #include <stdbool.h> // bool
@@ -20,10 +21,10 @@
 /** O2S array implementation */
 typedef struct array
 {
-	void*  start;
-	size_t type_size;
-	size_t count;
-	size_t capacity;
+	void*  start;     /**< Underlying storage */
+	size_t type_size; /**< Size in bytes of a single element */
+	size_t count;     /**< Number of elements currently stored */
+	size_t capacity;  /**< Number of elements that can fit in the storage */
 } array_t;
 
 array_t array_new(size_t type_size);
@@ -72,15 +73,16 @@ void   array_iter(const array_t* self, void (*function)());
  * Iterate over the elements of the array.
  * To be used like a for loop
  */
-#define array_foreach(T, A, E) \
-	for (char* _pointer = (char*)array_first(A); \
-	     _pointer <= (char*)array_last(A) && ((*(E) = *(T*)_pointer) || true); \
-	     _pointer += (A)->type_size)
+#define array_foreach(TYPE, ARRAY, ELEMENT) \
+	for (char* _pointer = (char*)array_first(ARRAY); \
+	     _pointer <= (char*)array_last(ARRAY) && ((*(ELEMENT) = *(TYPE*)_pointer) || true); \
+	     _pointer += (ARRAY)->type_size)
 
 /**
  * Iterate over the elements of the array, with the index.
  * To be used like a for loop
  */
-#define array_enumerate(T, A, E, I) \
-	for (*(I) = 0; *(I) < array_count(A) && ((*(E) = *(T*)array_get(A, *(I))) || true); \
-	     (*(I))++)
+#define array_enumerate(TYPE, ARRAY, ELEMENT, INDEX) \
+	for (*(INDEX) = 0; *(INDEX) < array_count(ARRAY) \
+	                   && ((*(ELEMENT) = *(TYPE*)array_get(ARRAY, *(INDEX))) || true); \
+	     (*(INDEX))++)

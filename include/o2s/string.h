@@ -7,19 +7,20 @@
 /*      ___) / ___ \|  _| |  _ < / ___ \| |\  |   | | |__   _| |_| |___) |    */
 /*     |____/_/   \_|_|   |_| \_/_/   \_|_| \_|   |_|    |_| |____/|____/     */
 /*                                                                            */
-/* Copyright 2023, SAFRAN T4DS, ALL RIGHTS RESERVED                           */
-/*                                                                            */
-/* @file string.h                                                             */
-/* @author Hugo FOLCHER                                                       */
-/*                                                                            */
+/**
+ * @copyright 2023, SAFRAN T4DS, ALL RIGHTS RESERVED
+ * @file string.h
+ * @author Hugo FOLCHER
+ */
 /* ************************************************************************** */
 
-#include "array.h"
+#include "o2s/array.h"
 
 #include <stdbool.h> // bool
 #include <stddef.h>  // size_t
 #include <string.h>  // strlen
 
+/** A string is an array of char */
 typedef array_t string_t;
 
 string_t        string_new();
@@ -88,7 +89,7 @@ bool     string_is_equal(const string_t* self, const string_t* other);
 
 char*    string_to_cstring(string_t* self);
 
-#define string_foreach(String, Element) array_foreach (char, String, Element)
+#define string_foreach(STRING, Element) array_foreach (char, STRING, Element)
 
-#define string_enumerate(String, Element, Index) \
-	array_enumerate (char, String, Element, Index)
+#define string_enumerate(STRING, Element, Index) \
+	array_enumerate (char, STRING, Element, Index)

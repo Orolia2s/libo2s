@@ -7,11 +7,11 @@
 /*      ___) / ___ \|  _| |  _ < / ___ \| |\  |   | | |__   _| |_| |___) |    */
 /*     |____/_/   \_|_|   |_| \_/_/   \_|_| \_|   |_|    |_| |____/|____/     */
 /*                                                                            */
-/* Copyright 2023, SAFRAN T4DS, ALL RIGHTS RESERVED                           */
-/*                                                                            */
-/* @file array.h                                                              */
-/* @author Antoine GAGNIERE                                                   */
-/*                                                                            */
+/**
+ * @copyright 2023, SAFRAN T4DS, ALL RIGHTS RESERVED
+ * @file version.h
+ * @author Antoine GAGNIERE
+ */
 /* ************************************************************************** */
 
 const char* libo2s_version_cstr();

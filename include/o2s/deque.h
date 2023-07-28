@@ -7,11 +7,12 @@
 /*      ___) / ___ \|  _| |  _ < / ___ \| |\  |   | | |__   _| |_| |___) |    */
 /*     |____/_/   \_|_|   |_| \_/_/   \_|_| \_|   |_|    |_| |____/|____/     */
 /*                                                                            */
-/* Copyright 2023, SAFRAN T4DS, ALL RIGHTS RESERVED                           */
-/*                                                                            */
-/* @file deque.h                                                              */
-/* @author Hugo FOLCHER                                                       */
-/*                                                                            */
+/**
+ * @copyright 2023, SAFRAN T4DS, ALL RIGHTS RESERVED
+ * @file deque.h
+ * @author Hugo FOLCHER
+ * @author Antoine GAGNIERE
+ */
 /* ************************************************************************** */
 
 #include <stdbool.h> // bool
@@ -89,13 +90,16 @@ void   deque_iter2(const deque_t* self, void (*f)(), void* ext1, void* ext2);
  * Iterate over the elements of the queue.
  * To be used like a for loop
  */
-#define deque_foreach(T, A, E) \
-	for (unsigned _i = 0; _i < deque_count(A) && ((*(E) = *(T*)deque_get(A, _i)) || true); _i++)
+#define deque_foreach(TYPE, DEQUE, ELEMENT) \
+	for (unsigned _i = 0; _i < deque_count(DEQUE_COUNT) \
+	                      && ((*(ELEMENT) = *(TYPE*)deque_get(DEQUE, _i)) || true); \
+	     _i++)
 
 /**
  * Iterate over the elements of the queue, with the index.
  * To be used like a for loop
  */
-#define deque_enumerate(T, A, E, I) \
-	for (*(I) = 0; *(I) < deque_count(A) && ((*(E) = *(T*)deque_get(A, *(I))) || true); \
-	     (*(I))++)
+#define deque_enumerate(TYPE, DEQUE, ELEMENT, INDEX) \
+	for (*(INDEX) = 0; *(INDEX) < deque_count(DEQUE) \
+	                   && ((*(ELEMENT) = *(TYPE*)deque_get(DEQUE, *(INDEX))) || true); \
+	     (*(INDEX))++)
