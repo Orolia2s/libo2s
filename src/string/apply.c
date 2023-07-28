@@ -21,20 +21,25 @@ void string_apply_inplace(string_t* self, char (*function)(char))
 {
 	void local(char* c)
 	{
-		*c =  function(*c);
+		*c = function(*c);
 	}
 
 	array_iter(self, local);
 }
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wcast-function-type"
+
 /** Replace each alphabetic character by its lower case equivalent */
 void string_tolower_inplace(string_t* self)
 {
-	string_apply_inplace(self, tolower);
+	string_apply_inplace(self, (char (*)(char))tolower);
 }
 
 /** Replace each alphabetic character by its upper case equivalent */
 void string_toupper_inplace(string_t* self)
 {
-	string_apply_inplace(self, toupper);
+	string_apply_inplace(self, (char (*)(char))toupper);
 }
+
+#pragma GCC diagnostic pop

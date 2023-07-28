@@ -19,7 +19,7 @@
 /**
  * Creates a copy of the string, where each character is the image
  * through the provided function
-*/
+ */
 string_t string_map(const string_t* self, char (*function)(char))
 {
 	string_t result = string_new();
@@ -33,6 +33,9 @@ string_t string_map(const string_t* self, char (*function)(char))
 	return result;
 }
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wcast-function-type"
+
 /** Creates a copy of the string, with all alphabetic characters to lower-case */
 string_t string_tolower(const string_t* self)
 {
@@ -44,3 +47,5 @@ string_t string_toupper(const string_t* self)
 {
 	return string_map(self, (char (*)(char))toupper);
 }
+
+#pragma GCC diagnostic pop
