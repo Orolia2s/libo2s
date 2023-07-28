@@ -150,3 +150,23 @@ TEST_CASE("String to C string conversion can fail", "[string]")
 	tested.type_size = 1024UL * 1024 * 1024 * 97; // for the reserve(1) to fail
 	REQUIRE(string_to_cstring(&tested) == NULL);
 }
+
+SCENARIO("A string created from another with a transformation")
+{
+	GIVEN("A string with mixed case and non alphabetic characters")
+	{
+		String original = string_from_literal("HelLo | BonJour + MoNde # CiAo");
+
+		WHEN("Lowercase and uppercase versions are created")
+		{
+			String lower = string_tolower(&original);
+			String upper = string_toupper(&original);
+
+			THEN("The transformations worked")
+			{
+				REQUIRE( strcmp( string_to_cstring(&lower), "hello | bonjour + monde # ciao" ) == 0 );
+				REQUIRE( strcmp( string_to_cstring(&upper), "HELLO | BONJOUR + MONDE # CIAO" ) == 0 );
+			}
+		}
+	}
+}
