@@ -170,3 +170,31 @@ SCENARIO("A string created from another with a transformation")
 		}
 	}
 }
+
+SCENARIO("A string can be transformed in-place")
+{
+	GIVEN("A string with mixed case and non alphabetic characters")
+	{
+		String original = string_from_literal("HelLo | BonJour + MoNde # CiAo");
+
+		WHEN("It is tranformed to lower case")
+		{
+			string_tolower_inplace(&original);
+
+			THEN("The transformation worked")
+			{
+				REQUIRE( strcmp( string_to_cstring(&original), "hello | bonjour + monde # ciao" ) == 0 );
+			}
+		}
+
+		WHEN("It is tranformed to upper case")
+		{
+			string_toupper_inplace(&original);
+
+			THEN("The transformation worked")
+			{
+				REQUIRE( strcmp( string_to_cstring(&original), "HELLO | BONJOUR + MONDE # CIAO" ) == 0 );
+			}
+		}
+	}
+}
