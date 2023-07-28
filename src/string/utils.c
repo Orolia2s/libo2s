@@ -34,3 +34,9 @@ bool string_reserve(string_t* self, size_t count)
 {
 	return array_reserve(self, count);
 }
+
+/** Resize the underlying storage, for it not to take any more room that needed */
+bool string_trim(string_t* self)
+{
+	return array_trim(self);
+}

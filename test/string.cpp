@@ -72,6 +72,7 @@ SCENARIO("Strings can be manipulated intuitively", "[string]")
 					REQUIRE( c == content[index] );
 					index++;
 				}
+				REQUIRE( index == length );
 
 				index = 0;
 				string_enumerate(&tested, &c, &i)
@@ -80,6 +81,7 @@ SCENARIO("Strings can be manipulated intuitively", "[string]")
 					REQUIRE( c == content[index] );
 					index++;
 				}
+				REQUIRE( index == length );
 			}
 		}
 
@@ -122,6 +124,29 @@ SCENARIO("Strings can be manipulated intuitively", "[string]")
 					REQUIRE( tested.capacity >= strlen("Bonjour Monde") );
 				}
 			}
+
+			AND_WHEN("Too much characters are popped as a string")
+			{
+				String toomuch = string_pop_as_string(&tested, 20);
+
+				THEN("That string is empty")
+				{
+					REQUIRE( string_length(&toomuch) == 0 );
+					REQUIRE( toomuch.capacity == 0 );
+				}
+			}
 		}
 	}
+}
+
+TEST_CASE("String to C string conversion can fail", "[string]")
+{
+	String tested = string_from_literal(
+		"Some long string that fills exactly the capacity"
+		"And for some reason the RAM cannot fit a single more char"
+		);
+
+	CHECK( string_trim(&tested) );
+	tested.type_size = 1024UL * 1024 * 1024 * 97; // for the reserve(1) to fail
+	REQUIRE(string_to_cstring(&tested) == NULL);
 }

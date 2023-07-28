@@ -14,16 +14,19 @@
 
 #include "o2s/string.h"
 
-bool string_pop(string_t* self, char* character)
+/** Pop the last character */
+bool string_pop(string_t* self, char* destination)
 {
-	return array_pop_back(self, character);
+	return array_pop_back(self, destination);
 }
 
-bool string_pop_n(string_t* self, char* character, size_t count)
+/** Pop the @p count last characters */
+bool string_pop_n(string_t* self, char* destination, size_t count)
 {
-	return array_pop_back_n(self, character, count);
+	return array_pop_back_n(self, destination, count);
 }
 
+/** Create a string from the @p count last characters */
 string_t string_pop_as_string(string_t* self, size_t count)
 {
 	if (count > string_length(self))
