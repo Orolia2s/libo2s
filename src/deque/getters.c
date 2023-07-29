@@ -12,8 +12,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "o2s/deque.h"
 #include "private.h"
+
+#include "o2s/deque.h"
 
 /** The number of elements currently held in the queue */
 size_t deque_count(const deque_t* self)

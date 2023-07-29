@@ -12,8 +12,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "o2s/array.h"
 #include "private.h"
+
+#include "o2s/array.h"
 
 /** One-past-the-end pointer of the array */
 void* array_end(const array_t* self)

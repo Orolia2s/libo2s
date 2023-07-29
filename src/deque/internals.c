@@ -12,8 +12,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "o2s/deque.h"
 #include "private.h"
+
+#include "o2s/deque.h"
 
 /** The size in memory of @p count elements */
 size_t deque_offset(const deque_t* self, size_t count)

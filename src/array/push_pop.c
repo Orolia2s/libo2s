@@ -12,8 +12,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "o2s/array.h"
 #include "private.h"
+
+#include "o2s/array.h"
 
 #include <iso646.h> // not
 

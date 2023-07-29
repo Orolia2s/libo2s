@@ -107,16 +107,22 @@ SortIncludes: 'true'
 IncludeBlocks: Regroup
 IncludeIsMainRegex: '$'
 IncludeCategories:
-  - Regex:           '^<c(assert|complex|w?ctype|errno|float|inttypes|limits|locale|(tg)?math|signal|string|threads|time|[uw]char|.*std.*)>$'
-    Priority:        8
-  - Regex:           '^<[a-z_]+>$'
-    Priority:        9
+# Standard C headers
   - Regex:           '^<(assert|complex|w?ctype|errno|float|inttypes|limits|locale|(tg)?math|signal|string|threads|time|[uw]char|.*std.*)\.h>$'
     Priority:        8
+# Linux network headers
   - Regex:           '^<(sys|arpa|netinet)/.*>$'
     Priority:        7
+# O2s headers from consumer repositories
+  - Regex:           '^<o2s/'
+    Priority:        5
+# Other headers that are outside the current repository
   - Regex:           '^<'
-    Priority:        2
+    Priority:        6
+# Public headers from the current repository
+  - Regex:           '^"[a-z0-9]+/'
+    Priority:        5
+# Private headers
   - Regex:           '^"'
     Priority:        1
 ...

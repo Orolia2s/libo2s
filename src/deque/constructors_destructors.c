@@ -12,8 +12,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "o2s/deque.h"
 #include "private.h"
+
+#include "o2s/deque.h"
 
 #include <stdlib.h> //free
 

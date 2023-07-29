@@ -12,9 +12,10 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "private.h"
+
 #include "o2s/deque.h"
 #include "o2s/preprocessing.h" // min
-#include "private.h"
 
 #include <iso646.h> // not
 
