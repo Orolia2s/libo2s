@@ -91,7 +91,7 @@ void   deque_iter2(const deque_t* self, void (*f)(), void* ext1, void* ext2);
  * To be used like a for loop
  */
 #define deque_foreach(TYPE, DEQUE, ELEMENT) \
-	for (unsigned _i = 0; _i < deque_count(DEQUE_COUNT) \
+	for (unsigned _i = 0; _i < deque_count(DEQUE) \
 	                      && ((*(ELEMENT) = *(TYPE*)deque_get(DEQUE, _i)) || true); \
 	     _i++)
 

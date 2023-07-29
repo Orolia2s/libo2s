@@ -14,6 +14,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "o2s/array.h"
+
 #define ARRAY_INITIAL_SIZE  16
 #define ARRAY_GROWTH_FACTOR 2
 

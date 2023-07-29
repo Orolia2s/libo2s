@@ -14,6 +14,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "o2s/deque.h"
+
 void*  deque_begin(const deque_t* self);
 void*  deque_end(const deque_t* self);
 

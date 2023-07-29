@@ -2,7 +2,7 @@
 
 ## Including headers
 
-### Quote or chevron ?
+### Quotes or chevrons ?
 
 In C, there is two ways to include a header :
 
@@ -24,7 +24,7 @@ So in the case of a private header, i.e. one in the `src` folder alongside the s
 The rest of the time, either way of including could technically be used.
 So the following rule is an arbitrary convention :
 
-> When including a header, use `"` if that header is in the same git repository, else use `<>`
+> When including a header, use `""` if that header is in the same git repository, else use `<>`
 
 So that means that when in `o2s/string.h` we are including `o2s/array.h` and `stddef.h`, we write:
 
