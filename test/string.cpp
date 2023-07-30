@@ -102,7 +102,7 @@ SCENARIO("Strings can be manipulated intuitively", "[string]")
 
 			AND_WHEN("The characters are popped in different ways")
 			{
-				char popped[10];
+				char popped[10] = {0};
 				char space;
 
 				REQUIRE( string_pop_n(&tested, popped, strlen("Monde")) );

@@ -12,10 +12,10 @@ conan create .
 
 __requires__ conan
 
-## Display coverage in the browser
+## Test and display coverage in the browser
 
 ```bash
 bash coverage.sh
 ```
 
-__requires__ gcc gcov lcov
+__requires__ gcc, g++, gcov, lcov (compatible versions !)

@@ -16,7 +16,6 @@ Version ?= $(shell git tag --sort '-version:refname' --merged | head -1)
 
 ImplementationFolder := src
 InterfaceFolder      := include
-TestFolder           := test
 BuildFolder          := cache
 Subfolders           != find $(ImplementationFolder) -type d
 
@@ -27,8 +26,6 @@ CPPFLAGS += -MMD
 
 Sources != find $(ImplementationFolder) -type f -name '*.c'
 Objects := $(Sources:$(ImplementationFolder)/%.c=$(BuildFolder)/%.o)
-
-Tester  := $(TestFolder)/test_libo2s.exe
 
 # When rendering the help, pretty print certain words
 Cyan       := \033[36m
@@ -46,7 +43,7 @@ help: ## Display this help.
 	@awk 'BEGIN {FS = ":.*##"; printf "\nThis Makefile allows one to build, run and test this library.\n\nUsage:\n  make $(PP_command)<target>$(EOC)\n"} /^[a-zA-Z_0-9-]+:.*?##/ { printf "  $(PP_command)%-15s$(EOC) %s\n", $$1, $$2 } /^##@/ { printf "\n$(PP_section)%s$(EOC):\n", substr($$0, 5) } ' $(MAKEFILE_LIST)
 
 raw_help: ## Display the help without color
-	@$(MAKE) help --no-print-directory PP_COMMAND= PP_SECTION= EOC=
+	@$(MAKE) help --no-print-directory PP_command= PP_section= EOC=
 
 version: ## Display the project's version
 	@echo $(Version)
@@ -70,14 +67,11 @@ shared: $(Shared) ## Compile the shared library. Appropriate compilation flags l
 
 ##@ Developping
 
-test: $(Tester)
-	./$<
-
-format: $(Sources)
+format: $(Sources) ## Apply clang-format on source files and headers
 	echo $^ | xargs -L1 clang-format -i
 	find $(ImplementationFolder) $(InterfaceFolder) -type f -name '*.h' | xargs -L1 clang-format -i
 
-.PHONY: test
+.PHONY: format
 
 ##@ Cleaning
 
@@ -103,11 +97,6 @@ $(Static): $(Objects) # Group all the compiled objects into an indexed archive
 
 $(Shared): $(Objects) # Create a shared object
 	$(CC) $(CFLAGS) -shared $^ $(LDFLAGS) $(LDLIBS) -o $@
-
-$(Tester): $(Static)
-	$(MAKE) -C $(@D) conan_build
-
-.PHONY: $(Tester)
 
 # When a rule is expanded, both the target and the prerequisites
 # are immediately evaluated. Enabling a second expansion allows

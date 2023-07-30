@@ -1,13 +1,16 @@
 #!/bin/bash
 set -euo pipefail
 IFS=$'\n\t'
-# Strict mode : abort on failures
+# Strict mode : abort on failure
+
+export CC="gcc"
+export CXX="g++"
 
 make fclean
 make -C test clean
 
-CFLAGS="-fprofile-arcs -ftest-coverage" make static
-CXXFLAGS="-fprofile-arcs -ftest-coverage" make -C test conan_build
+CFLAGS="-fprofile-arcs -ftest-coverage" make static -j `nproc`
+CXXFLAGS="-fprofile-arcs -ftest-coverage" make -C test conan_build -j `nproc`
 
 ./test/test_libo2s.exe
 
