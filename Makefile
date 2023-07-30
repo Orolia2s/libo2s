@@ -17,6 +17,7 @@ Version ?= $(shell git tag --sort '-version:refname' --merged | head -1)
 ImplementationFolder := src
 InterfaceFolder      := include
 BuildFolder          := cache
+DocumentationFolder  := doc
 Subfolders           != find $(ImplementationFolder) -type d
 
 CFLAGS   += -Wall -Wextra
@@ -26,6 +27,11 @@ CPPFLAGS += -MMD
 
 Sources != find $(ImplementationFolder) -type f -name '*.c'
 Objects := $(Sources:$(ImplementationFolder)/%.c=$(BuildFolder)/%.o)
+Headers != find $(InterfaceFolder) $(ImplementationFolder) -type f -name '*.h'
+
+DocHTML  := $(DocumentationFolder)/html/index.html
+DocLaTeX := $(DocumentationFolder)/latex
+DocPDF   := $(DocLaTeX)/refman.pdf
 
 # When rendering the help, pretty print certain words
 Cyan       := \033[36m
@@ -67,11 +73,22 @@ shared: $(Shared) ## Compile the shared library. Appropriate compilation flags l
 
 ##@ Developping
 
-format: $(Sources) ## Apply clang-format on source files and headers
+format: $(Sources) $(Headers) ## Apply clang-format on source files and headers
 	echo $^ | xargs -L1 clang-format -i
-	find $(ImplementationFolder) $(InterfaceFolder) -type f -name '*.h' | xargs -L1 clang-format -i
 
 .PHONY: format
+
+##@ Documentation
+
+doc: $(DocHTML) $(DocPDF) ## Generate all the documentation
+
+html: $(DocHTML) ## Generate and open the HTML documentation
+pdf: $(DocPDF) ## Generate and open the PDF documentation
+
+html pdf:
+	xdg-open $< 2>/dev/null
+
+.PHONY: doc html pdf
 
 ##@ Cleaning
 
@@ -97,6 +114,13 @@ $(Static): $(Objects) # Group all the compiled objects into an indexed archive
 
 $(Shared): $(Objects) # Create a shared object
 	$(CC) $(CFLAGS) -shared $^ $(LDFLAGS) $(LDLIBS) -o $@
+
+$(DocPDF): $(DocLaTeX)/Makefile # Generate the PDF documentation
+	$(MAKE) -C $(@D)
+
+# Generate the documentation with doxygen
+$(DocHTML) $(DocLaTeX)/Makefile: $(DocumentationFolder)/Doxyfile.cfg $(Sources) $(Headers) README.md
+	PROJECT_VERSION=$(Version) doxygen $<
 
 # When a rule is expanded, both the target and the prerequisites
 # are immediately evaluated. Enabling a second expansion allows

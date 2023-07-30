@@ -12,10 +12,10 @@ In C, there is two ways to include a header :
 ```
 
 There is one technical difference :
-only the inclusion with `"` searches for the header in the same directory as the current file
+only the inclusion with `""` searches for the header in the same directory as the current file
 (without the need to add a `-I` compiler flag or edit an environment variable).
 
-So in the case of a private header, i.e. one in the `src` folder alongside the sources (as opposed to one in the `include` folder), there is a technical reason to use `"` to include :
+So in the case of a private header, i.e. one in the `src` folder alongside the sources (as opposed to one in the `include` folder), there is a technical reason to use `""` to include :
 
 ```C
 #include "private.h"
@@ -38,7 +38,7 @@ So that means that when in `o2s/string.h` we are including `o2s/array.h` and `st
 
 While any inclusion order would do, going from most to least specific has an advantage:
 If someone were to write a header like `o2s/array.h`, using the type `bool` but forgetting to include `stdbool.h`,
-then if all source files that include `o2s/array.h` also include (directly or no) `stdbool.h` above, then the omission will go unnoticed.
+then as long as all source files that include `o2s/array.h` also include (directly or not) `stdbool.h` above, the omission would remain unnoticed.
 
 So the convention here is something like :
 

@@ -17,4 +17,4 @@ CXXFLAGS="-fprofile-arcs -ftest-coverage" make -C test conan_build -j `nproc`
 lcov --no-external --capture --directory . --output-file coverage.info
 genhtml coverage.info --output-directory generated_html
 
-xdg-open generated_html/index.html
+xdg-open generated_html/index.html 2>/dev/null
