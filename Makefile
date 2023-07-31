@@ -119,7 +119,7 @@ $(DocPDF): $(DocLaTeX)/Makefile # Generate the PDF documentation
 	$(MAKE) -C $(@D)
 
 # Generate the documentation with doxygen
-$(DocHTML) $(DocLaTeX)/Makefile: $(DocumentationFolder)/Doxyfile.cfg $(Sources) $(Headers) README.md
+$(DocHTML) $(DocLaTeX)/Makefile: $(DocumentationFolder)/Doxyfile.cfg $(Sources) $(Headers) $(wildcard doc/*.md) $(wildcard doc/*.dox)
 	PROJECT_VERSION=$(Version) doxygen $<
 
 # When a rule is expanded, both the target and the prerequisites

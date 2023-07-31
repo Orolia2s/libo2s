@@ -7,10 +7,12 @@
 /*      ___) / ___ \|  _| |  _ < / ___ \| |\  |   | | |__   _| |_| |___) |    */
 /*     |____/_/   \_|_|   |_| \_/_/   \_|_| \_|   |_|    |_| |____/|____/     */
 /*                                                                            */
-/* Copyright 2023, SAFRAN T4DS, ALL RIGHTS RESERVED                           */
-/*                                                                            */
-/* @file file_input_stream.h                                                  */
-/* @author Antoine GAGNIERE                                                   */
+/**
+ * @copyright 2023, SAFRAN T4DS, ALL RIGHTS RESERVED
+ * @file file_input_stream.h
+ * @author Antoine GAGNIERE
+ * @brief Buffered file reader
+ */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +20,8 @@
 
 #include <sys/types.h> // ssize_t
 
-#include <stdbool.h>
-#include <stdint.h> // uint*_t
+#include <stdbool.h> // bool
+#include <stdint.h>  // uint*_t
 
 /** File Input Stream */
 typedef struct file_input_stream
@@ -54,7 +56,7 @@ bool       file_accumulate(ifstream_t* file, size_t n);
 #define FileInputStream __attribute__((cleanup(file_close))) ifstream_t
 
 /**
-@var file_ipnut_stream::buffer
+@var file_input_stream::buffer
 Good complexity for push_bash and pop_front.
 No need to memmove remaining data to the front.
 */

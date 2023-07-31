@@ -1,0 +1,20 @@
+/**
+
+\mainpage O2S C Library
+
+\section datastuct Data-structures
+
+\subsection primary Primary
+
+- @ref array_t
+- @ref deque_t
+
+\subsection secondary Secondary
+
+- @ref string_t
+
+\section functions Functions
+
+- @ref log.h
+
+*/
