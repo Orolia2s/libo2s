@@ -18,14 +18,7 @@
 
 #include <stdlib.h> //free
 
-/**
- * Contructs an deque, using externally owned memory.
- * note that:
- * - 'first' points the start of the first element i.e where next element will
- * be popped by pop_front.
- * - 'end' points the end of the last element i.e where next element will be
- * inserted by push_back.
- */
+/** Contructs an deque, using externally owned memory */
 deque_t deque_new(void* storage, size_t capacity, size_t type_size)
 {
 	return (deque_t){.storage   = storage,

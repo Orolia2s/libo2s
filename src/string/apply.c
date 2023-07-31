@@ -16,15 +16,22 @@
 
 #include <ctype.h> // tolower, toupper
 
-/** Replace each character by its image through the provided function */
+/**
+ * Replace each character by its image through the provided function.
+ * Possible implementation in GNU C :
+ * @code{.c}
+ *	void local(char* c)
+ *	{
+ *		*c = function(*c);
+ *	}
+ *
+ *	array_iter(self, local);
+ * @endcode
+ */
 void string_apply_inplace(string_t* self, char (*function)(char))
 {
-	void local(char* c)
-	{
+	for (char*c = self->start; c < (char*)self->start + self->capacity * self->type_size; c++)
 		*c = function(*c);
-	}
-
-	array_iter(self, local);
 }
 
 #pragma GCC diagnostic push
