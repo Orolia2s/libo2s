@@ -31,7 +31,7 @@ void file_close(ifstream_t* file)
 	log_trace("%s(%i)", __FUNCTION__, file->descriptor);
 	if (file->buffer.storage)
 	{
-		deque_free(&file->buffer);
+		queue_free(&file->buffer);
 	}
 	if (!file->opened)
 	{

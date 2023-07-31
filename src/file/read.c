@@ -12,10 +12,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "o2s/deque.h"
 #include "o2s/file_input_stream.h"
 
-#include <stdio.h>  //printf
 #include <unistd.h> // read
 
 /**
@@ -25,20 +23,14 @@
  */
 ssize_t file_single_read(ifstream_t* file)
 {
-	deque_t* queue = &file->buffer;
-	size_t   room  = deque_room(queue);
+	queue_t* queue = &file->buffer;
+	size_t   room  = queue_room(queue);
 	uint8_t  buffer[room];
 	ssize_t  result = read(file->descriptor, buffer, room);
-	if (result > 0)
-	{
-		if (deque_push_back_n(queue, buffer, result))
-		{
-			return result;
-		}
-		else
-			return 0;
-	}
-	return result;
+
+	if (result <= 0 || queue_push_n(queue, buffer, result))
+		return result;
+	return 0;
 }
 
 /**
@@ -49,7 +41,7 @@ ssize_t file_single_read(ifstream_t* file)
  */
 bool file_accumulate(ifstream_t* file, size_t n)
 {
-	while (deque_count(&file->buffer) < n)
+	while (queue_count(&file->buffer) < n)
 		if (file_single_read(file) <= 0)
 			return false;
 	return true;

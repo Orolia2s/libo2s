@@ -19,7 +19,6 @@
 
 #include <errno.h>
 #include <stdbool.h>
-#include <stdlib.h> // malloc
 #include <string.h> // strerror
 #include <unistd.h> // close
 
@@ -39,7 +38,7 @@ ifstream_t file_open(const char* file_name, int flags)
 		log_error("Unable to open \"%s\": %s", file_name, strerror(errno));
 		return file;
 	}
-	file.buffer = DequeAllocate(BUFFER_SIZE, char);
+	file.buffer = QueueAllocate(BUFFER_SIZE, char);
 	if (file.buffer.capacity == 0)
 	{
 		log_error("malloc failed: %s", strerror(errno));

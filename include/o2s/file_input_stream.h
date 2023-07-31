@@ -16,7 +16,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "deque.h"
+#include "o2s/queue.h"
 
 #include <sys/types.h> // ssize_t
 
@@ -26,7 +26,7 @@
 /** File Input Stream */
 typedef struct file_input_stream
 {
-	deque_t buffer;     /**< Circular buffer */
+	queue_t buffer;     /**< Circular buffer */
 	int     descriptor; /**< Underlying file */
 	uint8_t opened :1;  /**< Is this file still open ? */
 } ifstream_t;
@@ -57,6 +57,6 @@ bool       file_accumulate(ifstream_t* file, size_t n);
 
 /**
 @var file_input_stream::buffer
-Good complexity for push_bash and pop_front.
+Good complexity for push and pop.
 No need to memmove remaining data to the front.
 */

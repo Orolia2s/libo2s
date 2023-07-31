@@ -15,10 +15,19 @@
  */
 /* ************************************************************************** */
 
+#include "o2s/deque.h"
+
 typedef deque_t queue_t;
 
-#define queue_push   deque_push_back
-#define queue_push_n deque_push_back_n
+#define queue_free    deque_free
 
-#define queue_pop    deque_pop_front
-#define queue_pop_n  deque_pop_front_n
+#define QueueAllocate DequeAllocate
+
+#define queue_push    deque_push_back
+#define queue_push_n  deque_push_back_n
+
+#define queue_pop     deque_pop_front
+#define queue_pop_n   deque_pop_front_n
+
+#define queue_room    deque_room
+#define queue_count   deque_count
