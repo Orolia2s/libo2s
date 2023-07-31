@@ -2,13 +2,19 @@ extern "C"
 {
 #include "o2s/file_input_stream.h"
 
-#include <fcntl.h>
+#include <fcntl.h> // O_RDONLY
+
+#include <unistd.h> // close
 }
 
 #include <catch2/catch_test_macros.hpp>
+
+#include <chrono>
 #include <filesystem> // path
-#include <fstream>
+#include <fstream>    // ofstream
+#include <functional> // lambdas
 #include <string>
+#include <thread>
 
 SCENARIO("Errors when reading files are correctly handled", "[file]")
 {
@@ -24,6 +30,22 @@ SCENARIO("Errors when reading files are correctly handled", "[file]")
 			{
 				REQUIRE( tested.descriptor < 0 );
 				REQUIRE_FALSE( tested.opened );
+			}
+		}
+	}
+
+	GIVEN("An existing file, that we open and close")
+	{
+		FileInputStream tested = file_open("README.md", O_RDONLY);
+		CHECK( close(tested.descriptor) == 0 );
+
+		WHEN("We try to accumulate bytes from it")
+		{
+			bool result = file_accumulate(&tested, 10);
+
+			THEN("The accumulating loop exits with an error")
+			{
+				REQUIRE_FALSE( result );
 			}
 		}
 	}
@@ -66,11 +88,10 @@ SCENARIO("A regular file can be read", "[file]")
 					{
 						char again[count + 1] = {0};
 
-						queue_pop_n(&tested.buffer, again, count);
+						REQUIRE( queue_pop_n(&tested.buffer, again, count) );
 
 						THEN("They are as expected")
 						{
-							REQUIRE( strcmp(again, content.c_str()) == 0 );
 							REQUIRE( std::string(again) == content );
 						}
 					}
@@ -85,6 +106,42 @@ SCENARIO("A regular file can be read", "[file]")
 						}
 					}
 				}
+			}
+		}
+	}
+}
+
+SCENARIO("A stream can be accumulated", "[file]")
+{
+	GIVEN("A file with only part of the content")
+	{
+		const std::filesystem::path folder   = std::filesystem::temp_directory_path();
+		const std::filesystem::path filename = folder / "dummy_file_for_tests.txt";
+
+		{
+			std::ofstream file(filename, std::ios::trunc);
+
+			file << "Bonjour";
+		}
+
+		WHEN("We need to read the whole content")
+		{
+			FileInputStream tested = file_open(filename.c_str(), O_RDONLY);
+
+			THEN("It waits")
+			{
+				char        extract[99] = {0};
+				std::thread worker([&]()
+					{
+						std::this_thread::sleep_for(std::chrono::milliseconds(25));
+						std::ofstream file(filename, std::ios::app);
+						file << " Monde";
+					});
+
+				REQUIRE( file_accumulate(&tested, strlen("Bonjour Monde")) ); // <-- will wait here
+				REQUIRE( queue_pop_n(&tested.buffer, extract, queue_count(&tested.buffer)) );
+				REQUIRE( std::string(extract) == "Bonjour Monde" );
+				worker.join();
 			}
 		}
 	}

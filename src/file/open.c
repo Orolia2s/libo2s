@@ -7,7 +7,7 @@
 /*                                                                            */
 /* Copyright 2023, SAFRAN T4DS, ALL RIGHTS RESERVED                           */
 /*                                                                            */
-/* @file open.c                                                              */
+/* @file open.c                                                               */
 /* @author Antoine GAGNIERE                                                   */
 /*                                                                            */
 /* ************************************************************************** */

@@ -34,15 +34,15 @@ ssize_t file_single_read(ifstream_t* file)
 }
 
 /**
- * If possible, accumulate @p n bytes before returning
+ * If possible, accumulate @p count bytes before returning.
  * @return a boolean
  *  - `true` if n bytes were successfully accumulated
  *  - `false` otherwise
  */
-bool file_accumulate(ifstream_t* file, size_t n)
+bool file_accumulate(ifstream_t* file, size_t count)
 {
-	while (queue_count(&file->buffer) < n)
-		if (file_single_read(file) <= 0)
+	while (queue_count(&file->buffer) < count)
+		if (file_single_read(file) < 0)
 			return false;
 	return true;
 }

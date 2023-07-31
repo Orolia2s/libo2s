@@ -107,6 +107,9 @@ SortIncludes: 'true'
 IncludeBlocks: Regroup
 IncludeIsMainRegex: '$'
 IncludeCategories:
+# Standard C++ headers
+  - Regex:           '^<[a-z_]+>$'
+    Priority:        9
 # Standard C headers
   - Regex:           '^<(assert|complex|w?ctype|errno|float|inttypes|limits|locale|(tg)?math|signal|string|threads|time|[uw]char|.*std.*)\.h>$'
     Priority:        8
