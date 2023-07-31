@@ -11,6 +11,8 @@
  * @copyright 2023, SAFRAN T4DS, ALL RIGHTS RESERVED
  * @file string.h
  * @author Hugo FOLCHER
+ * @author Antoine GAGNIERE
+ * @brief Dynmic string implementation
  */
 /* ************************************************************************** */
 
@@ -20,7 +22,10 @@
 #include <stddef.h>  // size_t
 #include <string.h>  // strlen
 
-/** A string is an array of char */
+/**
+ * A string is an array of `char`.
+ * Note that it means that a string owns the memory.
+ */
 typedef array_t string_t;
 
 string_t        string_new();
@@ -89,7 +94,9 @@ bool     string_is_equal(const string_t* self, const string_t* other);
 
 char*    string_to_cstring(string_t* self);
 
+/** Iterate over each character of the string */
 #define string_foreach(STRING, Element) array_foreach (char, STRING, Element)
 
+/** Iterate over each character of the string with its index */
 #define string_enumerate(STRING, Element, Index) \
 	array_enumerate (char, STRING, Element, Index)

@@ -12,6 +12,7 @@
  * @file deque.h
  * @author Hugo FOLCHER
  * @author Antoine GAGNIERE
+ * @brief Realtime double-ended queues
  */
 /* ************************************************************************** */
 

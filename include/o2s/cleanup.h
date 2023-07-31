@@ -11,6 +11,7 @@
  * @copyright 2023, SAFRAN T4DS, ALL RIGHTS RESERVED
  * @file cleanup.h
  * @author Antoine GAGNIERE
+ * @brief Functions to be used with the cleanup attribute
  */
 /* ************************************************************************** */
 

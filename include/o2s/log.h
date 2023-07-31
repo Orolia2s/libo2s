@@ -12,6 +12,7 @@
  * @file log.h
  * @author Antoine GAGNIERE
  * @author Hugo FOLCHER
+ * @brief Simplistic logging utilities
  */
 /* ************************************************************************** */
 
@@ -27,6 +28,7 @@
 #define LOG_LEVEL_TRACE   5
 
 #ifndef LOG_LEVEL
+/** Set this value to control the logs verbosity */
 #	define LOG_LEVEL LOG_LEVEL_INFO
 #endif
 

@@ -11,6 +11,7 @@
  * @copyright 2023, SAFRAN T4DS, ALL RIGHTS RESERVED
  * @file preprocessing.h
  * @author Antoine GAGNIERE
+ * @brief Compile-time utilities
  */
 /* ************************************************************************** */
 

@@ -14,8 +14,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "file_input_stream.h"
-#include "serial_options.h"
+#include "o2s/file_input_stream.h"
+#include "o2s/serial_options.h"
 
 #include <sys/types.h> // ssize_t
 
@@ -25,14 +25,12 @@
 /** Might or might not be a struct. */
 typedef struct serial_port serial_port_t;
 
-/**
- * Serial port handler, includes a buffer
- */
+/** Serial port handler, includes a buffer */
 struct serial_port
 {
 	ifstream_t       file;           /**< Input file buffered stream */
-	uint8_t          got_options :1; /**< Is @ref options filled ? */
 	serial_options_t options;        /**< Terminal options */
+	uint8_t          got_options :1; /**< Is @ref options filled ? */
 };
 
 serial_port_t serial_open(const char* port_name);
@@ -47,7 +45,7 @@ speed_t       serial_encode_baudrate(int64_t speed_in_bps);
 bool          serial_print_config(serial_port_t* port);
 bool          serial_clear(serial_port_t* port);
 
-/* @see file_accumulate */
+/** @see file_accumulate */
 #define serial_accumulate(/* serial_port_t* */ port, /* size_t */ n) \
 	file_accumulate((ifstream_t*)port, n)
 
@@ -69,9 +67,7 @@ bool          serial_clear(serial_port_t* port);
  */
 #define Serial __attribute__((cleanup(serial_close))) serial_port_t
 
-/**
- * Fill the options structure if needed
- */
+/** Fill the options structure if needed */
 #define serial_ensure_options(PORT) \
 	do \
 	{ \
