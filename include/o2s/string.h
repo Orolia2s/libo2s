@@ -12,7 +12,7 @@
  * @file string.h
  * @author Hugo FOLCHER
  * @author Antoine GAGNIERE
- * @brief Dynmic string implementation
+ * @brief Dynamic string implementation
  */
 /* ************************************************************************** */
 

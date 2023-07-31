@@ -1,5 +1,3 @@
-#pragma once
-
 /* ************************************************************************** */
 /*      ____    _    _____ ____     _    _   _   _____ _  _   ____  ____      */
 /*     / ___|  / \  |  ___|  _ \   / \  | \ | | |_   _| || | |  _ \/ ___|     */
@@ -7,15 +5,24 @@
 /*      ___) / ___ \|  _| |  _ < / ___ \| |\  |   | | |__   _| |_| |___) |    */
 /*     |____/_/   \_|_|   |_| \_/_/   \_|_| \_|   |_|    |_| |____/|____/     */
 /*                                                                            */
-/**
- * @copyright 2023, SAFRAN T4DS, ALL RIGHTS RESERVED
- * @file version.h
- * @author Antoine GAGNIERE
- * @brief Functions allowing users to display the library version
- */
+/* Copyright 2023, SAFRAN T4DS, ALL RIGHTS RESERVED                           */
+/*                                                                            */
+/* @file iter.c                                                               */
+/* @author Antoine GAGNIERE                                                   */
+/*                                                                            */
 /* ************************************************************************** */
 
-#include "o2s/string.h"
+#include "private.h"
 
-const char* libo2s_version_cstring();
-string_t    libo2s_version_string();
+#include "o2s/array.h"
+
+void array_iter(const array_t* self, void (*function)())
+{
+	void* element = self->start;
+
+	while (element < array_end(self))
+	{
+		function(element);
+		element += self->type_size;
+	}
+}

@@ -7,7 +7,7 @@
 /*                                                                            */
 /* Copyright 2023, SAFRAN T4DS, ALL RIGHTS RESERVED                           */
 /*                                                                            */
-/* @file core.c                                                               */
+/* @file memory.c                                                             */
 /* @author Antoine GAGNIERE                                                   */
 /*                                                                            */
 /* ************************************************************************** */
@@ -16,14 +16,7 @@
 
 #include "o2s/array.h"
 
-#include <stdlib.h> // malloc, free
-#include <string.h> // memcpy
-
-/** Contructs an array */
-array_t array_new(size_t type_size)
-{
-	return (array_t){.start = NULL, .type_size = type_size, .count = 0, .capacity = 0};
-}
+#include <stdlib.h> // reallocarray
 
 /** The size in memory of @p count elements */
 size_t array_offset(const array_t* self, size_t count)
@@ -65,41 +58,10 @@ bool array_reserve(array_t* self, size_t count)
 }
 
 /**
- * Clears properly the array.
- * Frees the underlying storage,
- * and leaves the array in a usable state
- */
-void array_clear(array_t* self)
-{
-	if (self->start)
-		free(self->start);
-	self->count    = 0;
-	self->capacity = 0;
-	self->start    = NULL;
-}
-
-/**
  * Resizes the underlying storage to fit exactly the current elements count.
  * @return false if allocation failed.
  */
 bool array_trim(array_t* self)
 {
 	return array_realloc(self, self->count);
-}
-
-void array_iter(const array_t* self, void (*function)())
-{
-	void* element = self->start;
-
-	while (element < array_end(self))
-	{
-		function(element);
-		element += self->type_size;
-	}
-}
-
-void array_clear_f(array_t* self, void (*cleanup)())
-{
-	array_iter(self, cleanup);
-	array_clear(self);
 }
