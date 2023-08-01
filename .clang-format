@@ -111,7 +111,7 @@ IncludeCategories:
   - Regex:           '^<[a-z_]+>$'
     Priority:        9
 # Standard C headers
-  - Regex:           '^<(assert|complex|w?ctype|errno|float|inttypes|limits|locale|(tg)?math|signal|string|threads|time|[uw]char|.*std.*)\.h>$'
+  - Regex:           '^<(assert|complex|w?ctype|errno|float|inttypes|limits|locale|(tg)?math|signal|string|threads|time|[uw]char|.*std.*|iso646)\.h>$'
     Priority:        8
 # Linux network headers
   - Regex:           '^<(sys|arpa|netinet)/.*>$'

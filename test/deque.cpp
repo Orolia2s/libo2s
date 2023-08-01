@@ -418,3 +418,56 @@ SCENARIO("The can be discontinuous", "[deque]")
 		}
 	}
 }
+
+TEST_CASE("Deque of chars", "[deque]")
+{
+	Deque tested = DequeAllocate(17, char);
+	char popped[2];
+
+	REQUIRE( deque_push_back(&tested, "N") );
+	REQUIRE( deque_push_back_n(&tested, "goodO", strlen("goodO")) );
+	REQUIRE( deque_pop_front(&tested, popped) );
+	CHECK( popped[0] == 'N' );
+	REQUIRE( deque_pop_back(&tested, popped + 1) );
+	CHECK( popped[1] == 'O' );
+	REQUIRE( deque_push_front_n(&tested, " yrev", strlen(" yrev")) );
+
+	const char expected[] = "very good";
+	for (unsigned i = 0; i < deque_count(&tested); i++)
+	{
+		CHECK( *(char*)deque_get(&tested, i) == expected[i] );
+	}
+	char c;
+	unsigned index;
+	deque_enumerate(char, &tested, &c, &index)
+	{
+		CHECK( c == expected[index] );
+	}
+}
+
+TEST_CASE("Deque of size_t", "[deque]")
+{
+	Deque tested = DequeAllocate(17, size_t);
+	const size_t pushed[20] = {5, 6, 7, 8, 9, 888, 0, 4, 3, 2, 1, 777};
+	size_t popped[2];
+
+	REQUIRE( deque_push_back(&tested, pushed + 11) );
+	REQUIRE( deque_push_back_n(&tested, pushed, 6) );
+	REQUIRE( deque_pop_front(&tested, popped) );
+	CHECK( popped[0] == 777 );
+	REQUIRE( deque_pop_back(&tested, popped + 1) );
+	CHECK( popped[1] == 888 );
+	REQUIRE( deque_push_front_n(&tested, pushed + 6, 5) );
+
+	const size_t expected[] = {1, 2, 3, 4, 0, 5, 6, 7, 8, 9};
+	for (unsigned i = 0; i < deque_count(&tested); i++)
+	{
+		CHECK( *(size_t*)deque_get(&tested, i) == expected[i] );
+	}
+	size_t c;
+	unsigned index;
+	deque_enumerate(size_t, &tested, &c, &index)
+	{
+		CHECK( c == expected[index] );
+	}
+}
