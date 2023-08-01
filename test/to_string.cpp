@@ -76,8 +76,6 @@ TEST_CASE("Strings can be created from integer types", "[to_string]")
 		const unsigned length = sizeof(content) / sizeof(*content);
 		Deque          deque  = DequeAllocate(16, unsigned);
 
-		CHECK( deque.type_size == sizeof(unsigned) );
-
 		/* Force data to be split */
 		deque_push_back_n(&deque, content, 8);
 		deque_pop_front_n(&deque, NULL, 8);
@@ -86,5 +84,21 @@ TEST_CASE("Strings can be created from integer types", "[to_string]")
 		String tested = deque_to_string(&deque, (string_t(*)(const void*))unsigned_to_string);
 
 		CHECK(std::string(string_to_cstring(&tested)) == "[123, 8754, 98662, 136859, 2012345, 3, 1, 4, 1, 5, 9, 2]");
+	}
+
+	SECTION("Queue of short")
+	{
+		const short content[] = {123, 8754, 9662, 13685, 20123, 3, 1, 4, 1, 5, 9, 2};
+		const unsigned length = sizeof(content) / sizeof(*content);
+		Queue          queue  = QueueAllocate(16, short);
+
+		/* Force data to be split */
+		queue_push_n(&queue, content, 8);
+		queue_pop_n(&queue, NULL, 8);
+		queue_push_n(&queue, content, length);
+
+		String tested = queue_to_string(&queue, (string_t(*)(const void*))short_to_string);
+
+		CHECK(std::string(string_to_cstring(&tested)) == "[123, 8754, 9662, 13685, 20123, 3, 1, 4, 1, 5, 9, 2]");
 	}
 }

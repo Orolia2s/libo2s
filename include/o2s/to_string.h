@@ -30,5 +30,5 @@ string_t double_to_string(const double* value);
 
 string_t array_to_string(const array_t* self, string_t (*function)(const void* element));
 string_t deque_to_string(const deque_t* self, string_t (*function)(const void* element));
-string_t queue_to_string(const queue_t* self, string_t (*function)(const void* element));
-string_t stack_to_string(const stack_t* self, string_t (*function)(const void* element));
+inline string_t queue_to_string(const queue_t* self, string_t (*function)(const void* element)) { return deque_to_string(self, function); }
+inline string_t stack_to_string(const stack_t* self, string_t (*function)(const void* element)) { return deque_to_string(self, function); }

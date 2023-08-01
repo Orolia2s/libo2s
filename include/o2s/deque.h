@@ -75,10 +75,10 @@ size_t deque_room(const deque_t* self);
 
 bool   deque_push_front(deque_t* self, const void* element);
 bool   deque_push_front_n(deque_t* self, const void* elements, size_t count);
-bool   deque_pop_front(deque_t* self, void* element);
+bool   deque_pop_front(deque_t* self, void* destination);
 bool   deque_pop_front_n(deque_t* self, void* destination, size_t count);
 
-bool   deque_push_back(deque_t* self, const void* destination);
+bool   deque_push_back(deque_t* self, const void* element);
 bool   deque_push_back_n(deque_t* self, const void* elements, size_t count);
 bool   deque_pop_back(deque_t* self, void* destination);
 bool   deque_pop_back_n(deque_t* self, void* destination, size_t count);
