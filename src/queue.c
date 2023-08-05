@@ -49,3 +49,13 @@ size_t queue_count(const queue_t* self)
 {
 	return deque_count(self);
 }
+
+void* queue_first(const queue_t* self)
+{
+	return deque_first(self);
+}
+
+void* queue_get(const queue_t* self, size_t index)
+{
+	return deque_get(self, index);
+}
