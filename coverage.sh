@@ -9,7 +9,7 @@ export CXX="g++"
 make fclean
 make -C test clean
 
-CFLAGS="-fprofile-arcs -ftest-coverage" make static -j `nproc`
+CFLAGS="-fprofile-arcs -ftest-coverage" CPPFLAGS="-DLOG_LEVEL=LOG_LEVEL_NONE" make static -j `nproc`
 CXXFLAGS="-fprofile-arcs -ftest-coverage" make -C test conan_build -j `nproc`
 
 ./test/test_libo2s.exe

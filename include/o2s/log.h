@@ -18,14 +18,13 @@
 
 #include <stdio.h> // fprintf, stdout, stderr
 
-/*
-#define LOG_LEVEL_FATAL   0
-#define LOG_LEVEL_ERROR   1
-*/
-#define LOG_LEVEL_WARNING 2
-#define LOG_LEVEL_INFO    3
-#define LOG_LEVEL_DEBUG   4
-#define LOG_LEVEL_TRACE   5
+#define LOG_LEVEL_NONE    0
+#define LOG_LEVEL_FATAL   1
+#define LOG_LEVEL_ERROR   2
+#define LOG_LEVEL_WARNING 3
+#define LOG_LEVEL_INFO    4
+#define LOG_LEVEL_DEBUG   5
+#define LOG_LEVEL_TRACE   6
 
 #ifndef LOG_LEVEL
 /** Set this value to control the logs verbosity */
@@ -34,8 +33,7 @@
 
 #define log_log(FILE, LEVEL, COLOR, FORMAT, ...) \
 	fprintf(FILE, \
-	        "[\e[" COLOR "m" LEVEL "\e[0m]\e[2m %s@%s:%02i \e[0m" FORMAT "\n", \
-	        __FILE__, \
+	        "[\e[" COLOR "m" LEVEL "\e[0m]\e[2m " __FILE__ ":%s:%02i: \e[0m" FORMAT "\n", \
 	        __FUNCTION__, \
 	        __LINE__, \
 	        ##__VA_ARGS__)
@@ -61,11 +59,23 @@
 #	define log_info(...)
 #endif
 
+#if LOG_LEVEL >= LOG_LEVEL_WARNING
 /** Report an usual condition, not significant enough to abort the current operation */
-#define log_warning(...) log_log(stderr, "WARN ", "1;33", __VA_ARGS__)
+#	define log_warning(...) log_log(stderr, "WARN ", "1;33", __VA_ARGS__)
+#else
+#	define log_warning(...)
+#endif
 
+#if LOG_LEVEL >= LOG_LEVEL_ERROR
 /** Report a condition causing the current operation to abort */
-#define log_error(...)   log_log(stderr, "ERROR", "1;31", __VA_ARGS__)
+#	define log_error(...) log_log(stderr, "ERROR", "1;31", __VA_ARGS__)
+#else
+#	define log_error(...)
+#endif
 
+#if LOG_LEVEL >= LOG_LEVEL_FATAL
 /** Report a condition causing the program to halt */
-#define log_fatal(...)   log_log(stderr, "FATAL", "1;97;41", __VA_ARGS__)
+#	define log_fatal(...) log_log(stderr, "FATAL", "1;97;41", __VA_ARGS__)
+#else
+#	define log_fatal(...)
+#endif
