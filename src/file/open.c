@@ -32,7 +32,6 @@ ifstream_t file_open(const char* file_name, int flags)
 {
 	ifstream_t file = {.descriptor = -1, .opened = false};
 
-	log_trace("%s(\"%s\")", __FUNCTION__, file_name);
 	if ((file.descriptor = open(file_name, flags)) < 0)
 	{
 		log_error("Unable to open \"%s\": %s", file_name, strerror(errno));

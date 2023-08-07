@@ -68,3 +68,8 @@ string_t unsigned_to_string(const unsigned* value)
 		result.count = (unsigned)size;
 	return result;
 }
+
+string_t cstring_to_string(const char* const* value)
+{
+	return string_from(*value, strlen(*value));
+}

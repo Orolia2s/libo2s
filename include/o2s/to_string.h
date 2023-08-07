@@ -27,6 +27,7 @@ string_t short_to_string(const short* value);
 string_t long_to_string(const long* value);
 string_t float_to_string(const float* value);
 string_t double_to_string(const double* value);
+string_t cstring_tostring(const char* const* value);
 
 string_t array_to_string(const array_t* self, string_t (*function)(const void* element));
 string_t deque_to_string(const deque_t* self, string_t (*function)(const void* element));
