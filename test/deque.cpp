@@ -1,6 +1,7 @@
 extern "C"
 {
 #include "o2s/deque.h"
+#include "o2s/queue.h"
 }
 
 #include <catch2/catch_test_macros.hpp>
@@ -470,4 +471,19 @@ TEST_CASE("Deque of size_t", "[deque]")
 	{
 		CHECK( c == expected[index] );
 	}
+}
+
+TEST_CASE("Deque of as a queue", "[deque]")
+{
+	Queue tested = QueueAllocate(20, float);
+	float values[] = {6.28, 1.61, 2.71};
+	float popped;
+
+	REQUIRE( queue_push(&tested, values) );
+	REQUIRE( queue_push(&tested, values + 1) );
+	REQUIRE( queue_pop(&tested, &popped) );
+	REQUIRE( queue_push(&tested, values + 2) );
+	CHECK( popped == values[0] );
+	CHECK( *(float*)queue_first(&tested) == values[1] );
+	CHECK( *(float*)queue_get(&tested, 1) == values[2] );
 }
