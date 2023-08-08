@@ -47,3 +47,9 @@ bool string_is_equal(const string_t* one, const string_t* two)
 	return (one->count == two->count)
 	       && (memcmp(one->start, two->start, one->count) == 0);
 }
+
+/** Searches @p character in @p self @return true if  */
+bool string_contains(const string_t* self, char character)
+{
+	return memchr(self->start, character, self->count);
+}

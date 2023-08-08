@@ -199,7 +199,7 @@ SCENARIO("A string can be transformed in-place")
 	}
 }
 
-TEST_CASE("Empty String")
+TEST_CASE("Empty String", "[string]")
 {
 	{
 		String tested = string_new();
@@ -209,7 +209,7 @@ TEST_CASE("Empty String")
 	}
 }
 
-TEST_CASE("String comparison")
+TEST_CASE("String comparison", "[string]")
 {
 	String one = string_from_literal("Some Text");
 	String two = string_from_literal("Some Other Text");
@@ -221,4 +221,26 @@ TEST_CASE("String comparison")
 	REQUIRE( string_append_cstring(&one, "Other Text", strlen("Other Text")) );
 
 	CHECK( string_is_equal(&one, &two) );
+
+	REQUIRE( string_pop_n(&one, NULL, string_length(&one)) );
+	string_clear(&two);
+
+	CHECK( string_is_equal(&one, &two) );
+}
+
+TEST_CASE("String contains", "[string]")
+{
+	string_t tested = string_from_literal("The crazy fox and what not");
+
+	CHECK( string_contains(&tested, 'x') );
+	CHECK( string_contains(&tested, 'y') );
+	CHECK( string_contains(&tested, 'z') );
+	CHECK_FALSE( string_contains(&tested, 'b') );
+	CHECK_FALSE( string_contains(&tested, 'F') );
+	CHECK_FALSE( string_contains(&tested, '\0') );
+
+	REQUIRE( string_pop_n(&tested, NULL, string_length(&tested)) );
+	CHECK_FALSE( string_contains(&tested, 'T') );
+	string_clear(&tested);
+	CHECK_FALSE( string_contains(&tested, '\0') );
 }
