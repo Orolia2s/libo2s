@@ -12,9 +12,11 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "o2s/preprocessing.h"
 #include "o2s/to_string.h"
 
+#include "o2s/preprocessing.h"
+
+#include <ctype.h>    // isprint
 #include <inttypes.h> // PRIi32
 #include <iso646.h>   // not
 #include <limits.h>   // INT_MAX
@@ -74,4 +76,43 @@ string_t cstring_to_string(const char* const* value)
 	if (*value == NULL)
 		return string_from_literal("(null)");
 	return string_from(*value, strlen(*value));
+}
+
+/**
+ * Creates a string to represent the char pointed to by @p value.
+ * If @p value is printable, it will be included directly, else a escape sequence.
+ * In both cases surrounded by single quotes
+ */
+string_t char_to_string(const char* value)
+{
+	string_t result = string_from_literal("'");
+
+	if (isprint(*value))
+		string_append_char(&result, *value);
+	else
+	{
+		string_append_char(&result, '\\');
+		switch (*value)
+		{
+		case 0:
+			string_append_char(&result, '0');
+			break;
+		case '\t':
+			string_append_char(&result, 't');
+			break;
+		case '\n':
+			string_append_char(&result, 'n');
+			break;
+		case '\r':
+			string_append_char(&result, 'r');
+			break;
+		default:
+			string_append_char(&result, 'X');
+			if (*value >= 16)
+				string_append_char(&result, "0123456789abcdef"[*value >> 4]);
+			string_append_char(&result, "0123456789abcdef"[*value & 0xf]);
+		}
+	}
+	string_append_char(&result, '\'');
+	return result;
 }

@@ -123,3 +123,43 @@ TEST_CASE("Strings can be created from integer types", "[to_string]")
 		CHECK(std::string(string_to_cstring(&tested)) == "[123, 8754, 9662, 13685, 20123, 3, 1, 4, 1, 5, 9, 2]");
 	}
 }
+
+TEST_CASE("Characters to string", "[to_string]")
+{
+	{
+		String tested = char_to_string("a");
+		CHECK( std::string(string_to_cstring(&tested)) == "'a'" );
+	}
+	{
+		String tested = char_to_string("\t");
+		CHECK( std::string(string_to_cstring(&tested)) == "'\\t'" );
+	}
+	{
+		String tested = char_to_string("\n");
+		CHECK( std::string(string_to_cstring(&tested)) == "'\\n'" );
+	}
+	{
+		String tested = char_to_string("\r");
+		CHECK( std::string(string_to_cstring(&tested)) == "'\\r'" );
+	}
+	{
+		String tested = char_to_string("\000");
+		CHECK( std::string(string_to_cstring(&tested)) == "'\\0'" );
+	}
+	{
+		String tested = char_to_string("\002");
+		CHECK( std::string(string_to_cstring(&tested)) == "'\\X2'" );
+	}
+	{
+		String tested = char_to_string("\020");
+		CHECK( std::string(string_to_cstring(&tested)) == "'\\X10'" );
+	}
+	{
+		String tested = char_to_string("\177");
+		CHECK( std::string(string_to_cstring(&tested)) == "'\\X7f'" );
+	}
+	{
+		String tested = char_to_string("~");
+		CHECK( std::string(string_to_cstring(&tested)) == "'~'" );
+	}
+}
