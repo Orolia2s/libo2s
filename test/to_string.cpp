@@ -70,6 +70,26 @@ TEST_CASE("Strings can be created from integer types", "[to_string]")
 		CHECK(std::string(string_to_cstring(&tested)) == "[123, -8754, 98662, -136859, 3, 21, 0, -100001]");
 	}
 
+	SECTION("Empty Array of cstring")
+	{
+		Array  array  = ArrayNew(char*);
+		String tested = array_to_string(&array, (string_t(*)(const void*))cstring_to_string);
+		CHECK(std::string(string_to_cstring(&tested)) == "[]");
+	}
+	SECTION("Array of cstring")
+	{
+		const char* one = "Some";
+		const char* two = "Words";
+		const char* three[5] = {"Not", "For", "Reading", "", NULL};
+		Array          array     = ArrayNew(char*);
+
+		array_push_back(&array, &one);
+		array_push_back(&array, &two);
+		array_push_back_n(&array, three, 5);
+		String tested = array_to_string(&array, (string_t (*)(const void*))cstring_to_string);
+		CHECK(std::string(string_to_cstring(&tested)) == "[Some, Words, Not, For, Reading, , (null)]");
+	}
+
 	SECTION("Deque of unsigned")
 	{
 		const unsigned content[] = {123, 8754, 98662, 136859, 2012345, 3, 1, 4, 1, 5, 9, 2};

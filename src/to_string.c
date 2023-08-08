@@ -71,5 +71,7 @@ string_t unsigned_to_string(const unsigned* value)
 
 string_t cstring_to_string(const char* const* value)
 {
+	if (*value == NULL)
+		return string_from_literal("(null)");
 	return string_from(*value, strlen(*value));
 }

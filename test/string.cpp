@@ -198,3 +198,13 @@ SCENARIO("A string can be transformed in-place")
 		}
 	}
 }
+
+TEST_CASE("Empty String")
+{
+	{
+		String tested = string_new();
+	}
+	{
+		String tested = string_from_literal("");
+	}
+}
