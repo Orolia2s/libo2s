@@ -36,7 +36,16 @@ SCENARIO("Errors when reading files are correctly handled", "[file]")
 
 	GIVEN("An existing file, that we open and close")
 	{
-		FileInputStream tested = file_open("README.md", O_RDONLY);
+		const std::filesystem::path folder   = std::filesystem::temp_directory_path();
+		const std::filesystem::path filename = folder / "dummy_file_for_tests.txt";
+
+		{
+			std::ofstream file(filename, std::ios::trunc);
+
+			file << "Bonjour";
+		}
+
+		FileInputStream tested = file_open(filename.c_str(), O_RDONLY);
 		CHECK( close(tested.descriptor) == 0 );
 
 		WHEN("We try to accumulate bytes from it")
@@ -48,6 +57,8 @@ SCENARIO("Errors when reading files are correctly handled", "[file]")
 				REQUIRE_FALSE( result );
 			}
 		}
+
+		std::filesystem::remove(filename);
 	}
 }
 
@@ -144,5 +155,7 @@ SCENARIO("A stream can be accumulated", "[file]")
 				worker.join();
 			}
 		}
+
+		std::filesystem::remove(filename);
 	}
 }
