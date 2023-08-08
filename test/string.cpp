@@ -208,3 +208,17 @@ TEST_CASE("Empty String")
 		String tested = string_from_literal("");
 	}
 }
+
+TEST_CASE("String comparison")
+{
+	String one = string_from_literal("Some Text");
+	String two = string_from_literal("Some Other Text");
+
+	CHECK( string_is_equal(&one, &one) );
+	CHECK_FALSE( string_is_equal(&one, &two) );
+
+	REQUIRE( string_pop_n(&one, NULL, 4) );
+	REQUIRE( string_append_cstring(&one, "Other Text", strlen("Other Text")) );
+
+	CHECK( string_is_equal(&one, &two) );
+}

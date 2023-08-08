@@ -40,3 +40,10 @@ bool string_trim(string_t* self)
 {
 	return array_trim(self);
 }
+
+/** Compares the content of the 2 strings @return true if they are the same */
+bool string_is_equal(const string_t* one, const string_t* two)
+{
+	return (one->count == two->count)
+	       && (memcmp(one->start, two->start, one->count) == 0);
+}

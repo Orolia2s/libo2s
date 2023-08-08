@@ -76,6 +76,7 @@ TEST_CASE("Strings can be created from integer types", "[to_string]")
 		String tested = array_to_string(&array, (string_t(*)(const void*))cstring_to_string);
 		CHECK(std::string(string_to_cstring(&tested)) == "[]");
 	}
+
 	SECTION("Array of cstring")
 	{
 		const char* one = "Some";
