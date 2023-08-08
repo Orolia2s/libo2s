@@ -16,7 +16,10 @@ generated_html
 *info.txt
 *.json
 *.lock
+!flake.lock
 *.o
 *.out
 *.pc
 *.so
+
+result*
