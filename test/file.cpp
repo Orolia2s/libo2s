@@ -97,8 +97,9 @@ SCENARIO("A regular file can be read", "[file]")
 
 					AND_WHEN("The read characters are moved out of the buffer")
 					{
-						char again[count + 1] = {0};
+						char again[count + 1];
 
+						explicit_bzero(again, count + 1);
 						REQUIRE( queue_pop_n(&tested.buffer, again, count) );
 
 						THEN("They are as expected")
