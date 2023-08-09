@@ -14,6 +14,8 @@
         libo2s = import ./default.nix { inherit system pkgs; };
         default = libo2s;
       };
+
+      devShells.default = import ./shell.nix { inherit system pkgs; };
     }
   );
 }

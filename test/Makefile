@@ -9,7 +9,7 @@ OBJECTS     := $(SOURCES:.cpp=.o)
 CXXFLAGS   += -g -Wall -Wextra
 CPPFLAGS += -I $(LIBO2S_PATH)/include
 LDFLAGS  += -L $(LIBO2S_PATH)
-LDLIBS   += -lo2s
+LDLIBS   += -lo2s -lCatch2Main -lCatch2
 LDLIBS   += $(LIBS)
 
 CONAN_ENV := conanbuild.sh

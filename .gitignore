@@ -11,6 +11,8 @@ doc/man
 *.gcda
 *.gcno
 *.gcov
+*.profraw
+*.profdata
 generated_html
 *.info
 *info.txt
