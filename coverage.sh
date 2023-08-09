@@ -25,7 +25,7 @@ export CXXFLAGS="$CFLAGS"
 export CPPFLAGS='-DLOG_LEVEL=LOG_LEVEL_NONE'
 
 make fclean
-make -C test clean
+make -C test fclean
 
 make static -j "$(nproc)"
 make -C test build -j "$(nproc)"
