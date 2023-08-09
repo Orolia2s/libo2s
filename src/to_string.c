@@ -25,10 +25,11 @@
 
 string_t int_to_string(const int* value)
 {
-	string_t       result  = string_new();
-	const size_t   maxsize = strlen(LIBO2S_PREPRO_STRING(INT_MIN)) + 1;
+	string_t     result  = string_new();
+	const size_t maxsize = strlen(LIBO2S_PREPRO_STRING(INT_MIN)) + 1;
 
-	if (not string_reserve(&result, maxsize)) return result;
+	if (not string_reserve(&result, maxsize))
+		return result;
 	const int size = snprintf(result.start, maxsize, "%" PRIi32, *value);
 	if (size > 0)
 		result.count = (unsigned)size;
@@ -37,10 +38,11 @@ string_t int_to_string(const int* value)
 
 string_t short_to_string(const short* value)
 {
-	string_t       result  = string_new();
-	const size_t   maxsize = strlen(LIBO2S_PREPRO_STRING(SHORT_MIN)) + 1;
+	string_t     result  = string_new();
+	const size_t maxsize = strlen(LIBO2S_PREPRO_STRING(SHORT_MIN)) + 1;
 
-	if (not string_reserve(&result, maxsize)) return result;
+	if (not string_reserve(&result, maxsize))
+		return result;
 	const int size = snprintf(result.start, maxsize, "%" PRIi16, *value);
 	if (size > 0)
 		result.count = (unsigned)size;
@@ -49,10 +51,11 @@ string_t short_to_string(const short* value)
 
 string_t long_to_string(const long* value)
 {
-	string_t       result  = string_new();
-	const size_t   maxsize = strlen(LIBO2S_PREPRO_STRING(LONG_MIN)) + 1;
+	string_t     result  = string_new();
+	const size_t maxsize = strlen(LIBO2S_PREPRO_STRING(LONG_MIN)) + 1;
 
-	if (not string_reserve(&result, maxsize)) return result;
+	if (not string_reserve(&result, maxsize))
+		return result;
 	const int size = snprintf(result.start, maxsize, "%" PRIi64, *value);
 	if (size > 0)
 		result.count = (unsigned)size;
@@ -61,10 +64,11 @@ string_t long_to_string(const long* value)
 
 string_t unsigned_to_string(const unsigned* value)
 {
-	string_t       result  = string_new();
-	const size_t   maxsize = strlen(LIBO2S_PREPRO_STRING(UNSIGNED_MAX)) + 1;
+	string_t     result  = string_new();
+	const size_t maxsize = strlen(LIBO2S_PREPRO_STRING(UNSIGNED_MAX)) + 1;
 
-	if (not string_reserve(&result, maxsize)) return result;
+	if (not string_reserve(&result, maxsize))
+		return result;
 	const int size = snprintf(result.start, maxsize, "%" PRIu32, *value);
 	if (size > 0)
 		result.count = (unsigned)size;

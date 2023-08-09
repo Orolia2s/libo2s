@@ -18,7 +18,6 @@
 #include "o2s/preprocessing.h" // min
 
 #include <iso646.h> // not
-
 #include <stdint.h> // uint8_t
 #include <string.h> // memcpy
 
@@ -44,7 +43,7 @@ bool deque_push_front_n(deque_t* self, const void* elements, size_t count)
 {
 	if (count > deque_room(self))
 		return false;
-	while (count --> 0)
+	while (count-- > 0)
 	{
 		deque_push_front(self, elements);
 		elements += deque_offset(self, 1);

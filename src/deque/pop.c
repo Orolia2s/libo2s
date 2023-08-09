@@ -18,7 +18,6 @@
 #include "o2s/preprocessing.h" // min
 
 #include <iso646.h> // not
-
 #include <stdint.h> //uint8_t
 #include <string.h> // memcpy
 
@@ -85,7 +84,7 @@ bool deque_pop_back_n(deque_t* self, void* destination, size_t count)
 {
 	if (deque_count(self) < count)
 		return false;
-	while (count --> 0)
+	while (count-- > 0)
 	{
 		deque_pop_back(self, destination);
 		destination += deque_offset(self, 1);

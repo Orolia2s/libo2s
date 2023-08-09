@@ -17,7 +17,6 @@
 #include "o2s/array.h"
 
 #include <iso646.h> // not
-
 #include <string.h> // memcpy
 
 /**

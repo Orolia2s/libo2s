@@ -30,7 +30,7 @@
  */
 void string_apply_inplace(string_t* self, char (*function)(char))
 {
-	for (char*c = self->start; c < (char*)self->start + self->capacity * self->type_size; c++)
+	for (char* c = self->start; c < (char*)self->start + self->capacity * self->type_size; c++)
 		*c = function(*c);
 }
 
