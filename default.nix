@@ -32,7 +32,7 @@
     if [ -n "$out" ]; then
       mkdir --parents $out/lib $out/include
       cp ${pname}.a $out/lib
-      cp include/o2s/* $out/include
+      cp  --recursive include/o2s $out/include
     fi
 
     if [ -n "$doc" ]; then
