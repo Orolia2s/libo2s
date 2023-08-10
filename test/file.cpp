@@ -50,7 +50,7 @@ SCENARIO("Errors when reading files are correctly handled", "[file]")
 
 		WHEN("We try to accumulate bytes from it")
 		{
-			bool result = file_accumulate(&tested, 10);
+			bool result = tested->stream.accumulate(&tested, 10);
 
 			THEN("The accumulating loop exits with an error")
 			{

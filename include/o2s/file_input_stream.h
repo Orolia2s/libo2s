@@ -16,26 +16,26 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "o2s/queue.h"
+#include "o2s/input_stream.h"
 
 #include <sys/types.h> // ssize_t
 
 #include <stdbool.h> // bool
 #include <stdint.h>  // uint*_t
 
-/** File Input Stream */
+/** File Input Stream @todo store the name for debug purposes ? */
 typedef struct file_input_stream
 {
-	queue_t buffer;     /**< Circular buffer */
-	int     descriptor; /**< Underlying file */
-	uint8_t opened :1;  /**< Is this file still open ? */
+	istream_t stream;      /**< Inherit from input stream */
+	int       descriptor; /**< Underlying file */
+	uint8_t   opened :1;  /**< Is this file still open ? */
 } ifstream_t;
 
 ifstream_t file_open(const char* file_name, int flags);
 void       file_close(ifstream_t* file);
 
 ssize_t    file_single_read(ifstream_t* file);
-bool       file_accumulate(ifstream_t* file, size_t n);
+bool       file_accumulate(ifstream_t* file, size_t count);
 
 /**
  * Use the RAII idiom with a file input stream.
@@ -54,9 +54,3 @@ bool       file_accumulate(ifstream_t* file, size_t n);
  * @endcode
  */
 #define FileInputStream __attribute__((cleanup(file_close))) ifstream_t
-
-/**
-@var file_input_stream::buffer
-Good complexity for push and pop.
-No need to memmove remaining data to the front.
-*/
