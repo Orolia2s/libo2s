@@ -28,6 +28,8 @@ typedef struct array
 	size_t capacity;  /**< Number of elements that can fit in the storage */
 } array_t;
 
+/** @name Initializing and destroying */
+///@{
 array_t array_new(size_t type_size);
 void    array_clear(array_t* self);
 void    array_clear_f(array_t* self, void (*cleanup)());
@@ -51,23 +53,35 @@ void    array_clear_f(array_t* self, void (*cleanup)());
  * @endcode
  */
 #define Array          __attribute__((cleanup(array_clear))) array_t
+///@}
 
+/** @name Modifiers */
+///@{
 bool   array_push_back(array_t* self, const void* element);
 bool   array_push_back_n(array_t* self, const void* elements, size_t count);
 
 bool   array_pop_back(array_t* self, void* destination);
 bool   array_pop_back_n(array_t* self, void* destination, size_t count);
+///@}
 
+/** @name Element access */
+///@{
 void*  array_first(const array_t* self);
 void*  array_last(const array_t* self);
 void*  array_get(const array_t* self, size_t index);
+///@}
 
+/** @name Capacity */
+///@{
 bool   array_is_empty(const array_t* self);
 
 size_t array_count(const array_t* self);
 bool   array_reserve(array_t* self, size_t count);
 bool   array_trim(array_t* self);
+///@}
 
+/** @name Iterators */
+///@{
 void   array_iter(const array_t* self, void (*function)());
 
 /**
@@ -87,3 +101,4 @@ void   array_iter(const array_t* self, void (*function)());
 	for (*(INDEX) = 0; *(INDEX) < array_count(ARRAY) \
 	                   && ((*(ELEMENT) = *(TYPE*)array_get(ARRAY, *(INDEX))) || true); \
 	     (*(INDEX))++)
+///@}

@@ -30,9 +30,22 @@ typedef struct deque
 	size_t type_size; /**< Size in bytes of a single element */
 } deque_t;
 
+/** @name Using externally owned memory */
+///@{
+deque_t deque_new(void* storage, size_t capacity, size_t type_size);
+void    deque_clear(deque_t* self);
+//void    deque_clear_f(deque_t* self, void (*cleanup)());
+
 /** Wrapper arround the non-owning constructor */
 #define DequeNew(Storage, Capacity, Type) \
 	deque_new(Storage, Capacity, sizeof(Type))
+///@}
+
+/** @name Managing the memory */
+///@{
+deque_t deque_allocate(size_t capacity, size_t type_size);
+void    deque_free(deque_t* self);
+//void    deque_free_f(deque_t* self, void (*cleanup)());
 
 /** Wrapper around the owning constructor */
 #define DequeAllocate(Capacity, Type) deque_allocate(Capacity, sizeof(Type))
@@ -53,19 +66,6 @@ typedef struct deque
  * @endcode
  */
 #define Deque                         __attribute__((cleanup(deque_free))) deque_t
-
-/** @name Using externally owned memory */
-///@{
-deque_t deque_new(void* storage, size_t capacity, size_t type_size);
-void    deque_clear(deque_t* self);
-//void    deque_clear_f(deque_t* self, void (*cleanup)());
-///@}
-
-/** @name Managing the memory */
-///@{
-deque_t deque_allocate(size_t capacity, size_t type_size);
-void    deque_free(deque_t* self);
-//void    deque_free_f(deque_t* self, void (*cleanup)());
 ///@}
 
 /** @name Accessing elements */
@@ -85,15 +85,20 @@ size_t deque_capacity(const deque_t* self);
 size_t deque_room(const deque_t* self);
 ///@}
 
-/** @name Adding and removing elements */
+/** @name Adding elements */
 ///@{
 bool   deque_push_front(deque_t* self, const void* element);
 bool   deque_push_front_n(deque_t* self, const void* elements, size_t count);
-bool   deque_pop_front(deque_t* self, void* destination);
-bool   deque_pop_front_n(deque_t* self, void* destination, size_t count);
 
 bool   deque_push_back(deque_t* self, const void* element);
 bool   deque_push_back_n(deque_t* self, const void* elements, size_t count);
+///@}
+
+/** @name Removing elements */
+///@{
+bool   deque_pop_front(deque_t* self, void* destination);
+bool   deque_pop_front_n(deque_t* self, void* destination, size_t count);
+
 bool   deque_pop_back(deque_t* self, void* destination);
 bool   deque_pop_back_n(deque_t* self, void* destination, size_t count);
 ///@}

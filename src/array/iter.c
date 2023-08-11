@@ -16,6 +16,7 @@
 
 #include "o2s/array.h"
 
+/** Call @p function on each element */
 void array_iter(const array_t* self, void (*function)())
 {
 	void* element = self->start;
