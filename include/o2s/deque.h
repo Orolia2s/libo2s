@@ -30,17 +30,9 @@ typedef struct deque
 	size_t type_size; /**< Size in bytes of a single element */
 } deque_t;
 
-deque_t deque_new(void* storage, size_t capacity, size_t type_size);
-void    deque_clear(deque_t* self);
-void    deque_clear_f(deque_t* self, void (*cleanup)());
-
 /** Wrapper arround the non-owning constructor */
 #define DequeNew(Storage, Capacity, Type) \
 	deque_new(Storage, Capacity, sizeof(Type))
-
-deque_t deque_allocate(size_t capacity, size_t type_size);
-void    deque_free(deque_t* self);
-void    deque_free_f(deque_t* self, void (*cleanup)());
 
 /** Wrapper around the owning constructor */
 #define DequeAllocate(Capacity, Type) deque_allocate(Capacity, sizeof(Type))
@@ -62,17 +54,39 @@ void    deque_free_f(deque_t* self, void (*cleanup)());
  */
 #define Deque                         __attribute__((cleanup(deque_free))) deque_t
 
+/** @name Using externally owned memory */
+///@{
+deque_t deque_new(void* storage, size_t capacity, size_t type_size);
+void    deque_clear(deque_t* self);
+//void    deque_clear_f(deque_t* self, void (*cleanup)());
+///@}
+
+/** @name Managing the memory */
+///@{
+deque_t deque_allocate(size_t capacity, size_t type_size);
+void    deque_free(deque_t* self);
+//void    deque_free_f(deque_t* self, void (*cleanup)());
+///@}
+
+/** @name Accessing elements */
+///@{
 void*  deque_first(const deque_t* self);
 void*  deque_last(const deque_t* self);
 void*  deque_get(const deque_t* self, size_t index);
+///@}
 
+/** @name Capacity */
+///@{
 bool   deque_is_empty(const deque_t* self);
 bool   deque_is_full(const deque_t* self);
 
 size_t deque_count(const deque_t* self);
 size_t deque_capacity(const deque_t* self);
 size_t deque_room(const deque_t* self);
+///@}
 
+/** @name Adding and removing elements */
+///@{
 bool   deque_push_front(deque_t* self, const void* element);
 bool   deque_push_front_n(deque_t* self, const void* elements, size_t count);
 bool   deque_pop_front(deque_t* self, void* destination);
@@ -82,10 +96,13 @@ bool   deque_push_back(deque_t* self, const void* element);
 bool   deque_push_back_n(deque_t* self, const void* elements, size_t count);
 bool   deque_pop_back(deque_t* self, void* destination);
 bool   deque_pop_back_n(deque_t* self, void* destination, size_t count);
+///@}
 
-void   deque_iter(const deque_t* self, void (*f)());
-void   deque_iter1(const deque_t* self, void (*f)(), void* ext);
-void   deque_iter2(const deque_t* self, void (*f)(), void* ext1, void* ext2);
+/** @name Iterators */
+///@{
+//void   deque_iter(const deque_t* self, void (*f)());
+//void   deque_iter1(const deque_t* self, void (*f)(), void* ext);
+//void   deque_iter2(const deque_t* self, void (*f)(), void* ext1, void* ext2);
 
 /**
  * Iterate over the elements of the queue.
@@ -104,3 +121,4 @@ void   deque_iter2(const deque_t* self, void (*f)(), void* ext1, void* ext2);
 	for (*(INDEX) = 0; *(INDEX) < deque_count(DEQUE) \
 	                   && ((*(ELEMENT) = *(TYPE*)deque_get(DEQUE, *(INDEX))) || true); \
 	     (*(INDEX))++)
+///@}

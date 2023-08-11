@@ -79,6 +79,7 @@ bool deque_pop_back(deque_t* self, void* destination)
 
 /**
  * Pops the @p count last elements in the queue.
+ * @return false if the queue contains less than @p count elements
  */
 bool deque_pop_back_n(deque_t* self, void* destination, size_t count)
 {

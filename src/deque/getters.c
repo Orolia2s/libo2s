@@ -63,6 +63,10 @@ bool deque_is_full(const deque_t* self)
 	return deque_count(self) == deque_capacity(self);
 }
 
+/**
+ * The element of the element at an arbitrary index
+ * @return NULL if the @p index is not a valid one
+ */
 void* deque_get(const deque_t* self, size_t index)
 {
 	if (index >= deque_count(self))
