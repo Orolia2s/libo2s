@@ -50,7 +50,7 @@ SCENARIO("Errors when reading files are correctly handled", "[file]")
 
 		WHEN("We try to accumulate bytes from it")
 		{
-			bool result = tested->stream.accumulate(&tested, 10);
+			bool result = istream_accumulate(&tested, 10);
 
 			THEN("The accumulating loop exits with an error")
 			{
@@ -100,7 +100,7 @@ SCENARIO("A regular file can be read", "[file]")
 						char again[count + 1];
 
 						explicit_bzero(again, count + 1);
-						REQUIRE( queue_pop_n(&tested.buffer, again, count) );
+						REQUIRE( queue_pop_n(&tested.stream.buffer, again, count) );
 
 						THEN("They are as expected")
 						{
@@ -150,8 +150,8 @@ SCENARIO("A stream can be accumulated", "[file]")
 						file << " Monde";
 					});
 
-				REQUIRE( file_accumulate(&tested, strlen("Bonjour Monde")) ); // <-- will wait here
-				REQUIRE( queue_pop_n(&tested.buffer, extract, queue_count(&tested.buffer)) );
+				REQUIRE( istream_accumulate(&tested, strlen("Bonjour Monde")) ); // <-- will wait here
+				REQUIRE( queue_pop_n(&tested.stream.buffer, extract, queue_count(&tested.stream.buffer)) );
 				REQUIRE( std::string(extract) == "Bonjour Monde" );
 				worker.join();
 			}

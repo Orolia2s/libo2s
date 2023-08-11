@@ -22,7 +22,9 @@
 #include <string.h> // strerror
 #include <unistd.h> // close
 
-#define BUFFER_SIZE 4096 // TODO: configure in a better way
+#ifndef FILE_STREAM_BUFFER_SIZE
+#	define FILE_STREAM_BUFFER_SIZE 4096 /// @todo configure in a better way
+#endif
 
 /**
  * Construct a file input stream :
@@ -37,8 +39,8 @@ ifstream_t file_open(const char* file_name, int flags)
 		log_error("Unable to open \"%s\": %s", file_name, strerror(errno));
 		return file;
 	}
-	file.buffer = QueueAllocate(BUFFER_SIZE, char);
-	if (file.buffer.capacity == 0)
+	file.stream = InputStreamInit(FILE_STREAM_BUFFER_SIZE, file_accumulate);
+	if (file.stream.buffer.capacity == 0)
 	{
 		log_error("malloc failed: %s", strerror(errno));
 		close(file.descriptor);

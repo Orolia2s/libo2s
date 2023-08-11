@@ -13,7 +13,6 @@
  * @author Antoine GAGNIERE
  * @brief Buffered input streams
  */
-/*                                                                            */
 /* ************************************************************************** */
 
 #include "o2s/queue.h"
@@ -21,18 +20,25 @@
 #include <stdbool.h> // bool
 #include <stddef.h>  // size_t
 
-/** Input Stream */
-typedef struct input_stream istream_t;
-
-/** Abstraction layer hiding either a file input stream of a string input stream */
-struct input_stream
+/**
+ * Input Stream.
+ * Abstraction layer hiding either a file input stream of a string input stream
+ */
+typedef struct input_stream
 {
-	queue_t buffer; /**< Cirecular buffer of bytes */
+	queue_t buffer; /**< Circular buffer of bytes */
 	/** Ask if the stream can provide at least @p count bytes to read */
-	bool (*accumulate)(istream_t* self, size_t count);
-};
+	bool (*accumulate)(struct input_stream* self, size_t count);
+} istream_t;
 
-istream_t istream_new(bool (*accumulate)(istream_t*, size_t));
+/** Convenient wrapper around @ref istream_init that casts @p Accumulate */
+#define InputStreamInit(Size, Accumulate) \
+	istream_init(Size, ((bool (*)(istream_t*, size_t))(Accumulate)));
+
+istream_t istream_init(size_t buffer_size, bool (*accumulate)(istream_t*, size_t));
 void      istream_close(istream_t* self);
 
-bool      istream_has_at_least(istream_t* self, size_t count);
+bool      istream_has_at_least(const istream_t* self, size_t count);
+
+/** Convenient way to call the input stream's accumulate member function */
+#define istream_accumulate(Stream, Count) ((istream_t*)(Stream))->accumulate((istream_t*)Stream, Count)

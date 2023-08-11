@@ -28,10 +28,7 @@
  */
 void file_close(ifstream_t* file)
 {
-	if (file->buffer.storage)
-	{
-		queue_free(&file->buffer);
-	}
+	istream_close(&file->stream);
 	if (!file->opened)
 	{
 		log_warning("Attempting to close a file that isn't open.");

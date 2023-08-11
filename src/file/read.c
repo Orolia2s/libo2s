@@ -14,6 +14,7 @@
 
 #include "o2s/file_input_stream.h"
 
+#include <iso646.h> // not
 #include <unistd.h> // read
 
 /**
@@ -23,10 +24,10 @@
  */
 ssize_t file_single_read(ifstream_t* file)
 {
-	queue_t* queue = &file->buffer;
-	size_t   room  = queue_room(queue);
-	uint8_t  buffer[room];
-	ssize_t  result = read(file->descriptor, buffer, room);
+	queue_t*      queue = &file->stream.buffer;
+	const size_t  room  = queue_room(queue);
+	uint8_t       buffer[room];
+	const ssize_t result = read(file->descriptor, buffer, room);
 
 	if (result <= 0 || queue_push_n(queue, buffer, result))
 		return result;
@@ -41,7 +42,7 @@ ssize_t file_single_read(ifstream_t* file)
  */
 bool file_accumulate(ifstream_t* file, size_t count)
 {
-	while (queue_count(&file->buffer) < count)
+	while (not istream_has_at_least(&file->stream, count))
 		if (file_single_read(file) < 0)
 			return false;
 	return true;
