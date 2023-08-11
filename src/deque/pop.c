@@ -17,9 +17,9 @@
 #include "o2s/deque.h"
 #include "o2s/preprocessing.h" // min
 
-#include <iso646.h> // not
-#include <stdint.h> //uint8_t
-#include <string.h> // memcpy
+#include <iso646.h>            // not
+#include <stdint.h>            //uint8_t
+#include <string.h>            // memcpy
 
 /**
  * Pops the front-most element of the queue, copying it to destination.

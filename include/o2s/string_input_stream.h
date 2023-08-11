@@ -27,7 +27,8 @@ istream_t cstring_input_stream(const char* value, size_t length);
  * Create an input stream with the content of a C string.
  * @note strlen() of a literal can be computed at compile time.
  */
-#define string_literal_input_stream(Value) cstring_input_stream(Value, strlen(Value));
+#define string_literal_input_stream(Value) \
+	cstring_input_stream(Value, strlen(Value))
 
 /**
  * Use the RAII idiom with a string input stream.

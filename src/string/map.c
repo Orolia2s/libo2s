@@ -37,7 +37,7 @@ string_t string_map(const string_t* self, char (*function)(char))
 #pragma GCC diagnostic ignored "-Wcast-function-type"
 
 /** Creates a copy of the string, with all alphabetic characters to lower-case */
-string_t string_tolower(const string_t* self)
+string_t               string_tolower(const string_t* self)
 {
 	return string_map(self, (char (*)(char))tolower);
 }

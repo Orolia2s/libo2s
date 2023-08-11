@@ -38,7 +38,7 @@ void string_apply_inplace(string_t* self, char (*function)(char))
 #pragma GCC diagnostic ignored "-Wcast-function-type"
 
 /** Replace each alphabetic character by its lower case equivalent */
-void string_tolower_inplace(string_t* self)
+void                   string_tolower_inplace(string_t* self)
 {
 	string_apply_inplace(self, (char (*)(char))tolower);
 }

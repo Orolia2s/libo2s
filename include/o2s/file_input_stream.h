@@ -19,13 +19,13 @@
 
 #include <sys/types.h> // ssize_t
 
-#include <stdbool.h> // bool
-#include <stdint.h>  // uint*_t
+#include <stdbool.h>   // bool
+#include <stdint.h>    // uint*_t
 
 /** File Input Stream @todo store the name for debug purposes ? */
 typedef struct file_input_stream
 {
-	istream_t stream;      /**< Inherit from input stream */
+	istream_t stream;     /**< Inherit from input stream */
 	int       descriptor; /**< Underlying file */
 	uint8_t   opened :1;  /**< Is this file still open ? */
 } ifstream_t;
