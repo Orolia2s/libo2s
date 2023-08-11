@@ -7,11 +7,11 @@
 /*      ___) / ___ \|  _| |  _ < / ___ \| |\  |   | | |__   _| |_| |___) |    */
 /*     |____/_/   \_|_|   |_| \_/_/   \_|_| \_|   |_|    |_| |____/|____/     */
 /*                                                                            */
-/* Copyright 2023, SAFRAN T4DS, ALL RIGHTS RESERVED                           */
-/*                                                                            */
-/* @file serial.h                                                             */
-/* @author Antoine GAGNIERE                                                   */
-/*                                                                            */
+/**
+ * @copyright 2023, SAFRAN T4DS, ALL RIGHTS RESERVED
+ * @file serial.h
+ * @author Antoine GAGNIERE
+ */
 /* ************************************************************************** */
 
 #include "o2s/file_input_stream.h"
@@ -33,14 +33,23 @@ struct serial_port
 	uint8_t          got_options :1; /**< Is @ref options filled ? */
 };
 
+/** @name Contructor and destructor */
+///@{
 serial_port_t serial_open(const char* port_name);
 void          serial_close(serial_port_t* port);
+///@}
 
+/** @name Modifiers */
+///@{
 bool          serial_get_options(serial_port_t* port);
-
 bool          serial_make_raw(serial_port_t* port);
+///@}
+
+/** @name Utilities */
+///@{
 int64_t       serial_decode_baudrate(speed_t flag);
 speed_t       serial_encode_baudrate(int64_t speed_in_bps);
+///@}
 
 bool          serial_print_config(serial_port_t* port);
 bool          serial_clear(serial_port_t* port);

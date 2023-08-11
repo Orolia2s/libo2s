@@ -9,7 +9,7 @@
 /*                                                                            */
 /**
  * @copyright 2023, SAFRAN T4DS, ALL RIGHTS RESERVED
- * @file string.h
+ * @file o2s/string.h
  * @author Hugo FOLCHER
  * @author Antoine GAGNIERE
  * @brief Dynamic string implementation
@@ -28,9 +28,12 @@
  */
 typedef array_t string_t;
 
+/** @name Contructors and destructors */
+///@{
 string_t        string_new();
 string_t        string_from(const char* cstring, size_t length);
 void            string_clear(string_t* self);
+///@}
 
 /**
  * Allocates a string, copying the content from a C string.
@@ -58,9 +61,12 @@ void            string_clear(string_t* self);
  */
 #define String __attribute__((cleanup(string_clear))) string_t
 
+/** @name Adding characters */
+///@{
 bool string_append_char(string_t* self, char character);
 bool string_append_cstring(string_t* self, const char* cstring, size_t length);
 bool string_append(string_t* self, const string_t* other);
+///@}
 
 /**
  * Copy the content of a C string to the end of this string.
@@ -71,17 +77,25 @@ bool string_append(string_t* self, const string_t* other);
 #define string_append_literal(Self, StringLiteral) \
 	string_append_cstring(Self, StringLiteral, strlen(StringLiteral))
 
+/** @name Removing characters */
+///@{
 bool     string_pop(string_t* self, char* destination);
 bool     string_pop_n(string_t* self, char* destination, size_t count);
 string_t string_pop_as_string(string_t* self, size_t count);
+///@}
 
+/** @name Capacity */
+///@{
 size_t   string_length(const string_t* self);
 char*    string_get(const string_t* self, size_t index);
 bool     string_is_empty(const string_t* self);
 
 bool     string_reserve(string_t* self, size_t count);
 bool     string_trim(string_t* self);
+///@}
 
+/** @name Transformation */
+///@{
 string_t string_map(const string_t* self, char (*function)(char));
 string_t string_tolower(const string_t* self);
 string_t string_toupper(const string_t* self);
@@ -89,6 +103,7 @@ string_t string_toupper(const string_t* self);
 void     string_apply_inplace(string_t* self, char (*function)(char));
 void     string_tolower_inplace(string_t* self);
 void     string_toupper_inplace(string_t* self);
+///@}
 
 bool     string_is_equal(const string_t* self, const string_t* other);
 
@@ -96,9 +111,12 @@ char*    string_to_cstring(string_t* self);
 
 bool     string_contains(const string_t* self, char character);
 
+/** @name Iterators */
+///@{
 /** Iterate over each character of the string */
 #define string_foreach(STRING, Element) array_foreach (char, STRING, Element)
 
 /** Iterate over each character of the string with its index */
 #define string_enumerate(STRING, Element, Index) \
 	array_enumerate (char, STRING, Element, Index)
+///@}

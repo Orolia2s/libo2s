@@ -40,5 +40,8 @@ void      istream_close(istream_t* self);
 
 bool      istream_has_at_least(const istream_t* self, size_t count);
 
+/** @name Calling a virtual member function */
+///@{
 /** Convenient way to call the input stream's accumulate member function */
 #define istream_accumulate(Stream, Count) ((istream_t*)(Stream))->accumulate((istream_t*)Stream, Count)
+///@}

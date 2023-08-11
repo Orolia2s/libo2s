@@ -13,7 +13,6 @@
  * @author Antoine GAGNIERE
  * @brief Buffered file reader
  */
-/*                                                                            */
 /* ************************************************************************** */
 
 #include "o2s/input_stream.h"
@@ -31,11 +30,17 @@ typedef struct file_input_stream
 	uint8_t   opened :1;  /**< Is this file still open ? */
 } ifstream_t;
 
+/** @name Contructor and destructor */
+///@{
 ifstream_t file_open(const char* file_name, int flags);
 void       file_close(ifstream_t* file);
+///@}
 
+/** @name Reading */
+///@{
 ssize_t    file_single_read(ifstream_t* file);
 bool       file_accumulate(ifstream_t* file, size_t count);
+////@}
 
 /**
  * Use the RAII idiom with a file input stream.

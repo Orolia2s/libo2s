@@ -26,10 +26,13 @@
 #define LOG_LEVEL_DEBUG   5
 #define LOG_LEVEL_TRACE   6
 
+/** @name Configuration */
+///@{
 #ifndef LOG_LEVEL
 /** Set this value to control the logs verbosity */
 #	define LOG_LEVEL LOG_LEVEL_INFO
 #endif
+///@}
 
 #define log_log(FILE, LEVEL, COLOR, FORMAT, ...) \
 	fprintf(FILE, \
