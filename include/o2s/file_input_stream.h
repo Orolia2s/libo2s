@@ -30,9 +30,10 @@ typedef struct file_input_stream
 	uint8_t   opened :1;  /**< Is this file still open ? */
 } ifstream_t;
 
-/** @name Contructor and destructor */
+/** @name Contructors and destructor */
 ///@{
 ifstream_t file_open(const char* file_name, int flags);
+ifstream_t file_from_descriptor(int descriptor);
 void       file_close(ifstream_t* file);
 ///@}
 

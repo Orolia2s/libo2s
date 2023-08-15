@@ -32,21 +32,31 @@
  */
 ifstream_t file_open(const char* file_name, int flags)
 {
-	ifstream_t file = {.descriptor = -1, .opened = false};
+	int descriptor = open(file_name, flags);
 
-	if ((file.descriptor = open(file_name, flags)) < 0)
+	if (descriptor < 0)
 	{
 		log_error("Unable to open \"%s\": %s", file_name, strerror(errno));
-		return file;
+		return (ifstream_t){.descriptor = -1, .opened = false};
 	}
+	ifstream_t file = file_from_descriptor(descriptor);
+	if (file.descriptor == descriptor)
+		file.opened = true;
+	else
+		close(descriptor);
+	return file;
+}
+
+/** Construct a file input stream from an externally managed file descriptor */
+ifstream_t file_from_descriptor(int descriptor)
+{
+	ifstream_t file = {.descriptor = descriptor, .opened = false};
+
 	file.stream = InputStreamInit(FILE_STREAM_BUFFER_SIZE, file_accumulate);
 	if (file.stream.buffer.capacity == 0)
 	{
 		log_error("malloc failed: %s", strerror(errno));
-		close(file.descriptor);
 		file.descriptor = -1;
-		return file;
 	}
-	file.opened = true;
 	return file;
 }
