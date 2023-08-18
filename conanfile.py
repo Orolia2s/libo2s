@@ -2,7 +2,7 @@ import os
 from conan import ConanFile
 from conan.tools.gnu import Autotools, AutotoolsToolchain, AutotoolsDeps
 from conan.tools.scm import Git
-from conan.tools.files import save, load
+from conan.tools.files import save, load, copy
 
 class LibO2sConan(ConanFile):
     name = 'libo2s'
@@ -58,11 +58,17 @@ class LibO2sConan(ConanFile):
         autotools.make('clean')
 
     def package(self):
-        self.copy('*.h',  dst='include', src='include')
-        self.copy('*.a',  dst='lib', keep_path=False)
-        self.copy('*.so', dst='lib', keep_path=False)
-        self.copy('version.txt')
-        self.copy('README.md')
+        copy(self, '*.h',
+             os.path.join(self.source_folder, 'include'),
+             os.path.join(self.package_folder, 'include'))
+        copy(self, '*.a', self.build_folder,
+             os.path.join(self.package_folder, 'lib'))
+        copy(self, '*.so', self.build_folder,
+             os.path.join(self.package_folder, 'lib'))
+        copy(self, 'version.txt', self.source_folder,
+             os.path.join(self.package_folder, 'lib'))
+        copy(self, 'README.md', self.source_folder,
+             os.path.join(self.package_folder, 'lib'))
 
     def package_info(self):
         self.cpp_info.libs = ['o2s']

@@ -1,9 +1,11 @@
 {
   system ? builtins.currentSystem,
   pkgs ? import <nixpkgs> { inherit system; },
-}: pkgs.llvmPackages_16.stdenv.mkDerivation rec {
+}
+: pkgs.llvmPackages_16.stdenv.mkDerivation rec
+{
   pname = "libo2s";
-  version = "0.3.6";
+  version = "0.4.1";
   outputs = [ "out" "doc" ];
 
   src =  pkgs.nix-gitignore.gitignoreSource [] ./.;
