@@ -110,6 +110,7 @@ bool     string_is_equal(const string_t* self, const string_t* other);
 char*    string_to_cstring(string_t* self);
 
 bool     string_contains(const string_t* self, char character);
+bool     is_char_in_cstring(char character, const char* cstring);
 
 /** @name Iterators */
 ///@{

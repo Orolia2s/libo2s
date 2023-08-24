@@ -244,3 +244,17 @@ TEST_CASE("String contains", "[string]")
 	string_clear(&tested);
 	CHECK_FALSE( string_contains(&tested, '\0') );
 }
+
+TEST_CASE("Character is in C string", "[string]")
+{
+	const char* sentence = "The crazy fox and what not";
+
+	CHECK( is_char_in_cstring('x', sentence) );
+	CHECK( is_char_in_cstring('y', sentence) );
+	CHECK( is_char_in_cstring('z', sentence) );
+	CHECK_FALSE( is_char_in_cstring('b', sentence) );
+	CHECK_FALSE( is_char_in_cstring('F', sentence) );
+
+	/* Note that the terminating null is considered part of the C string, see man strchr */
+	CHECK( is_char_in_cstring('\0', sentence) );
+}
