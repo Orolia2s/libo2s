@@ -487,3 +487,44 @@ TEST_CASE("Deque of as a queue", "[deque]")
 	CHECK( *(float*)queue_first(&tested) == values[1] );
 	CHECK( *(float*)queue_get(&tested, 1) == values[2] );
 }
+
+SCENARIO("We can reserve capacity", "[deque]")
+{
+	GIVEN("An empty deque of ints with a capacity of 45")
+	{
+		const size_t capacity = 45;
+		Deque tested = DequeAllocate(capacity, int);
+
+		WHEN("A capacity of 40 elements is reserved")
+		{
+			deque_reserve(&tested, 40);
+
+			THEN("The current capacity is already enough, capacity didn't change")
+			{
+				REQUIRE( deque_capacity(&tested) == capacity );
+			}
+		}
+
+		WHEN("A capacity of 50 elements is reserved")
+		{
+			int reserved = 50;
+			deque_reserve(&tested, reserved);
+
+			THEN("The current capacity is not enough, capacity changed")
+			{
+				REQUIRE( deque_capacity(&tested) == capacity + reserved );
+			}
+		}
+
+		WHEN("A too big capacity is reserved")
+		{
+			deque_reserve(&tested, 1024UL * 1024 * 1024 * 97);
+
+			THEN("Capacity is marked as 0")
+			{
+				REQUIRE( deque_capacity(&tested) == 0 );
+				REQUIRE( tested.storage == NULL );
+			}
+		}
+	}
+}

@@ -5,7 +5,7 @@
 : pkgs.llvmPackages_16.stdenv.mkDerivation rec
 {
   pname = "libo2s";
-  version = "0.4.1";
+  version = "0.4.2";
   outputs = [ "out" "doc" ];
 
   src =  pkgs.nix-gitignore.gitignoreSource [] ./.;
