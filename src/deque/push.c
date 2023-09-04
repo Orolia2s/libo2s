@@ -18,7 +18,6 @@
 #include "o2s/preprocessing.h" // min
 
 #include <iso646.h>            // not
-#include <stdint.h>            // uint8_t
 #include <string.h>            // memcpy
 
 /**

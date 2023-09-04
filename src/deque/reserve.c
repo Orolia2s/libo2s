@@ -7,28 +7,25 @@
 /*                                                                            */
 /* Copyright 2023, SAFRAN T4DS, ALL RIGHTS RESERVED                           */
 /*                                                                            */
-/* @file to_string.c                                                          */
-/* @author Antoine GAGNIERE                                                   */
+/* @file reserve.c                                                            */
+/* @author Tanguy BERTHOUD                                                    */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "o2s/to_string.h"
+#include "o2s/deque.h"
 
-#include <iso646.h> // not
+#include <stdlib.h> // reallocarray
 
-string_t deque_to_string(const deque_t* self, string_t (*function)(const void*))
-{
-	string_t result = string_from_literal("[");
-
-	for (unsigned i = 0; i < deque_count(self); i++)
-	{
-		String single = function(deque_get(self, i));
-
-		string_append(&result, &single);
-		string_append_literal(&result, ", ");
+/**
+ * Reallocates the deque if @p count elements cannot fit in the current allocation.
+ * If the reallocation failed, the capacity will be set to zero.
+ */
+void deque_reserve(deque_t* self, size_t count) {
+	size_t room = deque_room(self);
+	if (room < count) {
+		size_t new_capacity = self->capacity + count;
+		self->storage = reallocarray(self->storage, new_capacity, self->type_size);
+		if (self->storage == NULL) new_capacity = 0;
+		self->capacity = new_capacity;
 	}
-	if (not deque_is_empty(self))
-		string_pop_n(&result, NULL, 2);
-	string_append_literal(&result, "]");
-	return result;
 }

@@ -83,6 +83,8 @@ bool   deque_is_full(const deque_t* self);
 size_t deque_count(const deque_t* self);
 size_t deque_capacity(const deque_t* self);
 size_t deque_room(const deque_t* self);
+
+void deque_reserve(deque_t* self, size_t count);
 ///@}
 
 /** @name Adding elements */
