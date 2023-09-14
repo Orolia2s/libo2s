@@ -42,6 +42,7 @@ void          serial_close(serial_port_t* port);
 /** @name Modifiers */
 ///@{
 bool          serial_get_options(serial_port_t* port);
+bool          serial_apply_options(serial_port_t* port);
 bool          serial_set_options_raw(serial_port_t* port);
 bool          serial_make_raw(serial_port_t* port);
 ///@}
