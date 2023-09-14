@@ -45,7 +45,6 @@ static void serial_print_input_modes(const struct serial_input_modes* modes)
 	printf("    %-*s: %s\n", WIDTH, "enable_start_stop_in", modes->enable_start_stop_in ? "true" : "false");
 	printf("    %-*s: %s\n", WIDTH, "ring_bell_when_full", modes->ring_bell_when_full ? "true" : "false");
 	printf("    %-*s: %s\n", WIDTH, "is_utf8", modes->is_utf8 ? "true" : "false");
-	;
 }
 
 static void serial_print_output_modes(const struct serial_output_modes* modes)
@@ -60,7 +59,6 @@ static void serial_print_output_modes(const struct serial_output_modes* modes)
 	printf("    %-*s: %s\n", WIDTH, "use_fill", modes->use_fill ? "true" : "false");
 	printf("    %-*s: %s\n", WIDTH, "fill_is_del", modes->fill_is_del ? "true" : "false");
 	printf("    %-*s: %s\n", WIDTH, "vertical_tab_delay", modes->vertical_tab_delay ? "true" : "false");
-	;
 }
 
 static void serial_print_control_modes(const struct serial_control_modes* modes)
@@ -73,7 +71,6 @@ static void serial_print_control_modes(const struct serial_control_modes* modes)
 	printf("    %-*s: %s\n", WIDTH, "odd_parity", modes->odd_parity ? "true" : "false");
 	printf("    %-*s: %s\n", WIDTH, "hang_up", modes->hang_up ? "true" : "false");
 	printf("    %-*s: %s\n", WIDTH, "is_local", modes->is_local ? "true" : "false");
-	;
 }
 
 static void serial_print_local_modes(const struct serial_local_modes* modes)
@@ -88,7 +85,6 @@ static void serial_print_local_modes(const struct serial_local_modes* modes)
 	printf("    %-*s: %s\n", WIDTH, "disable_flush", modes->disable_flush ? "true" : "false");
 	printf("    %-*s: %s\n", WIDTH, "tostop", modes->tostop ? "true" : "false");
 	printf("    %-*s: %s\n", WIDTH, "enable_processing", modes->enable_processing ? "true" : "false");
-	;
 }
 
 #define PRINT_UCHAR(CHARS, NAME) \
@@ -104,7 +100,6 @@ static void serial_print_control_characters(union serial_control_characters* cha
 	printf("    %-*s: %#.2hhx\n", WIDTH, "end_of_file", chars->end_of_file);
 	printf("    %-*s: %#.2hhx\n", WIDTH, "timeout", chars->timeout);
 	printf("    %-*s: %#.2hhx\n", WIDTH, "minimum", chars->minimum);
-	;
 }
 
 /**
@@ -112,7 +107,7 @@ static void serial_print_control_characters(union serial_control_characters* cha
  */
 bool serial_print_config(serial_port_t* port)
 {
-	serial_ensure_options(port);
+	serial_get_options(port);
 	printf("serial_port_options:\n");
 	serial_print_input_modes(&port->options.input);
 	serial_print_output_modes(&port->options.output);

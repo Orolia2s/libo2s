@@ -26,6 +26,8 @@
  */
 bool serial_get_options(serial_port_t* port)
 {
+	if (port->got_options)
+		return true;
 	if (tcgetattr(port->file.descriptor, &port->options.termios) != 0)
 	{
 		log_error("Unable to get the attributes of the terminal: %s", strerror(errno));

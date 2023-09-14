@@ -64,9 +64,6 @@ int64_t serial_decode_baudrate(speed_t flag)
 	return -1;
 }
 
-// already defined in #include <termios.h>:
-// B9600, B115200 ect
-
 /**
  * Convert the baudrate to a system specific enum.
  *

@@ -15,14 +15,21 @@
 #include "o2s/log.h"
 #include "o2s/serial.h"
 
-#include <termios.h>
+#include <termios.h> // tcsetattr
 
 #include <errno.h>
+#include <iso646.h> // not
 #include <string.h> // strerror
-#include <unistd.h>
 
-void _serial_make_raw(serial_port_t* port)
+/**
+ * Modify the copy of the options, but do not apply them
+ * @see serial_make_raw
+ */
+bool serial_set_options_raw(serial_port_t* port)
 {
+	if (not serial_get_options(port))
+		return false;
+
 	port->options.input.ignore_break          = false;
 	port->options.input.signal_break          = false;
 	port->options.input.mark_errors           = false;
@@ -46,6 +53,8 @@ void _serial_make_raw(serial_port_t* port)
 	/* Not mentionned in documentation */
 	port->options.control_characters.timeout = 0;
 	port->options.control_characters.minimum = 1;
+
+	return true;
 }
 
 /**
@@ -57,8 +66,8 @@ void _serial_make_raw(serial_port_t* port)
  */
 bool serial_make_raw(serial_port_t* port)
 {
-	serial_ensure_options(port);
-	_serial_make_raw(port);
+	if (not serial_set_options_raw(port))
+		return false;
 	if (tcsetattr(port->file.descriptor, TCSANOW, &port->options.termios) != 0)
 	{
 		log_error("Unable to set the attributes of the terminal: %s", strerror(errno));
