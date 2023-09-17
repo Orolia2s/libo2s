@@ -43,4 +43,5 @@ void*  queue_get(const queue_t* self, size_t index);
 ///@{
 size_t queue_room(const queue_t* self);
 size_t queue_count(const queue_t* self);
+size_t queue_capacity(const queue_t* self);
 ///@}

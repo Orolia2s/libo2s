@@ -57,6 +57,12 @@ size_t queue_count(const queue_t* self)
 	return deque_count(self);
 }
 
+/** Number of elements that can be stored in the queue @see deque_capacity */
+size_t queue_capacity(const queue_t* self)
+{
+	return deque_capacity(self);
+}
+
 /** Next element to be popped @see deque_first */
 void* queue_first(const queue_t* self)
 {

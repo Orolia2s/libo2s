@@ -4,15 +4,14 @@
 }
 : pkgs.llvmPackages_16.stdenv.mkDerivation rec
 {
-  pname = "libo2s";
-  version = "0.4.2";
+  name = "libo2s";
   outputs = [ "out" "doc" ];
 
   src =  pkgs.nix-gitignore.gitignoreSource [] ./.;
   nativeBuildInputs = with pkgs; [ doxygen ];
 
 
-  Version = version;
+  Version = "nix";
 
   buildPhase = ''
     runHook preBuild
@@ -33,7 +32,7 @@
 
     if [ -n "$out" ]; then
       mkdir --parents $out/lib $out/include
-      cp ${pname}.a $out/lib
+      cp ${name}.a $out/lib
       cp  --recursive include/o2s $out/include
     fi
 
