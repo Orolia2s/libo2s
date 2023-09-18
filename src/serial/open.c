@@ -20,8 +20,17 @@
 /**
  * Open the port in read-only, and allocate the buffer.
  */
-serial_port_t serial_open(const char* port_name)
+serial_port_t serial_open_readonly(const char* port_name)
 {
 	serial_port_t port = {.file = file_open(port_name, O_RDONLY | O_NOCTTY)};
+	return port;
+}
+
+/**
+ * Open the port in read and write, and allocate the buffer.
+ */
+serial_port_t serial_open_readwrite(const char* port_name)
+{
+	serial_port_t port = {.file = file_open(port_name, O_RDWR | O_NOCTTY)};
 	return port;
 }

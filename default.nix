@@ -10,7 +10,6 @@
   src =  pkgs.nix-gitignore.gitignoreSource [] ./.;
   nativeBuildInputs = with pkgs; [ doxygen ];
 
-
   Version = "nix";
 
   buildPhase = ''
