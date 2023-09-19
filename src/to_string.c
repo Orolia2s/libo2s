@@ -111,7 +111,7 @@ string_t char_to_string(const char* value)
 			string_append_char(&result, 'r');
 			break;
 		default:
-			string_append_char(&result, 'X');
+			string_append_char(&result, 'x');
 			if (*value >= 16)
 				string_append_char(&result, "0123456789abcdef"[*value >> 4]);
 			string_append_char(&result, "0123456789abcdef"[*value & 0xf]);
