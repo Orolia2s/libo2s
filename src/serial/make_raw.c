@@ -61,7 +61,12 @@ bool serial_set_options_speed(serial_port_t* port, int64_t speed_bps)
 {
 	speed_t speed = serial_encode_baudrate(speed_bps);
 
-	if (speed == 0 or not serial_get_options(port))
+	if (speed == 0)
+	{
+		log_error("%li is not a valid baudrate, refer to termios(3) for further details", speed_bps);
+		return false;
+	}
+	if (not serial_get_options(port))
 		return false;
 	port->options.input_speed              = speed;
 	port->options.output_speed             = speed;
