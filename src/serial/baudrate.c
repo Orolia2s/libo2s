@@ -70,7 +70,6 @@ int64_t serial_decode_baudrate(speed_t flag)
  * @return
  *  - A system specific value, as define in `termios.h`
  *  - 0 if the value wasn't an accepted value.
- *
  */
 speed_t serial_encode_baudrate(int64_t speed_in_bps)
 {

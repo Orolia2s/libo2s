@@ -57,6 +57,20 @@ bool serial_set_options_raw(serial_port_t* port)
 	return true;
 }
 
+bool serial_set_options_speed(serial_port_t* port, int64_t speed_bps)
+{
+	speed_t speed = serial_encode_baudrate(speed_bps);
+
+	if (speed == 0 or not serial_get_options(port))
+		return false;
+	port->options.input_speed              = speed;
+	port->options.output_speed             = speed;
+	port->options.input._dont_modify_speed = false;
+	port->options.control._speed_4lsb      = speed;
+	port->options.control._speed_is_extra  = speed >> 12;
+	return true;
+}
+
 /**
  * General configuration for non-canonical mode
  *
@@ -64,9 +78,9 @@ bool serial_set_options_raw(serial_port_t* port)
  * driver: input is available character by character, echoing is disabled, and
  * all special processing of terminal input and output characters is disabled.
  */
-bool serial_make_raw(serial_port_t* port)
+bool serial_make_raw(serial_port_t* port, int64_t speed_bps)
 {
-	if (not (serial_set_options_raw(port) and serial_apply_options(port)))
+	if (not (serial_set_options_raw(port) and serial_set_options_speed(port, speed_bps) and serial_apply_options(port)))
 		return false;
 	return true;
 }
