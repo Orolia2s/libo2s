@@ -120,3 +120,8 @@ string_t char_to_string(const char* value)
 	string_append_char(&result, '\'');
 	return result;
 }
+
+const char* boolean_to_cstring(bool value)
+{
+	return value ? "true": "false";
+}

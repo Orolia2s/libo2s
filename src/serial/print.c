@@ -87,9 +87,6 @@ static void serial_print_local_modes(const struct serial_local_modes* modes)
 	printf("    %-*s: %s\n", WIDTH, "enable_processing", modes->enable_processing ? "true" : "false");
 }
 
-#define PRINT_UCHAR(CHARS, NAME) \
-	printf("    %-*s: %#.2hhx\n", WIDTH, PP_STR(NAME), CHARS->NAME);
-
 static void serial_print_control_characters(union serial_control_characters* chars)
 {
 	printf("  control_characters:\n");

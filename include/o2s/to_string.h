@@ -48,3 +48,5 @@ string_t deque_to_string(const deque_t* self, string_t (*function)(const void* e
 inline string_t queue_to_string(const queue_t* self, string_t (*function)(const void* element)) { return deque_to_string(self, function); }
 inline string_t stack_to_string(const stack_t* self, string_t (*function)(const void* element)) { return deque_to_string(self, function); }
 ///@}
+
+const char* boolean_to_cstring(bool value);
