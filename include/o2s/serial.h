@@ -59,9 +59,7 @@ speed_t       serial_encode_baudrate(int64_t speed_in_bps);
 bool          serial_print_config(serial_port_t* port);
 bool          serial_clear(serial_port_t* port);
 
-/** @see file_accumulate */
-#define serial_accumulate(/* serial_port_t* */ port, /* size_t */ n) \
-	file_accumulate((ifstream_t*)port, n)
+bool          serial_accumulate(serial_port_t* port, size_t count);
 
 /**
  * Use the RAII with serial ports.
