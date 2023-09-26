@@ -1,6 +1,7 @@
 extern "C"
 {
 #include "o2s/file_input_stream.h"
+#include "o2s/serial.h" // serial_accumulate
 
 #include <fcntl.h> // O_RDONLY
 
@@ -139,6 +140,7 @@ SCENARIO("A stream can be accumulated", "[file]")
 		WHEN("We need to read the whole content")
 		{
 			FileInputStream tested = file_open(filename.c_str(), O_RDONLY);
+			tested.stream.accumulate = (bool (*)(istream_t*, size_t))serial_accumulate;
 
 			THEN("It waits")
 			{

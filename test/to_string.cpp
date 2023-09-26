@@ -148,15 +148,15 @@ TEST_CASE("Characters to string", "[to_string]")
 	}
 	{
 		String tested = char_to_string("\002");
-		CHECK( std::string(string_to_cstring(&tested)) == "'\\X2'" );
+		CHECK( std::string(string_to_cstring(&tested)) == "'\\x2'" );
 	}
 	{
 		String tested = char_to_string("\020");
-		CHECK( std::string(string_to_cstring(&tested)) == "'\\X10'" );
+		CHECK( std::string(string_to_cstring(&tested)) == "'\\x10'" );
 	}
 	{
 		String tested = char_to_string("\177");
-		CHECK( std::string(string_to_cstring(&tested)) == "'\\X7f'" );
+		CHECK( std::string(string_to_cstring(&tested)) == "'\\x7f'" );
 	}
 	{
 		String tested = char_to_string("~");
