@@ -16,8 +16,8 @@
 #include "o2s/log.h"
 
 #include <errno.h>
-#include <string.h> // strerror
 #include <iso646.h> // not, and
+#include <string.h> // strerror
 #include <unistd.h> // read
 
 /**

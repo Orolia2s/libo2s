@@ -20,7 +20,7 @@
 #include <sys/types.h> // ssize_t
 
 #include <stdbool.h>
-#include <stdint.h> // uint*_t
+#include <stdint.h>    // uint*_t
 
 /** Might or might not be a struct. */
 typedef struct serial_port serial_port_t;

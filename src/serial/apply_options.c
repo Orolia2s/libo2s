@@ -18,9 +18,9 @@
 #include <termios.h> // tcsetattr
 
 #include <errno.h>
-#include <iso646.h> // not
+#include <iso646.h>  // not
 #include <stdbool.h>
-#include <string.h> // strerror
+#include <string.h>  // strerror
 
 /** Apply the options immediatly */
 bool serial_apply_options(serial_port_t* port)

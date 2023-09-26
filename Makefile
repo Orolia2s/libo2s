@@ -14,6 +14,8 @@ Static  := $(Name).a
 Shared  := $(Name).so
 Version ?= $(shell git tag --sort '-version:refname' --merged | head -1)
 
+ClangFormat ?= clang-format
+
 ImplementationFolder := src
 InterfaceFolder      := include
 BuildFolder          := cache
@@ -74,7 +76,7 @@ shared: $(Shared) ## Compile the shared library. Appropriate compilation flags l
 ##@ Developping
 
 format: $(Sources) $(Headers) ## Apply clang-format on source files and headers
-	echo $^ | xargs -L1 clang-format -i
+	echo $^ | xargs -L1 $(ClangFormat) -i
 
 .PHONY: format
 

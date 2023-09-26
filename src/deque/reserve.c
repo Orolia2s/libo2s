@@ -17,15 +17,18 @@
 #include <stdlib.h> // reallocarray
 
 /**
- * Reallocates the deque if @p count elements cannot fit in the current allocation.
- * If the reallocation failed, the capacity will be set to zero.
+ * Reallocates the deque if @p count elements cannot fit in the current
+ * allocation. If the reallocation failed, the capacity will be set to zero.
  */
-void deque_reserve(deque_t* self, size_t count) {
+void deque_reserve(deque_t* self, size_t count)
+{
 	size_t room = deque_room(self);
-	if (room < count) {
+	if (room < count)
+	{
 		size_t new_capacity = self->capacity + count;
 		self->storage = reallocarray(self->storage, new_capacity, self->type_size);
-		if (self->storage == NULL) new_capacity = 0;
+		if (self->storage == NULL)
+			new_capacity = 0;
 		self->capacity = new_capacity;
 	}
 }

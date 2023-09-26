@@ -18,8 +18,8 @@
 #include <termios.h> // tcsetattr
 
 #include <errno.h>
-#include <iso646.h> // not
-#include <string.h> // strerror
+#include <iso646.h>  // not
+#include <string.h>  // strerror
 
 /**
  * Modify the copy of the options, but do not apply them
@@ -85,7 +85,8 @@ bool serial_set_options_speed(serial_port_t* port, int64_t speed_bps)
  */
 bool serial_make_raw(serial_port_t* port, int64_t speed_bps)
 {
-	if (not (serial_set_options_raw(port) and serial_set_options_speed(port, speed_bps) and serial_apply_options(port)))
+	if (not(serial_set_options_raw(port) and serial_set_options_speed(port, speed_bps)
+	        and serial_apply_options(port)))
 		return false;
 	return true;
 }

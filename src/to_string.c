@@ -84,8 +84,8 @@ string_t cstring_to_string(const char* const* value)
 
 /**
  * Creates a string to represent the char pointed to by @p value.
- * If @p value is printable, it will be included directly, else a escape sequence.
- * In both cases surrounded by single quotes
+ * If @p value is printable, it will be included directly, else a escape
+ * sequence. In both cases surrounded by single quotes
  */
 string_t char_to_string(const char* value)
 {
@@ -123,5 +123,5 @@ string_t char_to_string(const char* value)
 
 const char* boolean_to_cstring(bool value)
 {
-	return value ? "true": "false";
+	return value ? "true" : "false";
 }

@@ -19,8 +19,8 @@
 
 /**
  * If possible, accumulate @p count bytes before returning.
- * The difference with @ref file_accumulate is that serial_accumulate keeps reading
- * even if read returns 0.
+ * The difference with @ref file_accumulate is that serial_accumulate keeps
+ * reading even if read returns 0.
  * @return a boolean
  *  - `true` if n bytes were successfully accumulated
  *  - `false` otherwise
