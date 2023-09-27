@@ -90,7 +90,7 @@ void   array_iter(const array_t* self, void (*function)());
  */
 #define array_foreach(TYPE, ARRAY, ELEMENT) \
 	for (char* _pointer = (char*)array_first(ARRAY); \
-	     _pointer <= (char*)array_last(ARRAY) && ((*(ELEMENT) = *(TYPE*)_pointer) || true); \
+	     _pointer <= (char*)array_last(ARRAY) && ((*(ELEMENT) = *(TYPE*)_pointer), true); \
 	     _pointer += (ARRAY)->type_size)
 
 /**
@@ -99,6 +99,6 @@ void   array_iter(const array_t* self, void (*function)());
  */
 #define array_enumerate(TYPE, ARRAY, ELEMENT, INDEX) \
 	for (*(INDEX) = 0; *(INDEX) < array_count(ARRAY) \
-	                   && ((*(ELEMENT) = *(TYPE*)array_get(ARRAY, *(INDEX))) || true); \
+	                   && ((*(ELEMENT) = *(TYPE*)array_get(ARRAY, *(INDEX))), true); \
 	     (*(INDEX))++)
 ///@}
