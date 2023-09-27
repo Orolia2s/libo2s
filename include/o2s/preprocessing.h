@@ -36,3 +36,6 @@
 		__typeof__(b) _b = (b); \
 		_a < _b ? _a : _b; \
 	})
+
+/** Number of elements in a C array (on the stack) */
+#define C_ARRAY_LENGTH(ARRAY) (sizeof(ARRAY) / sizeof(*ARRAY))
