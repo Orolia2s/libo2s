@@ -34,3 +34,9 @@ bool string_is_empty(const string_t* self)
 {
 	return array_is_empty(self);
 }
+
+/** One-past-the-last pointer */
+char* string_end(const string_t* self)
+{
+	return array_end(self);
+}

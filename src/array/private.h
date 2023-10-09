@@ -21,5 +21,4 @@
 /** Factor used to multiply the capacity with */
 #define ARRAY_GROWTH_FACTOR 2
 
-void*  array_end(const array_t* self);
 size_t array_offset(const array_t* self, size_t count);

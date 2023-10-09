@@ -69,6 +69,7 @@ bool   array_pop_back_n(array_t* self, void* destination, size_t count);
 void*  array_first(const array_t* self);
 void*  array_last(const array_t* self);
 void*  array_get(const array_t* self, size_t index);
+void*  array_end(const array_t* self);
 ///@}
 
 /** @name Capacity */

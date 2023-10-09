@@ -89,6 +89,7 @@ string_t string_pop_as_string(string_t* self, size_t count);
 size_t   string_length(const string_t* self);
 char*    string_get(const string_t* self, size_t index);
 bool     string_is_empty(const string_t* self);
+char*    string_end(const string_t* self);
 
 bool     string_reserve(string_t* self, size_t count);
 bool     string_trim(string_t* self);
