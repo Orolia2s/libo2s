@@ -23,6 +23,30 @@
 #include <stdio.h>    // snprintf
 #include <string.h>   // strlen
 
+string_t float_to_string(const float* value)
+{
+	string_t     result  = string_new();
+
+	if (not string_reserve(&result, 20))
+		return result;
+	const int size = snprintf(result.start, result.capacity, "%g", *value);
+	if (size > 0)
+		result.count = (unsigned)size;
+	return result;
+}
+
+string_t double_to_string(const double* value)
+{
+	string_t     result  = string_new();
+
+	if (not string_reserve(&result, 20))
+		return result;
+	const int size = snprintf(result.start, result.capacity, "%lg", *value);
+	if (size > 0)
+		result.count = (unsigned)size;
+	return result;
+}
+
 string_t int_to_string(const int* value)
 {
 	string_t     result  = string_new();

@@ -65,3 +65,28 @@ bool array_pop_back(array_t* self, void* destination)
 {
 	return array_pop_back_n(self, destination, 1);
 }
+
+/**
+ * Moves to @p destination the @p count first elements of @p self
+ * @return false if there are not enough elements in the array
+ */
+bool array_pop_front_n(array_t* self, void* destination, size_t count)
+{
+	if (count > self->count)
+		return false;
+	size_t remaining = self->count - count;
+	if (destination)
+		memcpy(destination, self->start, array_offset(self, count));
+	memmove(self->start, array_get(self, count), array_offset(self, remaining));
+	self->count -= count;
+	return true;
+}
+
+/**
+ * Moves to @p destination the first element of @p self
+ * @return false if the array is empty
+ */
+bool array_pop_front(array_t* self, void* destination)
+{
+	return array_pop_front_n(self, destination, 1);
+}

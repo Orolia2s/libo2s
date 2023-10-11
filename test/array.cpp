@@ -1,7 +1,9 @@
 extern "C"
 {
 #include "o2s/array.h"
-#include "o2s/cleanup.h" // cleanup_allocated_memory
+
+#include "o2s/cleanup.h"       // cleanup_allocated_memory
+#include "o2s/preprocessing.h" // C_ARRAY_LENGTH
 
 #include <string.h> // strdup
 }
@@ -208,7 +210,7 @@ SCENARIO("We can iterate on array type", "[array]")
 		array_t tested  = ArrayNew(short);
 		short   tab[12] = {111, 222, 333, -50, 5, 6, 7, 8, 9, 10, 516, 2123};
 
-		array_push_back_n(&tested, tab, 12);
+		REQUIRE( array_push_back_n(&tested, tab, 12) );
 
 		THEN("The size is 12 and the capacity at least 12")
 		{
@@ -255,7 +257,7 @@ SCENARIO("Array resources are correctly managed", "[array]")
 		array_t tested    = ArrayNew(double);
 		double  content[] = {9.8, 7.6, 5.4, 3.2, 1.0};
 
-		array_push_back_n(&tested, content, 5);
+		REQUIRE( array_push_back_n(&tested, content, 5) );
 
 		THEN("Its capacity is greater than 5")
 		{
@@ -314,7 +316,7 @@ SCENARIO("Array can hold more complex types", "[array]")
 		array_t tested = ArrayNew(char*);
 
 		char     content[][10] = {"Hello", "Bonjour", "Monde", "Ciao"};
-		unsigned length        = sizeof(content) / sizeof(*content);
+		unsigned length        = C_ARRAY_LENGTH(content);
 		char*    pushed;
 
 		for (unsigned i = 0; i < length; i++)
@@ -368,4 +370,35 @@ SCENARIO("Array can hold more complex types", "[array]")
 			}
 		}
 	}
+}
+
+TEST_CASE("Pop front", "[array]")
+{
+	Array          tested = ArrayNew(double);
+
+	const double   content[] = {4.13, 1.61, 1.71, 2.31, 8.91, 7.46, 5.76};
+	const unsigned length    = C_ARRAY_LENGTH(content);
+
+	REQUIRE( array_push_back_n(&tested, content, length) );
+
+	double popped[length];
+
+	REQUIRE( array_pop_front_n(&tested, popped, 4) );
+
+	for (int i = 0; i < 4; i++)
+		CHECK( popped[i] == content[i] );
+
+	double   element;
+	unsigned index;
+
+	REQUIRE( array_count(&tested) == length - 4);
+
+	array_enumerate(double, &tested, &element, &index)
+	{
+		CHECK( element == content[index + 4] );
+	}
+
+	REQUIRE( array_pop_front(&tested, &element) );
+	CHECK( element == content[4] );
+	CHECK_FALSE( array_pop_front_n(&tested, popped, length) );
 }

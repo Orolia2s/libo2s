@@ -62,6 +62,9 @@ bool   array_push_back_n(array_t* self, const void* elements, size_t count);
 
 bool   array_pop_back(array_t* self, void* destination);
 bool   array_pop_back_n(array_t* self, void* destination, size_t count);
+
+bool   array_pop_front(array_t* self, void* destination);
+bool   array_pop_front_n(array_t* self, void* destination, size_t count);
 ///@}
 
 /** @name Element access */
