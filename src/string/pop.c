@@ -35,3 +35,15 @@ string_t string_pop_as_string(string_t* self, size_t count)
 	array_pop_back_n(self, NULL, count);
 	return result;
 }
+
+/** Pop the first character */
+bool string_pop_front(string_t* self, char* destination)
+{
+	return array_pop_front(self, destination);
+}
+
+/** Pop the first @p count characters */
+bool string_pop_front_n(string_t* self, char* destination, size_t count)
+{
+	return array_pop_front_n(self, destination, count);
+}

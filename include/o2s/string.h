@@ -82,6 +82,9 @@ bool string_append(string_t* self, const string_t* other);
 bool     string_pop(string_t* self, char* destination);
 bool     string_pop_n(string_t* self, char* destination, size_t count);
 string_t string_pop_as_string(string_t* self, size_t count);
+
+bool     string_pop_front(string_t* self, char* destination);
+bool     string_pop_front_n(string_t* self, char* destination, size_t count);
 ///@}
 
 /** @name Capacity */
