@@ -22,6 +22,7 @@ generated_html
 *.o
 *.out
 *.pc
+!/libo2s.pc
 *.so
 
 result*

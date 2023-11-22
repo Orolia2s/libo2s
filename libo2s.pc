@@ -1,0 +1,9 @@
+prefix=$out
+includedir=${prefix}/include
+libdir=${prefix}/lib
+
+Name: libo2s
+Description: Fundamental datastructures for C
+Version: $Version
+Libs: -L${libdir} -lo2s
+Cflags: -I${includedir}/o2s
