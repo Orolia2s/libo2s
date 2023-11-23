@@ -6,7 +6,7 @@ stages:
 build:
   stage: build
   tags:
-    - gcc
+    - clang
     - make
   script:
     - make static -j $(nproc)
@@ -20,6 +20,7 @@ test:
   stage: test
   tags:
     - conan
+    - clang
     - make
   dependencies:
     - build
@@ -30,9 +31,7 @@ test:
 
 publish:
   stage: publish
-  tags:
-    - conan
-    - make
+  image: registry.orolia.com/mirrors/public-images/conan-runner:1.53.0
   only:
     refs:
       - tags
