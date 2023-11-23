@@ -37,7 +37,6 @@ publish:
       - tags
   script:
     - conan remote add gitlab ${CI_API_V4_URL}/packages/conan
-    - export VERSION=$(make version)
-    - export PACKAGE="libo2s/$VERSION@orolia2s+libo2s/${CI_COMMIT_REF_NAME}"
+    - export PACKAGE="libo2s/${CI_COMMIT_TAG}@${CI_PROJECT_NAMESPACE}+${CI_PROJECT_NAME}/gitlab"
     - conan create . $PACKAGE
     - CONAN_LOGIN_USERNAME=ci_user CONAN_PASSWORD=${CI_JOB_TOKEN} conan upload $PACKAGE --remote gitlab
