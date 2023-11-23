@@ -10,6 +10,8 @@ extern "C"
 
 #include <catch2/catch_test_macros.hpp>
 
+#include <climits> // ULONG_MAX
+
 TEST_CASE("RAII with an empty array")
 {
 	Array tested = ArrayNew(double);
@@ -268,8 +270,8 @@ SCENARIO("Array resources are correctly managed", "[array]")
 		WHEN("Too much memory is requested")
 		{
 			double* allocated = (double*)tested.start;
-			REQUIRE_FALSE( array_reserve(&tested, 1024UL * 1024 * 1024 * 97) );
-			REQUIRE_FALSE( array_push_back_n(&tested, content, 1024UL * 1024 * 1024 * 97) );
+			REQUIRE_FALSE( array_reserve(&tested, ULONG_MAX / sizeof(double) / 2) );
+			REQUIRE_FALSE( array_push_back_n(&tested, content, ULONG_MAX / sizeof(double) / 2) );
 
 			THEN("The previous content remains untouched")
 			{

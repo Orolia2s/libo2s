@@ -5,6 +5,8 @@ extern "C"
 
 #include <catch2/catch_test_macros.hpp>
 
+#include <climits> // ULONG_MAX
+
 TEST_CASE("A string can be created from a literal", "[string]")
 {
 	String tested = string_from_literal("A funny quote");
@@ -147,7 +149,7 @@ TEST_CASE("String to C string conversion can fail", "[string]")
 		);
 
 	CHECK( string_trim(&tested) );
-	tested.type_size = 1024UL * 1024 * 1024 * 97; // for the reserve(1) to fail
+	tested.type_size = ULONG_MAX / 2; // for the reserve(1) to fail
 	REQUIRE(string_to_cstring(&tested) == NULL);
 }
 

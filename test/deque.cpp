@@ -6,6 +6,8 @@ extern "C"
 
 #include <catch2/catch_test_macros.hpp>
 
+#include <climits> // ULONG_MAX
+
 SCENARIO("We can populate a deque", "[deque]")
 {
 	GIVEN("An empty deque of ints with a capacity of 45")
@@ -315,7 +317,7 @@ SCENARIO("Resources are correctly managed", "[deque]")
 {
 	WHEN("Allocation fails")
 	{
-		deque_t tested = DequeAllocate(1024UL * 1024 * 1024 * 97, double);
+		deque_t tested = DequeAllocate(ULONG_MAX / sizeof(double) / 2, double);
 
 		THEN("Capacity is marked as 0")
 		{
@@ -518,7 +520,7 @@ SCENARIO("We can reserve capacity", "[deque]")
 
 		WHEN("A too big capacity is reserved")
 		{
-			deque_reserve(&tested, 1024UL * 1024 * 1024 * 97);
+			deque_reserve(&tested, ULONG_MAX / sizeof(int) / 2);
 
 			THEN("Capacity is marked as 0")
 			{
