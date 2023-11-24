@@ -122,6 +122,39 @@ TEST_CASE("Strings can be created from integer types", "[to_string]")
 
 		CHECK(std::string(string_to_cstring(&tested)) == "[123, 8754, 9662, 13685, 20123, 3, 1, 4, 1, 5, 9, 2]");
 	}
+
+	SECTION("Booleans")
+	{
+		bool              value  = GENERATE(true, false);
+		std::stringstream converter;
+
+		converter << std::boolalpha << value;
+		CHECK( converter.str() == boolean_to_cstring(value) );
+	}
+}
+
+TEST_CASE("Floating-point numbers to string", "[to_string]")
+{
+	SECTION("Float")
+	{
+		float  value  = GENERATE(0.001, 3.14, 314.15, 123.54e9, 654.987e-9);
+		String tested = float_to_string(&value);
+		std::stringstream converter;
+
+		converter << value;
+		CHECK( converter.str() == string_to_cstring(&tested) );
+	}
+
+	SECTION("Double")
+	{
+		double value = GENERATE(
+		    0.001, 3.14, 314.15, 123.54e9, 654.987e-9, 728e18 + 123e9, 234e-18 + 456e-9);
+		String            tested = double_to_string(&value);
+		std::stringstream converter;
+
+		converter << value;
+		CHECK( converter.str() == string_to_cstring(&tested) );
+	}
 }
 
 TEST_CASE("Characters to string", "[to_string]")
