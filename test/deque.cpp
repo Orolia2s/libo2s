@@ -488,6 +488,7 @@ TEST_CASE("Deque of as a queue", "[deque]")
 	CHECK( popped == values[0] );
 	CHECK( *(float*)queue_first(&tested) == values[1] );
 	CHECK( *(float*)queue_get(&tested, 1) == values[2] );
+	CHECK( queue_capacity(&tested) >= 3 );
 }
 
 SCENARIO("We can reserve capacity", "[deque]")

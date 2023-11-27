@@ -36,6 +36,7 @@ SCENARIO("Strings can be manipulated intuitively", "[string]")
 			{
 				REQUIRE( string_length(&tested) == 1 );
 				REQUIRE_FALSE( string_is_empty(&tested) );
+				CHECK( string_end(&tested) == 1 + string_get(&tested, 0) );
 			}
 
 			THEN("The content is this char")
@@ -127,6 +128,26 @@ SCENARIO("Strings can be manipulated intuitively", "[string]")
 				}
 			}
 
+			AND_WHEN("Characters are popped from the front")
+			{
+				char popped[10] = {};
+				char space;
+
+				REQUIRE( string_pop_front_n(&tested, popped, strlen("Bonjour")) );
+				REQUIRE( string_pop_front(&tested, &space) );
+
+				THEN("The popped characters are correct")
+				{
+					REQUIRE( strcmp(popped, "Bonjour") == 0 );
+					REQUIRE( space == ' ' );
+				}
+
+				THEN("The remaining characters are as expected")
+				{
+					REQUIRE( strcmp(string_to_cstring(&tested), "Monde") == 0 );
+				}
+			}
+
 			AND_WHEN("Too much characters are popped as a string")
 			{
 				String toomuch = string_pop_as_string(&tested, 20);
@@ -205,9 +226,13 @@ TEST_CASE("Empty String", "[string]")
 {
 	{
 		String tested = string_new();
+
+		CHECK( string_length(&tested) == 0 );
 	}
 	{
 		String tested = string_from_literal("");
+
+		CHECK( string_length(&tested) == 0 );
 	}
 }
 

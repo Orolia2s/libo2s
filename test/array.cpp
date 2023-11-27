@@ -15,6 +15,8 @@ extern "C"
 TEST_CASE("RAII with an empty array")
 {
 	Array tested = ArrayNew(double);
+
+	CHECK(array_count(&tested) == 0);
 }
 
 SCENARIO("Arrays elements can be added and popped to the back", "[array]")
@@ -62,6 +64,7 @@ SCENARIO("Arrays elements can be added and popped to the back", "[array]")
 				REQUIRE( *(int*)array_first(&tested) == i );
 				REQUIRE( *(int*)array_last(&tested) == i );
 				REQUIRE( *(int*)array_get(&tested, 0) == i );
+				REQUIRE( 1 + (int*)array_first(&tested) == (int*)array_end(&tested) );
 			}
 
 			WHEN("The element is popped")
