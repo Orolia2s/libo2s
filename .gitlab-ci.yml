@@ -47,13 +47,25 @@ publish:
   stage: publish
   tags:
     - conan1
-  only:
-    refs:
-      - tags
+  rules:
+    - if: $CI_COMMIT_TAG
   script:
     - conan remote add gitlab ${CI_API_V4_URL}/packages/conan
     - export PACKAGE="libo2s/${CI_COMMIT_TAG}@${CI_PROJECT_NAMESPACE}+${CI_PROJECT_NAME}/gitlab"
     - conan create . $PACKAGE
     - CONAN_LOGIN_USERNAME=ci_user CONAN_PASSWORD=${CI_JOB_TOKEN} conan upload $PACKAGE --remote gitlab
 
-  
+pages:
+  stage: publish
+  tags:
+    - nix
+  rules:
+    - if: $CI_COMMIT_TAG
+    - if: $CI_PIPELINE_SOURCE == "web"
+  script:
+    - "nix build .#default.doc"
+    - cp -r result-doc/share/doc/html/ public
+  artifacts:
+    paths:
+      - public
+
