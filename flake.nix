@@ -57,11 +57,10 @@
           pkgs.mkShell.override { stdenv = pkgs.llvmPackages_16.stdenv; } {
             packages = with pkgs; [
               llvmPackages_16.libllvm
-              gcc13
               pkg-config
               lcov
             ];
-            buildInputs = with pkgs; [ catch2_3 conan ];
+            buildInputs = with pkgs; [ catch2_3 ];
           };
       });
 }

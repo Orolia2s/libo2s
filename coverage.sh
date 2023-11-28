@@ -12,12 +12,12 @@ case "$TOOLCHAIN" in
   llvm)
     export CC='clang'
     export CXX='clang++'
-    export CFLAGS='-fprofile-instr-generate -fcoverage-mapping'
+    export CFLAGS='-O0 -fprofile-instr-generate -fcoverage-mapping'
     ;;
   gcc)
     export CC='gcc'
     export CXX='g++'
-    export CFLAGS='--coverage'
+    export CFLAGS='-O0 --coverage'
     ;;
   *) exit 1;;
 esac
@@ -47,4 +47,8 @@ esac
 
 HTML_DIR='generated_html'
 genhtml --output-directory "$HTML_DIR" "$LCOV_INFO"
-xdg-open "$HTML_DIR/index.html" 2>/dev/null
+
+if [ $# -lt 2 ] || [ $2 != "non-interactive" ]
+then
+	xdg-open "$HTML_DIR/index.html" 2>/dev/null
+fi
