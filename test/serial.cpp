@@ -61,3 +61,18 @@ TEST_CASE("We can convert baudrate constants to and from bps rates", "[serial]")
 	CHECK( serial_encode_baudrate(std::get<long>(rate)) == std::get<speed_t>(rate) );
 	CHECK( serial_decode_baudrate(std::get<speed_t>(rate)) == std::get<long>(rate) );
 }
+
+TEST_CASE("We can set a serial port raw", "[serial]")
+{
+	uint8_t       initial = GENERATE(0, 0xFF);
+	serial_port_t ours = {.got_options = true};
+	serial_port_t std;
+
+	memset(&std.options, initial, sizeof(std.options));
+	memset(&ours.options, initial, sizeof(ours.options));
+
+	cfmakeraw(&std.options.termios);
+	REQUIRE( serial_set_options_raw(&ours) );
+
+	CHECK( memcmp(&std.options, &ours.options, sizeof(std.options)) == 0 );
+}
