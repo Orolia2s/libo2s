@@ -12,12 +12,12 @@ case "$TOOLCHAIN" in
   llvm)
     export CC='clang'
     export CXX='clang++'
-    export CFLAGS='-O0 -fprofile-instr-generate -fcoverage-mapping'
+    export CFLAGS='-fprofile-instr-generate -fcoverage-mapping'
     ;;
   gcc)
     export CC='gcc'
     export CXX='g++'
-    export CFLAGS='-O0 --coverage'
+    export CFLAGS='--coverage'
     ;;
   *) exit 1;;
 esac
