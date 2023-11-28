@@ -12,7 +12,8 @@
       in {
         packages = rec {
           libo2s = pkgs.llvmPackages_16.stdenv.mkDerivation (self: {
-            name = "libo2s";
+            pname = "libo2s";
+            version = pkgs.lib.fileContents ./version.txt;
             outputs = [ "out" "doc" ];
 
             src = pkgs.nix-gitignore.gitignoreSource [ ] ./.;
@@ -22,7 +23,7 @@
               validatePkgConfig
             ];
 
-            Version = "nix";
+            Version = self.version;
 
             buildPhase = ''
               runHook preBuild
@@ -36,9 +37,9 @@
             installPhase = ''
               runHook preInstall
 
-              install -Dm644 -t $out/lib ${self.name}.a
-              install -Dm644 -t $out/share/pkgconfig ${self.name}.pc
-              sed -i -e "s|[$]out|$out|g" -e 's|[$]Version|${self.Version}|g' $out/share/pkgconfig/${self.name}.pc
+              install -Dm644 -t $out/lib ${self.pname}.a
+              install -Dm644 -t $out/share/pkgconfig ${self.pname}.pc
+              sed -i -e "s|[$]out|$out|g" -e 's|[$]Version|${self.Version}|g' $out/share/pkgconfig/${self.pname}.pc
               mkdir --parents $out/include $doc/share/doc
               cp --recursive include/o2s $out/include
               cp --recursive doc/html $doc/share/doc
@@ -55,11 +56,7 @@
 
         devShells.default =
           pkgs.mkShell.override { stdenv = pkgs.llvmPackages_16.stdenv; } {
-            packages = with pkgs; [
-              llvmPackages_16.libllvm
-              pkg-config
-              lcov
-            ];
+            packages = with pkgs; [ llvmPackages_16.libllvm pkg-config lcov ];
             buildInputs = with pkgs; [ catch2_3 ];
           };
       });
