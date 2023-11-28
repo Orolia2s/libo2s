@@ -1,6 +1,8 @@
 extern "C"
 {
 #include "o2s/deque.h"
+
+#include "o2s/array.h"
 #include "o2s/queue.h"
 }
 
@@ -530,4 +532,20 @@ SCENARIO("We can reserve capacity", "[deque]")
 			}
 		}
 	}
+}
+
+TEST_CASE("Pop into an array", "[deque]")
+{
+	Deque tested = DequeAllocate(27, unsigned);
+	Array array = ArrayNew(unsigned);
+	unsigned content[] = {92, 78, 37, 10, 65, 35, 89};
+	unsigned length = sizeof(content) / sizeof(*content);
+
+	REQUIRE( deque_push_back_n(&tested, content, length) );
+	REQUIRE( deque_pop_front_into_array(&tested, &array, 4) );
+	REQUIRE( array_count(&array) == 4 );
+	REQUIRE( deque_pop_front_into_array(&tested, &array, length - 4) );
+
+	for (unsigned i = 0; i < length; i++)
+		CHECK( *(unsigned*)array_get(&array, i) == content[i] );
 }

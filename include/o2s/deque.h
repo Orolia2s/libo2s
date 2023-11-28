@@ -19,6 +19,9 @@
 #include <stdbool.h> // bool
 #include <stddef.h>  // size_t
 
+/* Forward declaration */
+struct array;
+
 /** Double-ended queue */
 typedef struct deque
 {
@@ -103,6 +106,8 @@ bool   deque_pop_front_n(deque_t* self, void* destination, size_t count);
 
 bool   deque_pop_back(deque_t* self, void* destination);
 bool   deque_pop_back_n(deque_t* self, void* destination, size_t count);
+
+bool   deque_pop_front_into_array(deque_t* self, struct array* destination, size_t count);
 ///@}
 
 /** @name Iterators */
