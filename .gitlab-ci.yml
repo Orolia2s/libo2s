@@ -36,7 +36,10 @@ test:
   script:
     - conan install test --build=missing
     - make -C test conan_build -j $(nproc)
-    - make -C test run
+    - make -C test report.xml
+  artifacts:
+    reports:
+      junit: test/report.xml
 
 coverage:
   stage: test

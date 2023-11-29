@@ -33,6 +33,9 @@ build: $(NAME)
 run: $(NAME)
 	./$<
 
+%.xml: $(NAME)
+	./$< --reporter junit > $@
+
 ##@ Cleaning
 
 clean:
