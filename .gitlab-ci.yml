@@ -46,7 +46,7 @@ coverage:
   tags:
     - nix
   script:
-    - nix develop --command bash coverage.sh llvm non-interactive
+    - nix develop --command bash coverage.sh gcc non-interactive
     - nix-shell --packages python311Packages.lcov_cobertura --command "lcov_cobertura lcov.info"
   coverage: '/lines[.]+:\s\d+[.]\d+%/'
   artifacts:

@@ -56,7 +56,7 @@
 
         devShells.default =
           pkgs.mkShell.override { stdenv = pkgs.llvmPackages_16.stdenv; } {
-            packages = with pkgs; [ llvmPackages_16.libllvm pkg-config lcov ];
+            packages = with pkgs; [ llvmPackages_16.libllvm pkg-config lcov gcc ];
             buildInputs = with pkgs; [ catch2_3 ];
           };
       });

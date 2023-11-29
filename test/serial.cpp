@@ -83,12 +83,12 @@ TEST_CASE("We can set a serial port speed", "[serial]")
 	long          rate = GENERATE(9600, 19200, 57600, 115200, 460800, 921600);
 	serial_port_t ours = {.got_options = true};
 	serial_port_t std;
-	speed_t       baudrate;
+	speed_t       baudrate = serial_encode_baudrate(rate);
 
 	memset(&std.options, initial, sizeof(std.options));
 	memset(&ours.options, initial, sizeof(ours.options));
 
-	REQUIRE( (baudrate = serial_encode_baudrate(rate)) != 0 );
+	REQUIRE( baudrate != 0 );
 	REQUIRE( cfsetspeed(&std.options.termios, baudrate) == 0 );
 	REQUIRE( serial_set_options_speed(&ours, rate) );
 

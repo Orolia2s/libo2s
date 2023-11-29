@@ -545,6 +545,7 @@ TEST_CASE("Pop into an array", "[deque]")
 	REQUIRE( deque_pop_front_into_array(&tested, &array, 4) );
 	REQUIRE( array_count(&array) == 4 );
 	REQUIRE( deque_pop_front_into_array(&tested, &array, length - 4) );
+	REQUIRE( array_count(&array) == length );
 
 	for (unsigned i = 0; i < length; i++)
 		CHECK( *(unsigned*)array_get(&array, i) == content[i] );
