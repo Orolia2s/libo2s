@@ -15,7 +15,6 @@ LIBO2S      := $(LIBO2S_PATH)/libo2s.a
 CXXFLAGS    += -g -Wall -Wextra --std=c++20
 CPPFLAGS    += -I $(LIBO2S_PATH)/include
 LDFLAGS     += -L $(LIBO2S_PATH)
-LIBS        ?= -lCatch2Main -lCatch2 # Conan sets it, nix doesn't
 LDLIBS      += -lo2s
 LDLIBS      += $(LIBS)
 

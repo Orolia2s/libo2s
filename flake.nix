@@ -27,20 +27,17 @@
             Version = self.version;
             doCheck = true;
 
-            preBuild = ''
-              makeFlagsArray+=(CFLAGS='-O2')
-            '';
             buildPhase = ''
               runHook preBuild
 
-              make static
+              CFLAGS=-O2 make static
 
               runHook postBuild
             '';
             checkPhase = ''
               runHook preCheck
 
-              make -C test build
+              LDLIBS=$(pkg-config --libs-only-l catch2-with-main) make -C test build
               ./test/test_libo2s.exe --reporter junit > report.xml
 
               runHook postCheck
@@ -102,7 +99,7 @@
               runHook preBuild
 
               CFLAGS='-O0 -g' make static
-              make -C test build
+              LDLIBS=$(pkg-config --libs-only-l catch2-with-main) make -C test build
               kcov --include-pattern=$PWD/src $out ./test/test_libo2s.exe
 
               runHook postBuild

@@ -1,8 +1,3 @@
-stages:
-  - build
-  - test
-  - publish
-
 check version:
   stage: .pre
   tags:
@@ -25,12 +20,14 @@ build:
       junit: report.xml
 
 coverage:
-  stage: test
+  stage: build
   tags:
     - nix
   script:
     - "nix build .#libo2s-cov"
     - cp result/test_libo2s.exe/cobertura.xml .
+    - "awk -F: '$1~/percent_covered/ { print }' result/test_libo2s.exe/coverage.json"
+  coverage: '/"percent_covered":\s*"[0-9.]+"/'
   artifacts:
     reports:
       coverage_report:
@@ -38,7 +35,7 @@ coverage:
         path: cobertura.xml
 
 publish:
-  stage: publish
+  stage: deploy
   tags:
     - conan1
   rules:
@@ -50,7 +47,7 @@ publish:
     - CONAN_LOGIN_USERNAME=ci_user CONAN_PASSWORD=${CI_JOB_TOKEN} conan upload $PACKAGE --remote gitlab
 
 pages:
-  stage: publish
+  stage: deploy
   tags:
     - nix
   rules:
