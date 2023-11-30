@@ -6,7 +6,7 @@ stages:
 check version:
   stage: .pre
   tags:
-    - nix
+    - linux
   rules:
     - if: $CI_COMMIT_TAG
   script:
@@ -15,45 +15,27 @@ check version:
 build:
   stage: build
   tags:
-    - clang
-    - make
+    - nix
   script:
-    - make static -j $(nproc)
-  artifacts:
-    expire_in: 1 week
-    paths:
-      - libo2s.a
-      - include/
-
-test:
-  stage: test
-  tags:
-    - conan
-    - clang
-    - make
-  dependencies:
-    - build
-  script:
-    - conan install test --build=missing
-    - make -C test conan_build -j $(nproc)
-    - make -C test report.xml
+    - "nix build .#libo2s.out"
+    - "nix build .#libo2s.ci"
+    - cp result-ci/report.xml .
   artifacts:
     reports:
-      junit: test/report.xml
+      junit: report.xml
 
 coverage:
   stage: test
   tags:
     - nix
   script:
-    - nix develop --command bash coverage.sh gcc non-interactive
-    - nix-shell --packages python311Packages.lcov_cobertura --command "lcov_cobertura lcov.info"
-  coverage: '/lines[.]+:\s\d+[.]\d+%/'
+    - "nix build .#libo2s-cov"
+    - cp result/test_libo2s.exe/cobertura.xml .
   artifacts:
     reports:
       coverage_report:
         coverage_format: cobertura
-        path: coverage.xml
+        path: cobertura.xml
 
 publish:
   stage: publish
@@ -75,8 +57,8 @@ pages:
     - if: $CI_COMMIT_TAG
     - if: $CI_PIPELINE_SOURCE == "web"
   script:
-    - "nix build .#default.doc"
-    - cp -r result-doc/share/doc/html/ public
+    - "nix build .#libo2s-doc"
+    - cp -r result/share/doc/html public
   artifacts:
     paths:
       - public
