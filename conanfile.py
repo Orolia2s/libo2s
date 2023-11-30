@@ -25,17 +25,13 @@ class LibO2sConan(ConanFile):
     exports_sources = 'Makefile', 'src/*.[ch]', 'include/*.h', 'README.md'
 
     def export(self):
-        # Only files that are necessary for the evaluation of the conanfile.py
-        # recipe must be exported with this method. Files necessary for
-        # building from sources should be exported with the exports_sources
-        # attribute or the export_source() method.
         git = Git(self, folder=self.recipe_folder)
         version = git.run('tag --sort "-version:refname" --merged').split('\n', 1)[0]
         save(self, os.path.join(self.export_folder, 'version.txt'), version)
 
     def set_version(self):
         try:
-            self.version = load(self, 'version.txt')
+            self.version = load(self, 'version.txt').strip()
         except:
             git = Git(self, folder=self.recipe_folder)
             self.version = git.run('tag --sort "-version:refname" --merged').split('\n', 1)[0]
@@ -65,10 +61,8 @@ class LibO2sConan(ConanFile):
              os.path.join(self.package_folder, 'lib'))
         copy(self, '*.so', self.build_folder,
              os.path.join(self.package_folder, 'lib'))
-        copy(self, 'version.txt', self.source_folder,
-             os.path.join(self.package_folder, 'lib'))
-        copy(self, 'README.md', self.source_folder,
-             os.path.join(self.package_folder, 'lib'))
+        copy(self, 'version.txt', self.source_folder, self.package_folder)
+        copy(self, 'README.md', self.source_folder, self.package_folder)
 
     def package_info(self):
         self.cpp_info.libs = ['o2s']
