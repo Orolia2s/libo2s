@@ -18,24 +18,22 @@
           libo2s = pkgs.llvmPackages_16.stdenv.mkDerivation (self: {
             pname = "libo2s";
             inherit version;
-            outputs = [ "out" "doc" "ci" ];
+            outputs = [ "out" "ci" ];
 
             inherit src;
-            nativeBuildInputs = with pkgs; [
-              pkg-config
-              doxygen
-              validatePkgConfig
-            ];
+            nativeBuildInputs = with pkgs; [ pkg-config validatePkgConfig ];
             checkInputs = with pkgs; [ catch2_3 ];
 
             Version = self.version;
             doCheck = true;
 
+            preBuild = ''
+              makeFlagsArray+=(CFLAGS='-O2')
+            '';
             buildPhase = ''
               runHook preBuild
 
               make static
-              make doc/html/index.html
 
               runHook postBuild
             '';
@@ -54,9 +52,8 @@
               install -Dm644 -t $out/share/pkgconfig ${self.pname}.pc
               sed -i -e "s|[$]out|$out|g" -e 's|[$]Version|${self.Version}|g' $out/share/pkgconfig/${self.pname}.pc
               install -Dm644 -t $ci report.xml
-              mkdir --parents $out/include $doc/share/doc
+              mkdir --parents $out/include
               cp --recursive include/o2s $out/include
-              cp --recursive doc/html $doc/share/doc
 
               runHook postInstall
             '';
@@ -64,6 +61,31 @@
             passthru.tests.pkg-config =
               pkgs.testers.testMetaPkgConfig self.finalPackage;
             meta.pkgConfigModules = [ "libo2s" ];
+          });
+          libo2s-doc = pkgs.stdenv.mkDerivation (self: {
+            pname = "libo2s-doc";
+            inherit version;
+
+            inherit src;
+            nativeBuildInputs = with pkgs; [ doxygen ];
+
+            Version = self.version;
+
+            buildPhase = ''
+              runHook preBuild
+
+              make doc/html/index.html
+
+              runHook postBuild
+            '';
+            installPhase = ''
+              runHook preInstall
+
+              mkdir --parents $out/share/doc
+              cp --recursive doc/html $out/share/doc
+
+              runHook postInstall
+            '';
           });
           libo2s-cov = pkgs.llvmPackages_16.stdenv.mkDerivation (self: {
             pname = "libo2s-cov";
