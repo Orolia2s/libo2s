@@ -98,13 +98,10 @@
             Version = self.version;
             dontInstall = true;
 
-            preBuild = ''
-              makeFlagsArray+=(CFLAGS='-O0 -g')
-            '';
             buildPhase = ''
               runHook preBuild
 
-              make static
+              CFLAGS='-O0 -g' make static
               make -C test build
               kcov --include-pattern=$PWD/src $out ./test/test_libo2s.exe
 
