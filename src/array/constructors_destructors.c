@@ -43,7 +43,7 @@ void array_clear(array_t* self)
  * In the case of an array storing elements that own resources,
  * each element should be cleaned up before the array is emptied.
  */
-void array_clear_f(array_t* self, void (*cleanup)())
+void array_clear_f(array_t* self, void (*cleanup)(void*))
 {
 	array_iter(self, cleanup);
 	array_clear(self);

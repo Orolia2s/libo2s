@@ -364,7 +364,7 @@ SCENARIO("Array can hold more complex types", "[array]")
 
 			AND_WHEN("The array is cleared")
 			{
-				array_clear_f(&tested, reinterpret_cast<void(*)()>(cleanup_allocated_memory));
+				array_clear_f(&tested, reinterpret_cast<void(*)(void*)>(cleanup_allocated_memory));
 
 				THEN("The array should be empty")
 				{ /* And one should verify with gcov that free was called */

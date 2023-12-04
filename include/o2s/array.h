@@ -32,7 +32,7 @@ typedef struct array
 ///@{
 array_t array_new(size_t type_size);
 void    array_clear(array_t* self);
-void    array_clear_f(array_t* self, void (*cleanup)());
+void    array_clear_f(array_t* self, void (*cleanup)(void*));
 
 /** Convenient constructor wrapper */
 #define ArrayNew(Type) array_new(sizeof(Type))
@@ -86,7 +86,7 @@ bool   array_trim(array_t* self);
 
 /** @name Iterators */
 ///@{
-void   array_iter(const array_t* self, void (*function)());
+void   array_iter(const array_t* self, void (*function)(void*));
 
 /**
  * Iterate over the elements of the array.
