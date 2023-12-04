@@ -26,6 +26,7 @@ coverage:
   script:
     - "nix build .#libo2s-cov"
     - cp result/test_libo2s.exe/cobertura.xml .
+    - sed --regexp-extended "s|<source>[^<>]+</source>|<source>${CI_PROJECT_DIR}/src</source>|" -i cobertura.xml
     - "awk -F: '$1~/percent_covered/ { print }' result/test_libo2s.exe/coverage.json"
   coverage: '/"percent_covered":\s*"[0-9.]+"/'
   artifacts:
