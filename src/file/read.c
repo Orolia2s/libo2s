@@ -19,6 +19,15 @@
 #include <iso646.h> // not, and
 #include <string.h> // strerror
 #include <unistd.h> // read
+#include <stdbool.h>
+
+#if defined(__STDC_VERSION__) && __STDC_VERSION__ < 202300L
+#	warning including threads.h to have thread_local before C23
+#	include <threads.h> // thread_local
+#endif
+
+/** Flag used to prevent blocking reads */
+static thread_local bool keep_reading = true;
 
 /**
  * Read as much as possible.
@@ -51,7 +60,22 @@ ssize_t file_single_read(ifstream_t* file)
 bool file_accumulate(ifstream_t* file, size_t count)
 {
 	while (not istream_has_at_least(&file->stream, count))
-		if (file_single_read(file) <= 0)
+		if (not keep_reading or file_single_read(file) <= 0)
 			return false;
 	return true;
+}
+
+/**
+ * Prevent the accumulate function from calling read in this thread.
+ * This allows setting a thread specific timeout, that interrupts the current read, and exits the accumulating loop.
+ */
+void file_stop_reading()
+{
+	keep_reading = false;
+}
+
+/** Resume calling read in this thread */
+void file_resume_reading()
+{
+	keep_reading = true;
 }

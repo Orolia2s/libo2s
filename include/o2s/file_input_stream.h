@@ -41,6 +41,9 @@ void       file_close(ifstream_t* file);
 ///@{
 ssize_t    file_single_read(ifstream_t* file);
 bool       file_accumulate(ifstream_t* file, size_t count);
+
+void       file_stop_reading();
+void       file_resume_reading();
 ////@}
 
 /**
