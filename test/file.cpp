@@ -162,3 +162,34 @@ SCENARIO("A stream can be accumulated", "[file]")
 		std::filesystem::remove(filename);
 	}
 }
+
+SCENARIO("One can ask the file input stream to not block", "[file]")
+{
+	GIVEN("A file without enough characters")
+	{
+		const std::filesystem::path folder = std::filesystem::temp_directory_path();
+		const std::filesystem::path filename = folder / "dummy_file_for_tests_2.txt";
+
+		{
+			std::ofstream file(filename, std::ios::trunc);
+
+			file << "Bonjour";
+		}
+
+		FileInputStream tested = file_open(filename.c_str(), O_RDONLY);
+
+		WHEN("We ask it not to block")
+		{
+			file_stop_reading();
+
+			THEN("It fails instead of blocking")
+			{
+				CHECK_FALSE( istream_accumulate(&tested, strlen("Bonjour Monde")) );
+			}
+
+			file_resume_reading();
+		}
+
+		std::filesystem::remove(filename);
+	}
+}
