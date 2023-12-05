@@ -52,7 +52,7 @@ ifstream_t file_from_descriptor(int descriptor)
 {
 	ifstream_t file = {.descriptor = descriptor, .opened = false};
 
-	file.stream = InputStreamInit(FILE_STREAM_BUFFER_SIZE, file_accumulate);
+	file.stream = InputStreamInit(FILE_STREAM_BUFFER_SIZE, file_accumulate_infinite);
 	if (file.stream.buffer.capacity == 0)
 	{
 		log_error("malloc failed: %s", strerror(errno));

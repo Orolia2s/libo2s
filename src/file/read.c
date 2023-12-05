@@ -53,6 +53,32 @@ ssize_t file_single_read(ifstream_t* file)
 
 /**
  * If possible, accumulate @p count bytes before returning.
+ *
+ * This alternative keeps trying upon reaching the end of the file,
+ * waiting for new data to be written.
+ * It is suitable when reading pipes, serial ports and such infinite streams.
+ *
+ * To set a timeout, create a timer that emits a signal with @ref file_stop_reading as a signal handler,
+ * for the current read call to be interrupted and to break out of the loop.
+ *
+ * @return a boolean
+ *  - `true` if n bytes were successfully accumulated
+ *  - `false` otherwise
+ */
+bool file_accumulate_infinite(ifstream_t* file, size_t count)
+{
+	while (not istream_has_at_least(&file->stream, count))
+		if (not keep_reading or file_single_read(file) < 0)
+			return false;
+	return true;
+}
+
+/**
+ * If possible, accumulate @p count bytes before returning.
+ *
+ * This alternative exits upon reaching the end of the file.
+ * It is suitable when reading regular files
+ *
  * @return a boolean
  *  - `true` if n bytes were successfully accumulated
  *  - `false` otherwise
@@ -60,7 +86,7 @@ ssize_t file_single_read(ifstream_t* file)
 bool file_accumulate(ifstream_t* file, size_t count)
 {
 	while (not istream_has_at_least(&file->stream, count))
-		if (not keep_reading or file_single_read(file) <= 0)
+		if (file_single_read(file) <= 0)
 			return false;
 	return true;
 }
@@ -68,6 +94,7 @@ bool file_accumulate(ifstream_t* file, size_t count)
 /**
  * Prevent the accumulate function from calling read in this thread.
  * This allows setting a thread specific timeout, that interrupts the current read, and exits the accumulating loop.
+ * The effect is thread_local, so multiple files can have their own timeouts in parallel.
  */
 void file_stop_reading()
 {
