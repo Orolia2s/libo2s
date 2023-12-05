@@ -38,7 +38,7 @@ SCENARIO("Errors when reading files are correctly handled", "[file]")
 	GIVEN("An existing file, that we open and close")
 	{
 		const std::filesystem::path folder   = std::filesystem::temp_directory_path();
-		const std::filesystem::path filename = folder / "dummy_file_for_tests.txt";
+		const std::filesystem::path filename = folder / "dummy_file_for_tests1.txt";
 
 		{
 			std::ofstream file(filename, std::ios::trunc);
@@ -68,7 +68,7 @@ SCENARIO("A regular file can be read", "[file]")
 	GIVEN("A file with known content")
 	{
 		const std::filesystem::path folder   = std::filesystem::temp_directory_path();
-		const std::filesystem::path filename = folder / "dummy_file_for_tests.txt";
+		const std::filesystem::path filename = folder / "dummy_file_for_tests2.txt";
 		const std::string           content  = "_Hello_ Bonjour _Nihao_";
 
 		{
@@ -129,7 +129,7 @@ SCENARIO("A stream can be accumulated", "[file]")
 	GIVEN("A file with only part of the content")
 	{
 		const std::filesystem::path folder   = std::filesystem::temp_directory_path();
-		const std::filesystem::path filename = folder / "dummy_file_for_tests.txt";
+		const std::filesystem::path filename = folder / "dummy_file_for_tests3.txt";
 
 		{
 			std::ofstream file(filename, std::ios::trunc);
@@ -140,6 +140,8 @@ SCENARIO("A stream can be accumulated", "[file]")
 		WHEN("We need to read the whole content")
 		{
 			FileInputStream tested = file_open(filename.c_str(), O_RDONLY);
+			tested.stream.accumulate = (bool (*)(istream_t*, size_t))file_accumulate_infinite;
+			// the infinite alternative is used by default by serial ports and file_from_descriptor
 
 			THEN("It waits")
 			{
@@ -167,7 +169,7 @@ SCENARIO("One can ask the file input stream to not block", "[file]")
 	GIVEN("A file without enough characters")
 	{
 		const std::filesystem::path folder = std::filesystem::temp_directory_path();
-		const std::filesystem::path filename = folder / "dummy_file_for_tests_2.txt";
+		const std::filesystem::path filename = folder / "dummy_file_for_tests4.txt";
 
 		{
 			std::ofstream file(filename, std::ios::trunc);
@@ -176,6 +178,7 @@ SCENARIO("One can ask the file input stream to not block", "[file]")
 		}
 
 		FileInputStream tested = file_open(filename.c_str(), O_RDONLY);
+		tested.stream.accumulate = (bool (*)(istream_t*, size_t))file_accumulate_infinite;
 
 		WHEN("We ask it not to block")
 		{

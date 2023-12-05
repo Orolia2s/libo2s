@@ -40,6 +40,7 @@ ifstream_t file_open(const char* file_name, int flags)
 		return (ifstream_t){.descriptor = -1, .opened = false};
 	}
 	ifstream_t file = file_from_descriptor(descriptor);
+	file.stream.accumulate = (bool(*)(istream_t*, size_t))file_accumulate;
 	if (file.descriptor == descriptor)
 		file.opened = true;
 	else
