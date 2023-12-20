@@ -6,15 +6,25 @@
 
 \subsection primary Primary
 
-- @ref array_t
-- @ref deque_t
+- @ref array_t : Dynamic arrays
+- @ref deque_t : Double ended queues
 
 \subsection secondary Secondary
 
-- @ref string_t
+- @ref string_t : Dynamic character array
+- @ref queue_t : FIFO
+- @ref stack_t : LIFO
 
-\section functions Functions
+\section io Input / Output
+
+- @ref file_input_stream.h : Buffered file reader
+- @ref string_input_stream.h : Interchangable with a file input stream, to mock / test
+- @ref serial.h : Configure and read from serial ports
+
+\section functions Utilities
 
 - @ref log.h
+- @ref to_string.h
+- @ref preprocessing.h
 
 */
