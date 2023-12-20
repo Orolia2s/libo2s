@@ -32,7 +32,7 @@ classDiagram
 
 - [File Input Stream](https://orolia2s.pages.orolia.com/libo2s/file__input__stream_8h.html): Buffered file reader
 - [String Input Stream](https://orolia2s.pages.orolia.com/libo2s/string__input__stream_8h.html): Interchangable with a file input stream, to mock / test
-- [String Input Stream](https://orolia2s.pages.orolia.com/libo2s/serial_8h.html): Configure and read from serial ports
+- [Serial Ports](https://orolia2s.pages.orolia.com/libo2s/serial_8h.html): Configure and read from serial ports
 
 ## Utilities
 - [Logging functions](https://orolia2s.pages.orolia.com/libo2s/log_8h.html)
