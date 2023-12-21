@@ -15,6 +15,8 @@
  */
 /* ************************************************************************** */
 
+#include "o2s/deque.h"
+
 typedef deque_t stack_t;
 
 #define stack_push   deque_push_back
