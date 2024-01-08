@@ -7,15 +7,15 @@
   };
 
   outputs = {
-    nixpkgs,
     flake-utils,
+    nixpkgs,
     ...
   }:
     flake-utils.lib.eachDefaultSystem (system: let
       pkgs = nixpkgs.legacyPackages.${system};
 
       version = pkgs.lib.fileContents ./version.txt;
-      src = pkgs.nix-gitignore.gitignoreSource [] ./.;
+      src = ./.;
     in {
       packages = rec {
         libo2s = pkgs.llvmPackages_16.stdenv.mkDerivation (self: {
@@ -28,15 +28,9 @@
           checkInputs = with pkgs; [catch2_3];
 
           Version = self.version;
+          buildFlags = ["static" "CFLAGS=-O2"];
           doCheck = true;
 
-          buildPhase = ''
-            runHook preBuild
-
-            CFLAGS=-O2 make static
-
-            runHook postBuild
-          '';
           checkPhase = ''
             runHook preCheck
 
@@ -60,7 +54,7 @@
 
           passthru.tests.pkg-config =
             pkgs.testers.testMetaPkgConfig self.finalPackage;
-          meta.pkgConfigModules = ["libo2s"];
+          meta.pkgConfigModules = [self.pname];
         });
         libo2s-doc = pkgs.stdenv.mkDerivation (self: {
           pname = "libo2s-doc";
@@ -70,14 +64,8 @@
           nativeBuildInputs = with pkgs; [doxygen];
 
           Version = self.version;
+          buildFlags = ["doc/html/index.html"];
 
-          buildPhase = ''
-            runHook preBuild
-
-            make doc/html/index.html
-
-            runHook postBuild
-          '';
           installPhase = ''
             runHook preInstall
 

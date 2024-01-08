@@ -17,7 +17,6 @@
 
 #include "o2s/timer.h"
 
-#include "o2s/file_input_stream.h"
 #include "o2s/log.h"
 
 #include <errno.h>
@@ -29,15 +28,14 @@
 /**
  * Prepare the process for timeouts.
  * Needed to be called only once, preferably before creating the threads.
- * Adds file_stop_reading as a signal handler for SIGALRM, in order for timeouts
- * to cause file_accumulate_infinite to exit with an error.
  */
-bool o2s_timer_setup_process(void)
+bool o2s_timer_setup_process(void (*handle)(int, siginfo_t*, void*))
 {
 	struct sigaction signal_action;
 
 	sigemptyset(&signal_action.sa_mask);
-	signal_action.sa_handler = (void (*)(int))file_stop_reading;
+	signal_action.sa_sigaction = handle;
+	signal_action.sa_flags = SA_SIGINFO;
 	if (sigaction(SIGALRM, &signal_action, NULL) == 0)
 		return true;
 	log_error("Unable to set signal action: %s", strerror(errno));
@@ -79,7 +77,6 @@ void o2s_timer_stop(timer_t* timer)
 {
 	struct itimerspec duration = {0};
 
-	file_resume_reading();
 	if (timer_settime(*timer, 0, &duration, NULL) == 0)
 		return;
 	log_error("Unable to disarm timer: %s", strerror(errno));

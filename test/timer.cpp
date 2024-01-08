@@ -7,9 +7,14 @@ extern "C"
 
 #include <catch2/catch_test_macros.hpp>
 
+void handle_signal(int signal, siginfo_t* info, void* ctx)
+{
+	file_stop_reading();
+}
+
 SCENARIO("A timer interrupts an infinite read", "[timer]")
 {
-	REQUIRE(o2s_timer_setup_process());
+	REQUIRE(o2s_timer_setup_process(handle_signal));
 
 	GIVEN("A timer")
 	{

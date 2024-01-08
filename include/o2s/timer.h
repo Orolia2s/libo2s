@@ -16,9 +16,10 @@
 /* ************************************************************************** */
 
 #include <stdbool.h>
+#include <signal.h> // sigaction
 #include <time.h> // timer_t
 
-bool    o2s_timer_setup_process(void);
+bool    o2s_timer_setup_process(void (*handle)(int, siginfo_t*, void*));
 timer_t o2s_timer_create(void);
 timer_t o2s_timer_start(timer_t timer, unsigned milliseconds);
 void    o2s_timer_stop(timer_t* timer);
