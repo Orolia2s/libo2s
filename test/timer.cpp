@@ -29,6 +29,8 @@ SCENARIO("A timer interrupts an infinite read", "[timer]")
 				FileInputStream hello = file_from_descriptor(0);
 				CHECK_FALSE(file_accumulate_infinite(&hello, 14));
 			}
+
+			file_resume_reading();
 		}
 	}
 }
