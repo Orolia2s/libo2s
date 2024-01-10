@@ -46,7 +46,7 @@ string_t char_to_string(const char* value);
 string_t array_to_string(const array_t* self, string_t (*function)(const void* element));
 string_t deque_to_string(const deque_t* self, string_t (*function)(const void* element));
 inline string_t queue_to_string(const queue_t* self, string_t (*function)(const void* element)) { return deque_to_string(self, function); }
-inline string_t stack_to_string(const stack_t* self, string_t (*function)(const void* element)) { return deque_to_string(self, function); }
+inline string_t stack_to_string(const o2s_stack_t* self, string_t (*function)(const void* element)) { return deque_to_string(self, function); }
 ///@}
 
 const char* boolean_to_cstring(bool value);

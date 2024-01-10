@@ -17,10 +17,10 @@
 
 #include "o2s/deque.h"
 
-typedef deque_t stack_t;
+typedef deque_t o2s_stack_t;
 
-#define stack_push   deque_push_back
-#define stack_push_n deque_push_back_n
+#define o2s_stack_push   deque_push_back
+#define o2s_stack_push_n deque_push_back_n
 
-#define stack_pop    deque_pop_back
-#define stack_pop_n  deque_pop_back_n
+#define o2s_stack_pop    deque_pop_back
+#define o2s_stack_pop_n  deque_pop_back_n
