@@ -60,8 +60,12 @@ bool deque_pop_front_n(deque_t* self, void* destination, size_t count)
 
 	if (first_pass < count || (first_pass == count && self->front == deque_end(self))) // sad
 	{
+		void* destination_offset = NULL;
+		if (destination != NULL)
+			destination_offset = destination + first_pass_size;
+
 		self->front = deque_begin(self);
-		if (!deque_pop_front_n(self, destination + first_pass_size, count - first_pass))
+		if (!deque_pop_front_n(self, destination_offset, count - first_pass))
 			return false;
 	}
 	return true;
