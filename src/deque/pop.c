@@ -46,18 +46,23 @@ bool deque_pop_front_n(deque_t* self, void* destination, size_t count)
 	size_t first_pass;
 	size_t first_pass_size;
 
+	if (count == 0)
+		return true;
 	if (deque_count(self) < count)
 		return false;
+
 	first_pass = min(count, deque_distance(self, self->front, deque_end(self)));
 	first_pass_size = deque_offset(self, first_pass);
-	if (destination)
+	if (destination != NULL)
 		memcpy(destination, self->front, first_pass_size);
 	self->front += first_pass_size;
 	self->count -= first_pass;
-	if (first_pass < count)
+
+	if (first_pass < count || (first_pass == count && self->front == deque_end(self))) // sad
 	{
 		self->front = deque_begin(self);
-		deque_pop_front_n(self, destination + first_pass_size, count - first_pass);
+		if (!deque_pop_front_n(self, destination + first_pass_size, count - first_pass))
+			return false;
 	}
 	return true;
 }
