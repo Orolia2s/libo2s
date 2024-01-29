@@ -17,8 +17,6 @@
 #include "o2s/deque.h"
 #include "o2s/preprocessing.h" // min
 
-#include <iso646.h>            // not
-#include <stdint.h>            //uint8_t
 #include <string.h>            // memcpy
 
 /**
@@ -39,6 +37,7 @@ bool deque_pop_front(deque_t* self, void* destination)
 
 /**
  * Pops the @p count first elements of the queue.
+ * If destination is `NULL`, they will be discarded
  * @return false if there is less than @p count elements stored
  */
 bool deque_pop_front_n(deque_t* self, void* destination, size_t count)
@@ -54,20 +53,17 @@ bool deque_pop_front_n(deque_t* self, void* destination, size_t count)
 	first_pass = min(count, deque_distance(self, self->front, deque_end(self)));
 	first_pass_size = deque_offset(self, first_pass);
 	if (destination != NULL)
+	{
 		memcpy(destination, self->front, first_pass_size);
+		destination += first_pass_size;
+	}
 	self->front += first_pass_size;
 	self->count -= first_pass;
 
-	if (first_pass < count || (first_pass == count && self->front == deque_end(self))) // sad
-	{
-		void* destination_offset = NULL;
-		if (destination != NULL)
-			destination_offset = destination + first_pass_size;
-
+	if (self->front == deque_end(self))
 		self->front = deque_begin(self);
-		if (!deque_pop_front_n(self, destination_offset, count - first_pass))
-			return false;
-	}
+	if (first_pass < count)
+		return deque_pop_front_n(self, destination, count - first_pass);
 	return true;
 }
 
