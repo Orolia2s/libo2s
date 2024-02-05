@@ -40,6 +40,12 @@ SCENARIO("We can populate a deque", "[deque]")
 			REQUIRE_FALSE( deque_pop_back(&tested, &popped) );
 		}
 
+		THEN("Popping zero elements is possible")
+		{
+			REQUIRE( deque_pop_back_n(&tested, NULL, 0) );
+			REQUIRE( deque_pop_front_n(&tested, NULL, 0) );
+		}
+
 		WHEN("1 element is pushed to the front")
 		{
 			int pushed = 42;
@@ -419,6 +425,22 @@ SCENARIO("The can be discontinuous", "[deque]")
 
 				for (unsigned i = 0; i < capacity; i++)
 					REQUIRE( out[i] == pushed[i] );
+			}
+
+			THEN("All elements can be discarded in one call")
+			{
+				REQUIRE( deque_pop_front_n(&tested, NULL, capacity) );
+			}
+
+			THEN("Popping the right number of elements makes it continous")
+			{
+				short out[50];
+
+				REQUIRE( deque_pop_front_n(&tested, out, capacity - 13) );
+
+				for (unsigned i = 0; i < capacity - 13; i++)
+					CHECK( out[i] == pushed[i] );
+				CHECK( deque_first(&tested) < deque_last(&tested) );
 			}
 		}
 	}
