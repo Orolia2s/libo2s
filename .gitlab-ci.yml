@@ -35,6 +35,19 @@ coverage:
         coverage_format: cobertura
         path: cobertura.xml
 
+code_quality:
+  tags:
+    - nix
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+  script:
+    - 'git clone https://github.com/Orolia2s/qualamity.git'
+    - 'PYTHONPATH=qualamity nix develop ./qualamity -c python -m qualamity src include -f csv > qualimetry.csv'
+  artifacts:
+    paths:
+      - qualimetry.csv
+    expire_in: 1 week
+
 publish:
   stage: deploy
   tags:

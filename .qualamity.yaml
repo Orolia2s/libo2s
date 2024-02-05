@@ -1,0 +1,22 @@
+preprocessor:
+  program: 'gcc'
+  arguments:
+    - '-E'
+    - '-nostdinc'
+    - '-D__attribute__(x)='
+    - '-D__typeof__(x)=int'
+  includes:
+    - 'include'
+
+linters:
+  by-class:
+    - Undocumented
+    - FunctionDefinedInHeader
+    - GlobalDefinedInHeader
+    - UsingForbiddenEnvironmentFunctions
+    - UsingForbiddenExitFunctions
+    - UsingUnsafeTimeFunctions
+    - UsingUnsafeFunctions
+    - UsingUnsafeParseFunctions
+    - RedefiningStandardFunctions
+    - UncompletedTodos
