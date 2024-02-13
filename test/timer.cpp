@@ -7,7 +7,7 @@ extern "C"
 
 #include <catch2/catch_test_macros.hpp>
 
-void handle_signal(int signal, siginfo_t* info, void* ctx)
+void handle_signal([[maybe_unused]] int signal, [[maybe_unused]] siginfo_t* info, [[maybe_unused]] void* ctx)
 {
 	file_stop_reading();
 }
@@ -22,15 +22,14 @@ SCENARIO("A timer interrupts an infinite read", "[timer]")
 
 		WHEN("It is armed")
 		{
-			ArmedTimer _ = o2s_timer_start(timer, 20);
+			[[maybe_unused]] ArmedTimer _ = o2s_timer_start(timer, 20);
 
 			THEN("It interrupts a read")
 			{
 				FileInputStream hello = file_from_descriptor(0);
 				CHECK_FALSE(file_accumulate_infinite(&hello, 14));
 			}
-
-			file_resume_reading();
 		}
+		file_resume_reading();
 	}
 }
