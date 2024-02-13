@@ -18,8 +18,8 @@
 #include <stdbool.h>
 #include <time.h> // timer_t
 
-bool    o2s_timer_setup_process();
-timer_t o2s_timer_create();
+bool    o2s_timer_setup_process(void);
+timer_t o2s_timer_create(void);
 timer_t o2s_timer_start(timer_t timer, unsigned milliseconds);
 void    o2s_timer_stop(timer_t* timer);
 void    o2s_timer_delete(timer_t* timer);

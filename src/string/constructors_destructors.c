@@ -15,7 +15,7 @@
 #include "o2s/string.h"
 
 /** Constructs an empty string */
-string_t string_new()
+string_t string_new(void)
 {
 	return ArrayNew(char);
 }

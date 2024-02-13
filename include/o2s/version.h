@@ -17,5 +17,5 @@
 
 #include "o2s/string.h"
 
-const char* libo2s_version_cstring();
-string_t    libo2s_version_string();
+const char* libo2s_version_cstring(void);
+string_t    libo2s_version_string(void);

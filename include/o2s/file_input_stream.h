@@ -43,8 +43,8 @@ ssize_t    file_single_read(ifstream_t* file);
 bool       file_accumulate(ifstream_t* file, size_t count);
 bool       file_accumulate_infinite(ifstream_t* file, size_t count);
 
-void       file_stop_reading();
-void       file_resume_reading();
+void       file_stop_reading(void);
+void       file_resume_reading(void);
 ////@}
 
 /**

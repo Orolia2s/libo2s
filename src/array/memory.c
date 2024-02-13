@@ -28,7 +28,7 @@ size_t array_offset(const array_t* self, size_t count)
  * Re-allocate the storage to a new capacity.
  * @return false if allocation failed.
  */
-bool array_realloc(array_t* self, size_t capacity_to_alloc)
+static bool array_realloc(array_t* self, size_t capacity_to_alloc)
 {
 	void* new_storage = reallocarray(self->start, capacity_to_alloc, self->type_size);
 	if (new_storage == NULL)

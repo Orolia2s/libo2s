@@ -32,7 +32,7 @@
  * Adds file_stop_reading as a signal handler for SIGALRM, in order for timeouts
  * to cause file_accumulate_infinite to exit with an error.
  */
-bool o2s_timer_setup_process()
+bool o2s_timer_setup_process(void)
 {
 	struct sigaction signal_action;
 
@@ -49,7 +49,7 @@ bool o2s_timer_setup_process()
  * timing out. This needs to be done once per thread, as the goal is for the
  * timer to interrupt the system calls of the current thread.
  */
-timer_t o2s_timer_create()
+timer_t o2s_timer_create(void)
 {
 	timer_t         timer;
 	struct sigevent event = {.sigev_notify   = SIGEV_THREAD_ID,

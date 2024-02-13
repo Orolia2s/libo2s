@@ -30,7 +30,7 @@ typedef array_t string_t;
 
 /** @name Contructors and destructors */
 ///@{
-string_t        string_new();
+string_t        string_new(void);
 string_t        string_from(const char* cstring, size_t length);
 void            string_clear(string_t* self);
 ///@}

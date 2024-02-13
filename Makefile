@@ -22,7 +22,10 @@ BuildFolder          := cache
 DocumentationFolder  := doc
 Subfolders           != find $(ImplementationFolder) -type d
 
-CFLAGS   += -Wall -Wextra
+CFLAGS   += -Wall -Wextra -Wvla
+CFLAGS   += -Wmissing-prototypes -Wmissing-declarations -Wformat=2
+CFLAGS   += -Wold-style-definition -Wstrict-prototypes
+
 CPPFLAGS += -DLIBO2S_VERSION=$(Version)
 CPPFLAGS += -I $(InterfaceFolder)
 CPPFLAGS += -MMD

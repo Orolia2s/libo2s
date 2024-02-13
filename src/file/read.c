@@ -96,13 +96,13 @@ bool file_accumulate(ifstream_t* file, size_t count)
  * This allows setting a thread specific timeout, that interrupts the current read, and exits the accumulating loop.
  * The effect is thread_local, so multiple files can have their own timeouts in parallel.
  */
-void file_stop_reading()
+void file_stop_reading(void)
 {
 	keep_reading = false;
 }
 
 /** Resume calling read in this thread */
-void file_resume_reading()
+void file_resume_reading(void)
 {
 	keep_reading = true;
 }
