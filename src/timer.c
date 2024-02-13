@@ -31,6 +31,7 @@
 /**
  * Prepare the process for timeouts.
  * Needed to be called only once, preferably before creating the threads.
+ * @return true if successful, false otherwise
  */
 bool o2s_timer_setup_process(void (*handle)(int, siginfo_t*, void*))
 {
@@ -49,6 +50,7 @@ bool o2s_timer_setup_process(void (*handle)(int, siginfo_t*, void*))
  * Initialize a timer, that will create a SIGALRM in the current thread when
  * timing out. This needs to be done once per thread, as the goal is for the
  * timer to interrupt the system calls of the current thread.
+ * @return NULL if it was unable to create the timer
  */
 timer_t o2s_timer_create(void)
 {
@@ -63,7 +65,10 @@ timer_t o2s_timer_create(void)
 	return NULL;
 }
 
-/** Arm timer for the specified duration, in milliseconds */
+/**
+ * Arm timer for the specified duration, in milliseconds
+ * @return NULL if unable to start
+ */
 timer_t o2s_timer_start(timer_t timer, unsigned milliseconds)
 {
 	struct itimerspec duration = {.it_value.tv_nsec = MS_IN_NS * (milliseconds % MS_PER_S),
