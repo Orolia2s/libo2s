@@ -5,6 +5,36 @@ Reliant datastructure library for C.
 The [include](include) folder contains the public interface, while the [src](src) folder contains the implementation.
 
 ## Data structures
+
+```mermaid
+classDiagram
+  class A["Array"] {
+    memory
+    push_back()
+    pop_back()
+  }
+  class S["String"] {
+  }
+  class D["Deque"] {
+    memory
+    push_back()
+    push_front()
+    pop_back()
+    pop_front()
+  }
+  class Q["Queue"] {
+    push()
+    pop()
+  }
+  class T["Stack"] {
+    push()
+    pop()
+  }
+  A <|-- S
+  D <|-- T
+  D <|-- Q
+```
+
 ### Primary
 - [Array](https://orolia2s.pages.orolia.com/libo2s/array_8h.html): Dynamic array
 - [Deque](https://orolia2s.pages.orolia.com/libo2s/deque_8h.html): Double-ended queue
@@ -38,6 +68,7 @@ classDiagram
 - [Logging functions](https://orolia2s.pages.orolia.com/libo2s/log_8h.html)
 - [String conversions](https://orolia2s.pages.orolia.com/libo2s/to__string_8h.html)
 - [Useful Macros](https://orolia2s.pages.orolia.com/libo2s/preprocessing_8h.html)
+- [Timers](https://orolia2s.pages.orolia.com/libo2s/timer_8h.html)
 
 # Build and test locally
 

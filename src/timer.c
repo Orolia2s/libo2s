@@ -25,6 +25,9 @@
 #include <time.h>   // timer_*
 #include <unistd.h> // gettid
 
+#define MS_IN_NS 1000000UL
+#define MS_PER_S 1000
+
 /**
  * Prepare the process for timeouts.
  * Needed to be called only once, preferably before creating the threads.
@@ -63,8 +66,8 @@ timer_t o2s_timer_create(void)
 /** Arm timer for the specified duration, in milliseconds */
 timer_t o2s_timer_start(timer_t timer, unsigned milliseconds)
 {
-	struct itimerspec duration = {.it_value.tv_nsec = 1000000UL * (milliseconds % 1000),
-	                              .it_value.tv_sec = milliseconds / 1000};
+	struct itimerspec duration = {.it_value.tv_nsec = MS_IN_NS * (milliseconds % MS_PER_S),
+	                              .it_value.tv_sec = milliseconds / MS_PER_S};
 
 	if (timer_settime(timer, 0, &duration, NULL) == 0)
 		return timer;
