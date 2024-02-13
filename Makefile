@@ -22,8 +22,8 @@ BuildFolder          := cache
 DocumentationFolder  := doc
 Subfolders           != find $(ImplementationFolder) -type d
 
-CFLAGS   += -Wall -Wextra -Wvla
-CFLAGS   += -Wmissing-prototypes -Wmissing-declarations -Wformat=2
+CFLAGS   += -Wall -Wextra -Wvla -Wformat=2 --std=gnu2x
+CFLAGS   += -Wmissing-prototypes -Wmissing-declarations
 CFLAGS   += -Wold-style-definition -Wstrict-prototypes
 
 CPPFLAGS += -DLIBO2S_VERSION=$(Version)
