@@ -4,15 +4,19 @@ check version:
     - linux
   rules:
     - if: $CI_COMMIT_TAG
+    - if: $CI_PIPELINE_SOURCE == "web"
   script:
     - test "$CI_COMMIT_TAG" = "$(cat version.txt)"
 
 build:
-  stage: build
   tags:
     - nix
+  rules:
+    - if: $CI_COMMIT_TAG
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_PIPELINE_SOURCE == "web"
   script:
-    - "nix build .#libo2s.out"
+    - "nix build .#libo2s.out --print-build-logs"
     - "nix build .#libo2s.ci"
     - cp result-ci/report.xml .
   artifacts:
@@ -20,9 +24,12 @@ build:
       junit: report.xml
 
 coverage:
-  stage: build
   tags:
     - nix
+  rules:
+    - if: $CI_COMMIT_TAG
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_PIPELINE_SOURCE == "web"
   script:
     - "nix build .#libo2s-cov"
     - cp result/test_libo2s.exe/cobertura.xml .
@@ -39,7 +46,9 @@ code_quality:
   tags:
     - nix
   rules:
+    - if: $CI_COMMIT_TAG
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_PIPELINE_SOURCE == "web"
   script:
     - 'git clone https://github.com/Orolia2s/qualamity.git'
     - 'PYTHONPATH=qualamity nix develop ./qualamity -c python -m qualamity src include -f csv > qualimetry.csv'
@@ -54,6 +63,7 @@ publish:
     - conan1
   rules:
     - if: $CI_COMMIT_TAG
+    - if: $CI_PIPELINE_SOURCE == "web"
   script:
     - conan remote add gitlab ${CI_API_V4_URL}/packages/conan
     - export PACKAGE="libo2s/${CI_COMMIT_TAG}@${CI_PROJECT_NAMESPACE}+${CI_PROJECT_NAME}/gitlab"

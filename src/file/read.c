@@ -44,7 +44,7 @@ ssize_t file_single_read(ifstream_t* file)
 	if (result < 0)
 		log_error("read returned %li: %s", result, strerror(errno));
 	else if (result > 0 and not queue_push_n(queue, buffer, result))
-	{ /* This branch is impossible to reach if this thread has exclusive access to the queue */
+	{ /* This branch is impossible to reach if this thread has exclusive access to the queue, which it should */
 		log_error("cannot add %li characters to the queue, %zu / %zu bytes used", result, queue_count(queue), queue_capacity(queue));
 		return -1;
 	}
