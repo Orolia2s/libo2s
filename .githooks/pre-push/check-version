@@ -1,0 +1,11 @@
+#!/bin/bash
+set -euo pipefail
+
+git_tag="$(git tag --sort '-version:refname' --merged | head -1)"
+version_txt="$(cat ./version.txt)"
+if [ "$git_tag" != "$version_txt" ]; then
+  echo "The current git tag and the 'version.txt' file disagree!"
+  echo -e "\tgit tag:\t$git_tag"
+  echo -e "\tversion.txt:\t$version_txt"
+  exit 1
+fi
