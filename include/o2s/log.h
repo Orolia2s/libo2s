@@ -16,7 +16,7 @@
  */
 /* ************************************************************************** */
 
-#include <stdio.h> // fprintf, stdout, stderr
+#include <stdio.h> // fprintf, stderr
 
 #define LOG_LEVEL_NONE    0
 #define LOG_LEVEL_FATAL   1

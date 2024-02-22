@@ -13,7 +13,7 @@
 
 - @ref string_t : Dynamic character array
 - @ref queue_t : FIFO
-- @ref stack_t : LIFO
+- @ref o2s_stack_t : LIFO
 
 \section io Input / Output
 

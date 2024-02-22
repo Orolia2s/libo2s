@@ -6,7 +6,7 @@
 /*     |____/_/   \_|_|   |_| \_/_/   \_|_| \_|   |_|    |_| |____/|____/     */
 /*                                                                            */
 /**
- * @copyright 2023, SAFRAN T4DS, ALL RIGHTS RESERVED
+ * @copyright 2023-2024, SAFRAN T4DS, ALL RIGHTS RESERVED
  * @file timer.c
  * @author Antoine GAGNIERE
  * @brief Use timeouts backed by signals and realtime clock
@@ -19,13 +19,16 @@
 
 #include "o2s/log.h"
 
-#include <errno.h>
+#include <errno.h>  // errno
 #include <signal.h> // sigaction
 #include <string.h> // strerror
 #include <time.h>   // timer_*
 #include <unistd.h> // gettid
 
+/** Milli-seconds expressed in nano-seconds */
 #define MS_IN_NS 1000000UL
+
+/** Number of milli-seconds in a second */
 #define MS_PER_S 1000
 
 /**

@@ -11,6 +11,7 @@
  * @copyright 2023, SAFRAN T4DS, ALL RIGHTS RESERVED
  * @file serial.h
  * @author Antoine GAGNIERE
+ * @brief Configure and read from serial ports as buffered input streams
  */
 /* ************************************************************************** */
 

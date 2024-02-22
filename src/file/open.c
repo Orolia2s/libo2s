@@ -5,11 +5,12 @@
 /*      ___) / ___ \|  _| |  _ < / ___ \| |\  |   | | |__   _| |_| |___) |    */
 /*     |____/_/   \_|_|   |_| \_/_/   \_|_| \_|   |_|    |_| |____/|____/     */
 /*                                                                            */
-/* Copyright 2023, SAFRAN T4DS, ALL RIGHTS RESERVED                           */
-/*                                                                            */
-/* @file open.c                                                               */
-/* @author Antoine GAGNIERE                                                   */
-/*                                                                            */
+/**
+ * @copyright 2023, SAFRAN T4DS, ALL RIGHTS RESERVED
+ * @file open.c
+ * @author Antoine GAGNIERE
+ * @brief Construct file input streams from files
+ */
 /* ************************************************************************** */
 
 #include "o2s/file_input_stream.h"

@@ -7,7 +7,7 @@
 /*                                                                            */
 /**
  * @copyright 2023, SAFRAN T4DS, ALL RIGHTS RESERVED
- * @file stream/string.c
+ * @file string.c
  * @author Antoine GAGNIERE
  * @brief Create input streams from strings
  */
