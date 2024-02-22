@@ -29,6 +29,7 @@ string_t string_from(const char* cstring, size_t length)
 	return result;
 }
 
+/** Release allocated resources to the system @see array_clear */
 void string_clear(string_t* self)
 {
 	array_clear(self);

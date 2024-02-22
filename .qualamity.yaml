@@ -11,12 +11,19 @@ preprocessor:
 linters:
   by-class:
     - Undocumented
-    - FunctionDefinedInHeader
     - GlobalDefinedInHeader
-    - UsingForbiddenEnvironmentFunctions
-    - UsingForbiddenExitFunctions
-    - UsingUnsafeTimeFunctions
-    - UsingUnsafeFunctions
-    - UsingUnsafeParseFunctions
     - RedefiningStandardFunctions
     - UncompletedTodos
+  by-reference:
+    - '[CERT] : DCL31-C'
+    - '[CERT] : ENV01-C'
+    - '[CERT] : ENV02-C'
+    - '[CERT] : ENV32-C'
+    - '[CERT] : ENV33-C'
+    - '[CERT] : ERR00-C'
+    - '[CERT] : ERR04-C'
+    - '[CERT] : ERR06-C'
+    - '[CERT] : ERR07-C'
+    - '[CERT] : ERR34-C'
+    - '[CERT] : MSC06-C'
+    - '[CERT] : MSC33-C'
