@@ -57,6 +57,7 @@ bool serial_set_options_raw(serial_port_t* port)
 	return true;
 }
 
+/** Modify the copy of the options about speed, but do not apply them. */
 bool serial_set_options_speed(serial_port_t* port, int64_t speed_bps)
 {
 	speed_t speed = serial_encode_baudrate(speed_bps);

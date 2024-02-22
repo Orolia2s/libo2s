@@ -1,7 +1,6 @@
 extern "C"
 {
 #include "o2s/file_input_stream.h"
-#include "o2s/serial.h" // serial_accumulate
 
 #include <fcntl.h> // O_RDONLY
 

@@ -56,8 +56,6 @@ int64_t       serial_decode_baudrate(speed_t flag);
 speed_t       serial_encode_baudrate(int64_t speed_in_bps);
 ///@}
 
-bool          serial_accumulate(serial_port_t* port, size_t count);
-
 /**
  * Use the RAII with serial ports.
  *

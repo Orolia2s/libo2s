@@ -29,24 +29,24 @@
  */
 struct serial_input_modes
 {
-	uint32_t ignore_break :1;          /**< Ignore break condition */
-	uint32_t signal_break :1;          /**< Signal interrupt on break */
-	uint32_t discard_invalid_chars :1; /**< Ignore characters with parity errors */
-	uint32_t mark_errors           :1; /**< Mark parity and framing errors */
-	uint32_t parity_check          :1; /**< Enable input parity check */
-	uint32_t strip_8th_bit         :1; /**< Strip 8th bit off characters */
-	uint32_t map_nl_to_cr          :1; /**< Map `\n` to `\r` on input */
-	uint32_t ignore_cr             :1; /**< Ignore Carriage Returns (`\r`) */
-	uint32_t map_cr_to_nl          :1; /**< Map `\r` to `\n` on input */
+	uint32_t ignore_break           :1; /**< Ignore break condition */
+	uint32_t signal_break           :1; /**< Signal interrupt on break */
+	uint32_t discard_invalid_chars  :1; /**< Ignore characters with parity errors */
+	uint32_t mark_errors            :1; /**< Mark parity and framing errors */
+	uint32_t parity_check           :1; /**< Enable input parity check */
+	uint32_t strip_8th_bit          :1; /**< Strip 8th bit off characters */
+	uint32_t map_nl_to_cr           :1; /**< Map `\n` to `\r` on input */
+	uint32_t ignore_cr              :1; /**< Ignore Carriage Returns (`\r`) */
+	uint32_t map_cr_to_nl           :1; /**< Map `\r` to `\n` on input */
 	/** Map uppercase characters to lowercase on input. */
-	uint32_t map_upper_to_lower    :1;
-	uint32_t enable_start_stop_out :1; /**< Enable start/stop output control */
+	uint32_t map_upper_to_lower     :1;
+	uint32_t enable_start_stop_out  :1; /**< Enable start/stop output control */
 	uint32_t any_can_restart_output :1; /**< Enable any character to restart output */
-	uint32_t enable_start_stop_in :1; /**< Enable start/stop input control */
-	uint32_t ring_bell_when_full  :1; /**< Ring bell when input queue is full */
-	uint32_t is_utf8              :1; /**< Input is UTF8 */
-	uint32_t _unused              :16;
-	uint32_t _dont_modify_speed   :1; /* Used when setting speed */
+	uint32_t enable_start_stop_in   :1; /**< Enable start/stop input control */
+	uint32_t ring_bell_when_full    :1; /**< Ring bell when input queue is full */
+	uint32_t is_utf8                :1; /**< Input is UTF8 */
+	uint32_t _unused                :16;
+	uint32_t _dont_modify_speed     :1; /* Used when setting speed */
 };
 
 /**
@@ -81,8 +81,8 @@ struct serial_output_modes
  */
 struct serial_control_modes
 {
-	uint32_t _speed_4lsb :4;    /* Least significant 4-bits of the line speed */
-	uint32_t character_size :2; /**< Number of bits used by a single character */
+	uint32_t _speed_4lsb     :4; /* Least significant 4-bits of the line speed */
+	uint32_t character_size  :2; /**< Number of bits used by a single character */
 	uint32_t two_stop_bits   :1; /**< Set two stop bits, rather than one */
 	uint32_t read            :1; /**< Enable receiver */
 	/** Enable parity generation on output and parity checking for input. */
@@ -104,19 +104,19 @@ struct serial_control_modes
 struct serial_local_modes
 {
 	/** Generate a signal when INTR, QUIT, SUSP, or DSUSP are received */
-	uint32_t enable_signals  :1;
-	uint32_t canonical       :1; /**< Enable canonical mode */
-	uint32_t _uppercase_only :1; /* Not supported under Linux */
-	uint32_t echo            :1; /* Echo input characters. */
-	uint32_t echo_erasure    :1; /* requires canonical mode */
-	uint32_t echo_kill       :1; /* requires canonical mode */
-	uint32_t echo_nl         :1; /* requires canonical mode */
-	uint32_t disable_flush   :1;
+	uint32_t enable_signals    :1;
+	uint32_t canonical         :1; /**< Enable canonical mode */
+	uint32_t _uppercase_only   :1; /* Not supported under Linux */
+	uint32_t echo              :1; /* Echo input characters. */
+	uint32_t echo_erasure      :1; /* requires canonical mode */
+	uint32_t echo_kill         :1; /* requires canonical mode */
+	uint32_t echo_nl           :1; /* requires canonical mode */
+	uint32_t disable_flush     :1;
 	/** Send SIGTOU to background jobs attempting to write to the terminal. */
-	uint32_t tostop          :1;
-	uint32_t _echo_control   :1; /* Escape control characters */
-	uint32_t _echo_print :1; /* Print chars when erased, if ICANON and ECHO */
-	uint32_t _misc       :4;
+	uint32_t tostop            :1;
+	uint32_t _echo_control     :1; /* Escape control characters */
+	uint32_t _echo_print       :1; /* Print chars when erased, if ICANON and ECHO */
+	uint32_t _misc             :4;
 	uint32_t enable_processing :1; /* implementation-defined input processing */
 };
 

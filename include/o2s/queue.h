@@ -17,6 +17,7 @@
 
 #include "o2s/deque.h"
 
+/** A queue is First In First Out */
 typedef deque_t queue_t;
 
 #define Queue         Deque

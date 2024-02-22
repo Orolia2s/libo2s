@@ -17,6 +17,7 @@
 
 #include "o2s/deque.h"
 
+/** A stack is Last In First Out */
 typedef deque_t o2s_stack_t;
 
 #define o2s_stack_push   deque_push_back

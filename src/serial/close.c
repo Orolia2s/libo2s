@@ -15,6 +15,7 @@
 #include "o2s/file_input_stream.h"
 #include "o2s/serial.h"
 
+/** Closes the specified serial port @see file_close */
 void serial_close(serial_port_t* port)
 {
 	file_close(&port->file);
