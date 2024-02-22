@@ -23,6 +23,7 @@
 #include <stdio.h>    // snprintf
 #include <string.h>   // strlen
 
+/** Create a sring from a float */
 string_t float_to_string(const float* value)
 {
 	string_t     result  = string_new();
@@ -35,6 +36,7 @@ string_t float_to_string(const float* value)
 	return result;
 }
 
+/** Create a string from a double */
 string_t double_to_string(const double* value)
 {
 	string_t     result  = string_new();
@@ -47,6 +49,7 @@ string_t double_to_string(const double* value)
 	return result;
 }
 
+/** Create a string from an integer */
 string_t int_to_string(const int* value)
 {
 	string_t     result  = string_new();
@@ -60,6 +63,7 @@ string_t int_to_string(const int* value)
 	return result;
 }
 
+/** Create a string from a short integer */
 string_t short_to_string(const short* value)
 {
 	string_t     result  = string_new();
@@ -73,6 +77,7 @@ string_t short_to_string(const short* value)
 	return result;
 }
 
+/** Create a string from a long integer */
 string_t long_to_string(const long* value)
 {
 	string_t     result  = string_new();
@@ -86,6 +91,7 @@ string_t long_to_string(const long* value)
 	return result;
 }
 
+/** Create a string from an unsigned integer */
 string_t unsigned_to_string(const unsigned* value)
 {
 	string_t     result  = string_new();
@@ -99,6 +105,11 @@ string_t unsigned_to_string(const unsigned* value)
 	return result;
 }
 
+/**
+ * Create a string from a null-terminated character string.
+ * If the parameter is the NULL pointer, the returned string
+ * is `"(null)"`.
+ */
 string_t cstring_to_string(const char* const* value)
 {
 	if (*value == NULL)
@@ -145,6 +156,12 @@ string_t char_to_string(const char* value)
 	return result;
 }
 
+/**
+ * Null-temrminated string from a boolean
+ * @return
+ * - `"true"` if the parameter is `true`
+ * - `"false"` otherwise
+ */
 const char* boolean_to_cstring(bool value)
 {
 	return value ? "true" : "false";

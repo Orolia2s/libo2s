@@ -45,7 +45,7 @@ bool       file_accumulate_infinite(ifstream_t* file, size_t count);
 
 void       file_stop_reading(void);
 void       file_resume_reading(void);
-////@}
+///@}
 
 /**
  * Use the RAII idiom with a file input stream.
