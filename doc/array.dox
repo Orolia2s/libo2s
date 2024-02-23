@@ -1,0 +1,45 @@
+/**
+@file array.h
+@details Here is the intended usage of arrays:
+@code{.c}
+#include <o2s/array.h>
+
+#include <stdio.h>
+
+int main()
+{
+	int   content[] = {42, 57, 123};
+	// Create an array of integers, that will free the allocated storage when destroyed
+	Array my_array  = ArrayNew(int);
+
+	array_push_back_n(&my_array, content, 2); // append any number of elements at the end
+	array_push_back(&my_array, content + 2); // append a single element at the end
+
+	printf("We now have an array with %lu elements\n", array_count(&my_array));
+	printf("It starts with %i and ends with %i\n",
+	       *(int*)array_first(&my_array),
+	       *(int*)array_last(&my_array));
+	printf("The middle element is %i \n", *(int*)array_get(&my_array, 1));
+
+	unsigned index;
+	int      element;
+
+	printf("\nArray content:\n");
+	array_enumerate (int, &my_array, &element, &index)
+	{
+		printf("[%u] %i\n", index, element);
+	}
+}
+@endcode
+
+@code{.txt}
+We now have an array with 3 elements
+It starts with 42 and end with 123
+The middle element is 57
+
+Array content:
+[0] 42
+[1] 57
+[2] 123
+@endcode
+*/

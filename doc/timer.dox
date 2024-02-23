@@ -1,0 +1,25 @@
+/**
+@file timer.h
+@details Here is the intended usage of timers:
+@code{.c}
+// In a given process
+if (not o2s_timer_setup_process(some_signal_handler_that_tells_the_operation_to_exit))
+    error();
+
+{ // in a given thread
+    O2sTimer timer = o2s_timer_create();
+    if (timer == NULL)
+        error();
+
+    { // Where a timeout is wanted
+        ArmedTimer copy = o2s_timer_start();
+        if (copy == NULL)
+            error();
+
+        some_operation_that_can_hang();
+    } // <- the timer is disarmed here
+
+    tell_the_operation_to_not_exit();
+} // <- the timer is deleted here
+@endcode
+*/

@@ -9,6 +9,7 @@
  * @copyright 2023, SAFRAN T4DS, ALL RIGHTS RESERVED
  * @file apply_options.c
  * @author Antoine GAGNIERE
+ * @brief Apply options to a serial port
  */
 /* ************************************************************************** */
 

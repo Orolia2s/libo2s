@@ -12,7 +12,7 @@
  * @file array.h
  * @author Antoine GAGNIERE
  * @author Hugo FOLCHER
- * @brief Dynamic array
+ * @brief Dynamic arrays
  */
 /* ************************************************************************** */
 
