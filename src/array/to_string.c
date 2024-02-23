@@ -19,14 +19,15 @@
 
 #include <iso646.h> // not
 
-string_t array_to_string(const array_t* self, string_t (*function)(const void*))
+/** Create a string from an array */
+string_t array_to_string(const array_t* self, string_conversion_t convert_element)
 {
 	string_t result  = string_from_literal("[");
 	void*    element = self->start;
 
 	while (element < array_end(self))
 	{
-		String single = function(element);
+		String single = convert_element(element);
 
 		string_append(&result, &single);
 		string_append_literal(&result, ", ");

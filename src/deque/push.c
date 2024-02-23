@@ -6,7 +6,7 @@
 /*     |____/_/   \_|_|   |_| \_/_/   \_|_| \_|   |_|    |_| |____/|____/     */
 /*                                                                            */
 /**
- * Copyright 2023-2024, SAFRAN T4DS, ALL RIGHTS RESERVED
+ * @copyright 2023-2024, SAFRAN T4DS, ALL RIGHTS RESERVED
  * @file push.c
  * @author Hugo FOLCHER
  * @author Antoine GAGNIERE

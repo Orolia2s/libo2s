@@ -12,6 +12,7 @@
  * @file private.h
  * @author Hugo FOLCHER
  * @author Antoine GAGNIERE
+ * @brief Internal deque state
  */
 /* ************************************************************************** */
 

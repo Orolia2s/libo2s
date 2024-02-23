@@ -17,14 +17,14 @@
 
 #include <iso646.h> // not
 
-/* Create a string that represents a deque */
-string_t deque_to_string(const deque_t* self, string_t (*function)(const void*))
+/** Create a string that represents a deque */
+string_t deque_to_string(const deque_t* self, string_conversion_t convert_element)
 {
 	string_t result = string_from_literal("[");
 
 	for (unsigned i = 0; i < deque_count(self); i++)
 	{
-		String single = function(deque_get(self, i));
+		String single = convert_element(deque_get(self, i));
 
 		string_append(&result, &single);
 		string_append_literal(&result, ", ");
