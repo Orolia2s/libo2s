@@ -100,7 +100,10 @@ html pdf:
 clean: ## Remove intermediate objects
 	$(RM) -r $(BuildFolder)
 
-fclean: clean ## Remove all generated files
+doc_clean: ## Remove generated documentation
+	$(RM) -r $(DocumentationFolder)/html $(DocumentationFolder)/latex
+
+fclean: clean doc_clean ## Remove all generated files
 	$(RM) $(Static) $(Shared)
 
 .PHONY: clean fclean

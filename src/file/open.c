@@ -24,7 +24,8 @@
 #include <unistd.h> // close
 
 #ifndef FILE_STREAM_BUFFER_SIZE
-#	define FILE_STREAM_BUFFER_SIZE 4096 /// @todo configure in a better way
+/** @todo configure in a better way */
+#	define FILE_STREAM_BUFFER_SIZE 4096
 #endif
 
 /**

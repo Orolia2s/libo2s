@@ -5,11 +5,12 @@
 /*      ___) / ___ \|  _| |  _ < / ___ \| |\  |   | | |__   _| |_| |___) |    */
 /*     |____/_/   \_|_|   |_| \_/_/   \_|_| \_|   |_|    |_| |____/|____/     */
 /*                                                                            */
-/* Copyright 2023, SAFRAN T4DS, ALL RIGHTS RESERVED                           */
-/*                                                                            */
-/* @file structures.c                                                         */
-/* @author Antoine GAGNIERE                                                   */
-/*                                                                            */
+/**
+ * @copyright 2023, SAFRAN T4DS, ALL RIGHTS RESERVED
+ * @file array/to_string.c
+ * @author Antoine GAGNIERE
+ * @brief Represent an array as a string
+ */
 /* ************************************************************************** */
 
 #include "o2s/to_string.h"

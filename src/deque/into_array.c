@@ -5,11 +5,12 @@
 /*      ___) / ___ \|  _| |  _ < / ___ \| |\  |   | | |__   _| |_| |___) |    */
 /*     |____/_/   \_|_|   |_| \_/_/   \_|_| \_|   |_|    |_| |____/|____/     */
 /*                                                                            */
-/* Copyright 2023, SAFRAN T4DS, ALL RIGHTS RESERVED                           */
-/*                                                                            */
-/* @file into_array.c                                                         */
-/* @author Hugo FOLCHER                                                       */
-/*                                                                            */
+/**
+ * @copyright 2023-2024, SAFRAN T4DS, ALL RIGHTS RESERVED
+ * @file into_array.c
+ * @author Antoine GAGNIERE
+ * @brief Move elements from a deque to an array
+ */
 /* ************************************************************************** */
 
 #include "o2s/array.h"

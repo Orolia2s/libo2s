@@ -5,11 +5,13 @@
 /*      ___) / ___ \|  _| |  _ < / ___ \| |\  |   | | |__   _| |_| |___) |    */
 /*     |____/_/   \_|_|   |_| \_/_/   \_|_| \_|   |_|    |_| |____/|____/     */
 /*                                                                            */
-/* Copyright 2023, SAFRAN T4DS, ALL RIGHTS RESERVED                           */
-/*                                                                            */
-/* @file getters.c                                                            */
-/* @author Hugo FOLCHER                                                       */
-/*                                                                            */
+/**
+ * @copyright 2023-2024, SAFRAN T4DS, ALL RIGHTS RESERVED
+ * @file getters.c
+ * @author Hugo FOLCHER
+ * @author Antoine GAGNIERE
+ * @brief Expose the state of a deque
+ */
 /* ************************************************************************** */
 
 #include "private.h"
