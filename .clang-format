@@ -30,7 +30,7 @@ AlignConsecutiveMacros: AcrossEmptyLinesAndComments
 #    AcrossEmptyLines: true
 #    AcrossComments: true
 AlignEscapedNewlines: DontAlign
-ForEachMacros: ['array_foreach', 'array_enumerate']
+ForEachMacros: ['array_foreach', 'array_enumerate', 'deque_foreach', 'deque_enumerate', 'string_foreach', 'string_enumerate']
 
 # ----- Align -----
 AlignAfterOpenBracket: 'Align'

@@ -5,11 +5,13 @@
 /*      ___) / ___ \|  _| |  _ < / ___ \| |\  |   | | |__   _| |_| |___) |    */
 /*     |____/_/   \_|_|   |_| \_/_/   \_|_| \_|   |_|    |_| |____/|____/     */
 /*                                                                            */
-/* Copyright 2023, SAFRAN T4DS, ALL RIGHTS RESERVED                           */
-/*                                                                            */
-/* @file push_pop.c                                                           */
-/* @author Hugo FOLCHER                                                       */
-/*                                                                            */
+/**
+ * @copyright 2023, SAFRAN T4DS, ALL RIGHTS RESERVED
+ * @file push_pop.c
+ * @author Hugo FOLCHER
+ * @author Antoine GAGNIERE
+ * @brief Add and remove elements from dynamic arrays
+ */
 /* ************************************************************************** */
 
 #include "private.h"

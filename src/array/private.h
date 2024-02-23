@@ -11,6 +11,8 @@
  * @copyright 2023, SAFRAN T4DS, ALL RIGHTS RESERVED
  * @file private.h
  * @author Hugo FOLCHER
+ * @author Antoine GAGNIERE
+ * @brief Internal state of a dynamic array
  */
 /* ************************************************************************** */
 
