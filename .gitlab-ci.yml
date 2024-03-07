@@ -31,7 +31,7 @@ coverage:
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
     - if: $CI_PIPELINE_SOURCE == "web"
   script:
-    - "nix build .#libo2s-cov"
+    - "nix build .#libo2s-cov --print-build-logs"
     - cp result/test_libo2s.exe/cobertura.xml .
     - sed --regexp-extended "s|<source>[^<>]+</source>|<source>${CI_PROJECT_DIR}/src</source>|" -i cobertura.xml
     - "awk -F: '$1~/percent_covered/ { print }' result/test_libo2s.exe/coverage.json"
@@ -78,7 +78,7 @@ pages:
     - if: $CI_COMMIT_TAG
     - if: $CI_PIPELINE_SOURCE == "web"
   script:
-    - "nix build .#libo2s-doc"
+    - "nix build .#libo2s-doc --print-build-logs"
     - cp -r result/share/doc/html public
   artifacts:
     paths:
