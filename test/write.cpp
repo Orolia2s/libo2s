@@ -1,6 +1,6 @@
 extern "C"
 {
-#include "o2s/write.h"
+#include "o2s/write.h" // write_all
 
 #include "o2s/deque.h"
 #include "o2s/file_input_stream.h"
@@ -32,17 +32,14 @@ SCENARIO("We can write to a file descriptor with guarantees", "[write]")
 		THEN("We can write it with a single call")
 		{
 			FILE*   out = tmpfile();
-			ssize_t written;
 
-			written = write(fileno(out), (char*)to_write.start, to_write.count);
-			REQUIRE(written > 0);
-			CHECK(written == to_write.count);
+			CHECK(write_all(fileno(out), (char*)to_write.start, to_write.count));
 
 			AND_THEN("The right bytes were written")
 			{
 				String was_written = string_new();
 
-				REQUIRE(string_reserve(&was_written, written));
+				REQUIRE(string_reserve(&was_written, to_write.count));
 				rewind(out);
 				was_read = read(fileno(out), (char*)was_written.start, was_written.capacity);
 				REQUIRE(was_read > 0);
