@@ -22,7 +22,7 @@
 #include <unistd.h> // read
 #include <stdbool.h>
 
-#if defined(__STDC_VERSION__) && __STDC_VERSION__ < 202300L
+#if !defined(__STDC_VERSION__) || __STDC_VERSION__ < 202300L
 #	warning including threads.h to have thread_local before C23
 #	include <threads.h> // thread_local
 #endif

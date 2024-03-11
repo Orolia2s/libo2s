@@ -16,6 +16,8 @@
  */
 /* ************************************************************************** */
 
+#include "o2s/thread.h" // o2s_thread_name
+
 #include <stdio.h> // fprintf, stderr
 
 #define LOG_LEVEL_NONE    0
@@ -41,7 +43,9 @@
 
 #define log_log(LEVEL, COLOR, FORMAT, ...) \
 	fprintf(LOG_OUTPUT_FILE, \
-	        "[\e[" COLOR "m" LEVEL "\e[0m]\e[2m " __FILE__ ":%s:%02i: \e[0m" FORMAT "\n", \
+	        "[\e[" COLOR "m" LEVEL "\e[0m %.8s \e[2m" __FILE__ \
+	        ":%s:%02i\e[0m] " FORMAT "\n", \
+	        o2s_thread_name, \
 	        __FUNCTION__, \
 	        __LINE__, \
 	        ##__VA_ARGS__)

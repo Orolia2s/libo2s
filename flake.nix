@@ -28,7 +28,8 @@
           checkInputs = with pkgs; [catch2_3];
 
           Version = self.version;
-          buildFlags = ["static" "CFLAGS=-O2"];
+          buildFlags = ["static"];
+          CFLAGS="-O2";
           doCheck = true;
 
           checkPhase = ''
