@@ -19,6 +19,7 @@
 
 #include <sys/types.h> // ssize_t
 
+#include <signal.h>    // siginfo_t
 #include <stdbool.h>   // bool
 #include <stdint.h>    // uint*_t
 
@@ -46,6 +47,8 @@ bool       file_accumulate_infinite(ifstream_t* file, size_t count);
 void       file_stop_reading(void);
 void       file_resume_reading(void);
 ///@}
+
+void       file_default_signal_handler(int, siginfo_t*, void*);
 
 /**
  * Use the RAII idiom with a file input stream.

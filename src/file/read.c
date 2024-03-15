@@ -107,3 +107,9 @@ void file_resume_reading(void)
 {
 	keep_reading = true;
 }
+
+/** Default signal handler */
+void file_default_signal_handler(int, siginfo_t*, void*)
+{
+	file_stop_reading();
+}
