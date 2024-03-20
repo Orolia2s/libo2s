@@ -21,6 +21,7 @@
 
 #include <string.h> // strerror
 
+/** Lock the mutex, logging any error. */
 pthread_mutex_t* o2s_mutex_lock(pthread_mutex_t* mutex)
 {
 	int error = pthread_mutex_lock(mutex);
@@ -30,6 +31,7 @@ pthread_mutex_t* o2s_mutex_lock(pthread_mutex_t* mutex)
 	return mutex;
 }
 
+/** Unlock the mutex, logging any error. */
 void o2s_mutex_unlock(pthread_mutex_t* const* mutex)
 {
 	int error = pthread_mutex_unlock(*mutex);

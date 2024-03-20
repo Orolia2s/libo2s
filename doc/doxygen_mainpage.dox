@@ -27,5 +27,6 @@
 - @ref to_string.h
 - @ref preprocessing.h
 - @ref timer.h
+- @ref mutex.h
 
 */

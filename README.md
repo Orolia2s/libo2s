@@ -69,6 +69,7 @@ classDiagram
 - [String conversions](https://orolia2s.pages.orolia.com/libo2s/to__string_8h.html)
 - [Useful Macros](https://orolia2s.pages.orolia.com/libo2s/preprocessing_8h.html)
 - [Timers](https://orolia2s.pages.orolia.com/libo2s/timer_8h.html)
+- [Mutex](https://orolia2s.pages.orolia.com/libo2s/mutex_8h.html)
 
 # Build and test locally
 
