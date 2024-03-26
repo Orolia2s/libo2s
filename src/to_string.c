@@ -119,20 +119,21 @@ string_t cstring_to_string(const char* const* value)
 }
 
 /**
- * Creates a string to represent the char pointed to by @p value.
- * If @p value is printable, it will be included directly, else a escape
+ * Creates a string to represent the char pointed to by @p c.
+ * If @p c is printable, it will be included directly, else a escape
  * sequence. In both cases surrounded by single quotes
  */
-string_t char_to_string(const char* value)
+string_t char_to_string(const char* c)
 {
 	string_t result = string_from_literal("'");
+	uint8_t  value  = *c;
 
-	if (isprint(*value))
-		string_append_char(&result, *value);
+	if (isprint(value))
+		string_append_char(&result, value);
 	else
 	{
 		string_append_char(&result, '\\');
-		switch (*value)
+		switch (value)
 		{
 		case 0:
 			string_append_char(&result, '0');
@@ -148,9 +149,9 @@ string_t char_to_string(const char* value)
 			break;
 		default:
 			string_append_char(&result, 'x');
-			if (*value >= 16)
-				string_append_char(&result, "0123456789abcdef"[*value >> 4]);
-			string_append_char(&result, "0123456789abcdef"[*value & 0xf]);
+			if (value >= 16)
+				string_append_char(&result, "0123456789abcdef"[value >> 4]);
+			string_append_char(&result, "0123456789abcdef"[value & 0xf]);
 		}
 	}
 	string_append_char(&result, '\'');

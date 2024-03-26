@@ -41,7 +41,7 @@ string_t double_to_string(const double* value);
 /** @name Strings */
 ///@{
 string_t cstring_to_string(const char* const* value);
-string_t char_to_string(const char* value);
+string_t char_to_string(const char* c);
 ///@}
 
 /** @name Structures */

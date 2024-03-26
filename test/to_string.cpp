@@ -195,4 +195,8 @@ TEST_CASE("Characters to string", "[to_string]")
 		String tested = char_to_string("~");
 		CHECK( std::string(string_to_cstring(&tested)) == "'~'" );
 	}
+	{
+		String tested = char_to_string("\xfa");
+		CHECK( std::string(string_to_cstring(&tested)) == "'\\xfa'" );
+	}
 }
