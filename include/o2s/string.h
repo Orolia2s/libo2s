@@ -125,3 +125,9 @@ bool     is_char_in_cstring(char character, const char* cstring);
 #define string_enumerate(STRING, Element, Index) \
 	array_enumerate (char, STRING, Element, Index)
 ///@}
+
+/** @name Hashes */
+///@{
+uint32_t cstring_fnv1a_32(const char* cstring, size_t length);
+uint32_t string_fnv1a_32(const string_t* self);
+///@}
