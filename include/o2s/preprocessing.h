@@ -15,7 +15,7 @@
  */
 /* ************************************************************************** */
 
-#include "o2s/private_preprocessing.h"
+#include "o2s/private_prepro.h"
 
 /** @name Token manipulation */
 ///@{

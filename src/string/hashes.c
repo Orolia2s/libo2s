@@ -11,7 +11,7 @@
 */
 /* ************************************************************************** */
 
-#include "o2s/private_processing.h"
+#include "o2s/private_prepro.h" // FNV1A_*
 #include "o2s/string.h"
 
 /** Fowler–Noll–Vo hash function, in 32 bits */
@@ -20,7 +20,7 @@ uint32_t cstring_fnv1a_32(const char* cstring, size_t length)
 	uint32_t c;
 	uint32_t hash;
 
-	hash = FNV1A_0;
+	hash = FNV1A_0();
 	while (length --> 0)
 	{
 		c = (unsigned char)*cstring++;

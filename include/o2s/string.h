@@ -20,6 +20,7 @@
 
 #include <stdbool.h> // bool
 #include <stddef.h>  // size_t
+#include <stdint.h> // uint32_t
 #include <string.h>  // strlen
 
 /**
