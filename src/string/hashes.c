@@ -14,7 +14,7 @@
 #include "o2s/private_prepro.h" // FNV1A_*
 #include "o2s/string.h"
 
-/** Fowler–Noll–Vo hash function, in 32 bits */
+/** Fowler–Noll–Vo hash function, on 32 bits */
 uint32_t cstring_fnv1a_32(const char* cstring, size_t length)
 {
 	uint32_t c;
@@ -30,7 +30,7 @@ uint32_t cstring_fnv1a_32(const char* cstring, size_t length)
 	return hash;
 }
 
-/** Fowler–Noll–Vo hash function, in 32 bits */
+/** Fowler–Noll–Vo hash function, on 32 bits */
 uint32_t string_fnv1a_32(const string_t* self)
 {
 	return cstring_fnv1a_32(string_get(self, 0), string_length(self));

@@ -61,7 +61,7 @@
 /** Number of elements in a C array (on the stack) */
 #define C_ARRAY_LENGTH(ARRAY) (sizeof(ARRAY) / sizeof(*ARRAY))
 
-/** Evaluates as the number of arguments, up to 39 */
+/** Evaluates as the number of arguments, up to 40 */
 #define LIBO2S_PREPRO_ARGUMENT_COUNT(...) O2SPP_ARGCNT1(__VA_ARGS__)
 
 /**
