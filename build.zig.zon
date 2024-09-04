@@ -1,0 +1,10 @@
+.{
+    .name = "libo2s",
+    .version = "1.6.0",
+    .paths = .{
+        "build.zig",
+        "build.zig.zon",
+        "src/",
+        "include/",
+    },
+}

@@ -26,3 +26,5 @@ generated_html
 *.so
 
 result*
+/.zig-cache/
+/zig-out/
