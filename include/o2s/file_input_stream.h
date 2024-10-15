@@ -28,7 +28,7 @@ typedef struct file_input_stream
 {
 	istream_t stream;     /**< Inherit from input stream */
 	int       descriptor; /**< Underlying file */
-	uint8_t   opened :1;  /**< Is this file still open ? */
+	bool      opened;     /**< Is this file still open ? */
 } ifstream_t;
 
 /** @name Contructors and destructor */
