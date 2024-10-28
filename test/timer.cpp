@@ -14,10 +14,12 @@ SCENARIO("A timer interrupts an infinite read", "[timer]")
 	GIVEN("A timer")
 	{
 		O2sTimer timer = o2s_timer_create();
+		REQUIRE(timer.created);
 
 		WHEN("It is armed")
 		{
-			[[maybe_unused]] ArmedTimer _ = o2s_timer_start(timer, 20);
+			ArmedTimer armed_timer = o2s_timer_start(timer, 20);
+			REQUIRE(armed_timer.armed);
 
 			THEN("It interrupts a read")
 			{

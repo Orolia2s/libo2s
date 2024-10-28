@@ -19,11 +19,18 @@
 #include <stdbool.h> // bool
 #include <time.h>    // timer_t
 
-bool    o2s_timer_setup_process(void (*handle)(int, siginfo_t*, void*));
-timer_t o2s_timer_create(bool* success);
-timer_t o2s_timer_start(timer_t timer, unsigned milliseconds, bool* success);
-void    o2s_timer_stop(timer_t* timer);
-void    o2s_timer_delete(timer_t* timer);
+typedef struct o2s_timer
+{
+	timer_t timer_id;
+	bool    created;
+	bool    armed;
+} o2s_timer_t;
+
+bool        o2s_timer_setup_process(void (*handle)(int, siginfo_t*, void*));
+o2s_timer_t o2s_timer_create(void);
+o2s_timer_t o2s_timer_start(o2s_timer_t timer, unsigned milliseconds);
+void        o2s_timer_stop(o2s_timer_t* timer);
+void        o2s_timer_delete(o2s_timer_t* timer);
 
 /**
  * Automatically delete the timer when going out of scope.
@@ -40,7 +47,7 @@ void    o2s_timer_delete(timer_t* timer);
  * } // <- the timer will be deleted at that point
  * @endcode
  */
-#define O2sTimer   __attribute__((cleanup(o2s_timer_delete))) timer_t
+#define O2sTimer   __attribute__((cleanup(o2s_timer_delete))) o2s_timer_t
 
 /**
  * Automatically disarm the timer when going out of scope.
@@ -57,4 +64,4 @@ void    o2s_timer_delete(timer_t* timer);
  * } // <- the timer will be disarmed at that point
  * @endcode
  */
-#define ArmedTimer __attribute__((cleanup(o2s_timer_stop))) timer_t
+#define ArmedTimer __attribute__((cleanup(o2s_timer_stop))) o2s_timer_t

@@ -20,6 +20,7 @@
 #include "o2s/log.h"
 
 #include <errno.h>  // errno
+#include <iso646.h> // not
 #include <signal.h> // sigaction
 #include <string.h> // strerror
 #include <time.h>   // timer_*
@@ -53,59 +54,64 @@ bool o2s_timer_setup_process(void (*handle)(int, siginfo_t*, void*))
  * Initialize a timer, that will create a SIGALRM in the current thread when
  * timing out. This needs to be done once per thread, as the goal is for the
  * timer to interrupt the system calls of the current thread.
- * @return NULL if it was unable to create the timer
+ * @return a timer object whose member created is false if it was unable to create the timer
  */
-timer_t o2s_timer_create(bool* success)
+o2s_timer_t o2s_timer_create()
 {
-	timer_t         timer;
-	struct sigevent event = {.sigev_notify   = SIGEV_THREAD_ID,
-	                         .sigev_signo    = SIGALRM,
-	                         ._sigev_un._tid = gettid()};
+	o2s_timer_t     timer;
+	struct sigevent event = {
+	    .sigev_notify   = SIGEV_THREAD_ID,
+	    .sigev_signo    = SIGALRM,
+	    ._sigev_un._tid = gettid(),
+	};
 
-	*success = false;
-	if (timer_create(CLOCK_REALTIME, &event, &timer) == 0)
-	{
-		*success = true;
-		return timer;
-	}
-
-	log_error("Unable to create a timer: %s", strerror(errno));
-	return NULL;
+	timer.created = (timer_create(CLOCK_REALTIME, &event, &timer.timer_id) == 0);
+	if (not timer.created)
+		log_error("Unable to create a timer: %s", strerror(errno));
+	return timer;
 }
 
 /**
- * Arm timer for the specified duration, in milliseconds
- * @return NULL if unable to start
+ * Arm timer for the specified duration, in milliseconds.
+ * @return another timer object whose member armed is false if unable to start
  */
-timer_t o2s_timer_start(timer_t timer, unsigned milliseconds, bool* success)
+o2s_timer_t o2s_timer_start(o2s_timer_t timer, unsigned milliseconds)
 {
-	struct itimerspec duration = {.it_value.tv_nsec = MS_IN_NS * (milliseconds % MS_PER_S),
-	                              .it_value.tv_sec = milliseconds / MS_PER_S};
+	struct itimerspec duration = {
+	    .it_value.tv_nsec = MS_IN_NS * (milliseconds % MS_PER_S),
+	    .it_value.tv_sec  = milliseconds / MS_PER_S,
+	};
 
-	*success = false;
-	if (timer_settime(timer, 0, &duration, NULL) == 0)
-	{
-		*success = true;
-		return timer;
-	}
-	log_error("Unable to arm timer: %s", strerror(errno));
-	return NULL;
+	timer.armed = (timer_settime(timer.timer_id, 0, &duration, NULL) == 0);
+	if (not timer.armed)
+		log_error("Unable to arm timer: %s", strerror(errno));
+	return timer;
 }
 
 /** Disarm timer */
-void o2s_timer_stop(timer_t* timer)
+void o2s_timer_stop(o2s_timer_t* timer)
 {
 	struct itimerspec duration = {0};
 
-	if (timer_settime(*timer, 0, &duration, NULL) == 0)
+	if (not timer->armed)
+	{
+		log_debug("No need to disarm a disarmed timer");
+		return;
+	}
+	if (timer_settime(timer->timer_id, 0, &duration, NULL) == 0)
 		return;
 	log_error("Unable to disarm timer: %s", strerror(errno));
 }
 
 /** Destructor */
-void o2s_timer_delete(timer_t* timer)
+void o2s_timer_delete(o2s_timer_t* timer)
 {
-	if (timer_delete(*timer) == 0)
+	if (not timer->created)
+	{
+		log_debug("No need to delete a non-created timer");
+		return;
+	}
+	if (timer_delete(timer->timer_id) == 0)
 		return;
 	log_error("Unable to delete timer: %s", strerror(errno));
 }
