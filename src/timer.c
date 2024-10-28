@@ -55,15 +55,20 @@ bool o2s_timer_setup_process(void (*handle)(int, siginfo_t*, void*))
  * timer to interrupt the system calls of the current thread.
  * @return NULL if it was unable to create the timer
  */
-timer_t o2s_timer_create(void)
+timer_t o2s_timer_create(bool* success)
 {
 	timer_t         timer;
 	struct sigevent event = {.sigev_notify   = SIGEV_THREAD_ID,
 	                         .sigev_signo    = SIGALRM,
 	                         ._sigev_un._tid = gettid()};
 
+	*success = false;
 	if (timer_create(CLOCK_REALTIME, &event, &timer) == 0)
+	{
+		*success = true;
 		return timer;
+	}
+
 	log_error("Unable to create a timer: %s", strerror(errno));
 	return NULL;
 }
@@ -72,13 +77,17 @@ timer_t o2s_timer_create(void)
  * Arm timer for the specified duration, in milliseconds
  * @return NULL if unable to start
  */
-timer_t o2s_timer_start(timer_t timer, unsigned milliseconds)
+timer_t o2s_timer_start(timer_t timer, unsigned milliseconds, bool* success)
 {
 	struct itimerspec duration = {.it_value.tv_nsec = MS_IN_NS * (milliseconds % MS_PER_S),
 	                              .it_value.tv_sec = milliseconds / MS_PER_S};
 
+	*success = false;
 	if (timer_settime(timer, 0, &duration, NULL) == 0)
+	{
+		*success = true;
 		return timer;
+	}
 	log_error("Unable to arm timer: %s", strerror(errno));
 	return NULL;
 }

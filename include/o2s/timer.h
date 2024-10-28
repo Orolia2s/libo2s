@@ -20,8 +20,8 @@
 #include <time.h>    // timer_t
 
 bool    o2s_timer_setup_process(void (*handle)(int, siginfo_t*, void*));
-timer_t o2s_timer_create(void);
-timer_t o2s_timer_start(timer_t timer, unsigned milliseconds);
+timer_t o2s_timer_create(bool* success);
+timer_t o2s_timer_start(timer_t timer, unsigned milliseconds, bool* success);
 void    o2s_timer_stop(timer_t* timer);
 void    o2s_timer_delete(timer_t* timer);
 
