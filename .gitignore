@@ -28,3 +28,6 @@ generated_html
 result*
 /.zig-cache/
 /zig-out/
+/out/
+sonar-project.properties
+.scannerwork/

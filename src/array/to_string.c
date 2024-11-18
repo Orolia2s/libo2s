@@ -22,8 +22,8 @@
 /** Create a string from an array */
 string_t array_to_string(const array_t* self, string_conversion_t convert_element)
 {
-	string_t result  = string_from_literal("[");
-	void*    element = self->start;
+	string_t    result  = string_from_literal("[");
+	const void* element = self->start;
 
 	while (element < array_end(self))
 	{

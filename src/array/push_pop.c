@@ -52,7 +52,7 @@ bool array_pop_back_n(array_t* self, void* destination, size_t count)
 {
 	if (count > self->count)
 		return false;
-	void* source = array_get(self, self->count - count);
+	const void* source = array_get(self, self->count - count);
 	if (destination != NULL)
 		memcpy(destination, source, array_offset(self, count));
 	self->count -= count;

@@ -59,7 +59,7 @@ void* deque_pointer_before(const deque_t* self, void* pointer)
 }
 
 /** Number of elements in the range delimited by the two provided elements */
-size_t deque_distance(const deque_t* self, void* one, void* two)
+size_t deque_distance(const deque_t* self, const void* one, const void* two)
 {
 	return (one > two ? one - two : two - one) / self->type_size;
 }

@@ -21,7 +21,7 @@
 /** One-past-the-end pointer of the array */
 void* array_end(const array_t* self)
 {
-	return ((void*)self->start + array_offset(self, self->count));
+	return (self->start + array_offset(self, self->count));
 }
 
 /**
