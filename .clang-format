@@ -14,7 +14,7 @@ IndentWrappedFunctionNames: false
 PPIndentWidth: 4
 
 # ----- Line length -----
-ColumnLimit: 80
+ColumnLimit: 120
 PenaltyBreakAssignment: 20
 PenaltyBreakBeforeFirstCallParameter: 40
 PenaltyBreakComment: 25

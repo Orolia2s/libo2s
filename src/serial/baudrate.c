@@ -60,9 +60,8 @@ int64_t serial_decode_baudrate(speed_t flag)
 	case B3000000: return 3000000;
 	case B3500000: return 3500000;
 	case B4000000: return 4000000;
-	default : return -1;
 	}
-	
+	return -1;
 }
 
 /**
@@ -107,6 +106,6 @@ speed_t serial_encode_baudrate(int64_t speed_in_bps)
 	case 3000000: return B3000000;
 	case 3500000: return B3500000;
 	case 4000000: return B4000000;
-	default : return 0;
 	}
+	return 0;
 }

@@ -92,7 +92,7 @@
 
             CFLAGS='-O0 -g' make static
             LDLIBS=$(pkg-config --libs-only-l catch2-with-main) make -C test build
-            kcov --include-pattern=${./src} $out ./test/test_libo2s.exe
+            kcov --include-pattern=$PWD/src $out ./test/test_libo2s.exe
 
             runHook postBuild
           '';
