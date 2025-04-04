@@ -1,6 +1,6 @@
 # Lib O2S
 
-Reliant datastructure library for C.
+Reliable datastructure library for C.
 
 The [include](include) folder contains the public interface, while the [src](src) folder contains the implementation.
 
@@ -72,6 +72,21 @@ classDiagram
 - [Mutex](https://orolia2s.pages.orolia.com/libo2s/mutex_8h.html)
 
 # Usage
+
+## Use in your project
+
+Add the dependency in your `build.zig.zon` by running the following command:
+```shell
+zig fetch --save git+https://github.com/Orolia2s/libo2s#master
+```
+
+Then, in your `build.zig`:
+```zig
+const libo2s = b.dependency("libo2s", { .target = target, .optimize = optimize }).artifact("o2s");
+
+// wherever needed:
+exe.linkLibrary(libo2s);
+```
 
 ## Build
 
