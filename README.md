@@ -75,6 +75,8 @@ classDiagram
 
 ## Build
 
+requires [zig](https://ziglang.org/download/) >= 0.14.0
+
 ```shell
 zig build
 ```
@@ -87,6 +89,9 @@ zig build test
 
 ## Generate documentation
 
+requires [doxygen](https://www.doxygen.nl/download.html)
+
 ```shell
 zig build doc
+open doc/html/index.html
 ```
