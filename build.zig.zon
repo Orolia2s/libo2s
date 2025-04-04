@@ -2,6 +2,12 @@
     .name = .libo2s,
     .version = "1.7.1",
     .fingerprint = 0xac0ebcdc58d0457d,
+    .dependencies = .{
+        .catch2 = .{
+            .url = "git+https://github.com/allyourcodebase/catch2?ref=3.8.0+1#b22736bea853f8ad71083cf034f2ac50869df745",
+            .hash = "catch2-3.8.0-UrP6znoxAAAtKLmm4Gnb4bjOpq3XaI8bpG242r0dIX74",
+        },
+    },
     .paths = .{
         "build.zig",
         "build.zig.zon",

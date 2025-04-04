@@ -71,8 +71,22 @@ classDiagram
 - [Timers](https://orolia2s.pages.orolia.com/libo2s/timer_8h.html)
 - [Mutex](https://orolia2s.pages.orolia.com/libo2s/mutex_8h.html)
 
-# Build and test locally
+# Usage
 
-```bash
-nix build .#libo2s-cov
+## Build
+
+```shell
+zig build
+```
+
+## Test
+
+```shell
+zig build test
+```
+
+## Generate documentation
+
+```shell
+zig build doc
 ```
