@@ -67,6 +67,9 @@ void            string_clear(string_t* self);
 bool string_append_char(string_t* self, char character);
 bool string_append_cstring(string_t* self, const char* cstring, size_t length);
 bool string_append(string_t* self, const string_t* other);
+
+__attribute__((format(printf, 2, 3)))
+bool string_append_format(string_t* self, const char* format, ...);
 ///@}
 
 /**
