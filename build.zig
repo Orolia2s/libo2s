@@ -1,6 +1,6 @@
 const std = @import("std");
 
-// NOTE: waiting for https://github.com/ziglang/zig/pull/20271
+// NOTE: waiting for https://github.com/ziglang/zig/pull/20510
 // const PACKAGE = @import("build.zig.zon");
 const NAME = "o2s";
 const VERSION = std.mem.trim(u8, @embedFile("version.txt"), &std.ascii.whitespace);
@@ -23,7 +23,7 @@ fn buildLibSourceFiles(b: *std.Build) !std.Build.Module.AddCSourceFilesOptions {
     return .{
         .root = b.path(SRC_DIR),
         .files = b.dupeStrings(source_files.items),
-        .flags = &(CFLAGS ++ CPPFLAGS),
+        .flags = &(CFLAGS),
     };
 }
 
@@ -53,7 +53,7 @@ const SRC_DIR = "src";
 const INCLUDE_DIR = "include";
 
 const CFLAGS = .{
-    "--std=gnu2x",
+    "--std=gnu23",
     "-Wall",
     "-Wextra",
     "-Wvla",
@@ -63,8 +63,4 @@ const CFLAGS = .{
     "-Wold-style-definition",
     "-Wstrict-prototypes",
     "-fno-sanitize=undefined", // NOTE: disable UndefinedBehaviorSanitizer
-};
-
-const CPPFLAGS = .{
-    "-MMD",
 };
