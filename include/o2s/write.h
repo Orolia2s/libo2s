@@ -15,8 +15,7 @@
  */
 /* ************************************************************************** */
 
-#include <sys/types.h> // size_t
-
 #include <stdbool.h> // bool
+#include <stddef.h>  // size_t
 
 bool write_all(int file_descriptor, const char* memory, size_t length);

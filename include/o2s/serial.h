@@ -18,8 +18,6 @@
 #include "o2s/file_input_stream.h"
 #include "o2s/serial_options.h"
 
-#include <sys/types.h> // ssize_t
-
 #include <stdbool.h>
 #include <stdint.h>    // uint*_t
 

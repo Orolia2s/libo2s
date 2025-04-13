@@ -17,11 +17,10 @@
 
 #include "o2s/input_stream.h"
 
-#include <sys/types.h> // ssize_t
-
-#include <signal.h>    // siginfo_t
-#include <stdbool.h>   // bool
-#include <stdint.h>    // uint*_t
+#include <signal.h>  // siginfo_t
+#include <stdbool.h> // bool
+#include <stdint.h>  // uint*_t
+#include <stdio.h>   // ssize_t
 
 /** File Input Stream @todo store the name for debug purposes ? */
 typedef struct file_input_stream
