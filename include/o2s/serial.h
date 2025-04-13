@@ -29,7 +29,7 @@ struct serial_port
 {
 	ifstream_t       file;           /**< Input file buffered stream */
 	serial_options_t options;        /**< Terminal options */
-	uint8_t          got_options :1; /**< Is @ref options filled ? */
+	bool             got_options;    /**< Is @ref options filled ? */
 };
 
 /** @name Contructor and destructor */
