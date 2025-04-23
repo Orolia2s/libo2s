@@ -34,9 +34,11 @@ struct serial_port
 
 /** @name Contructor and destructor */
 ///@{
-serial_port_t serial_open_readonly(const char* port_name);
-serial_port_t serial_open_readwrite(const char* port_name);
-void          serial_close(serial_port_t* port);
+serial_port_t  serial_open_readonly(const char* port_name);
+serial_port_t  serial_open_readwrite(const char* port_name);
+void           serial_close(serial_port_t* port);
+serial_port_t* serial_new_readwrite(const char* port_name);
+void           serial_free(serial_port_t** port);
 ///@}
 
 /** @name Modifiers */

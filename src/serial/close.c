@@ -15,8 +15,18 @@
 #include "o2s/file_input_stream.h"
 #include "o2s/serial.h"
 
+#include <stdlib.h> // free
+
 /** Closes the specified serial port @see file_close */
 void serial_close(serial_port_t* port)
 {
 	file_close(&port->file);
+}
+
+/** Close and free a serial port created with @ref serial_new_readwrite */
+void serial_free(serial_port_t** port)
+{
+	serial_close(*port);
+	free(*port);
+	*port = NULL;
 }

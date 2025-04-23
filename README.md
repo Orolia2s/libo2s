@@ -82,7 +82,7 @@ zig fetch --save git+https://github.com/Orolia2s/libo2s#master
 
 Then, in your `build.zig`:
 ```zig
-const libo2s = b.dependency("libo2s", { .target = target, .optimize = optimize }).artifact("o2s");
+const libo2s = b.dependency("libo2s", .{ .target = target, .optimize = optimize }).artifact("o2s");
 
 // wherever needed:
 exe.linkLibrary(libo2s);
