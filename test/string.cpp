@@ -285,3 +285,19 @@ TEST_CASE("Character is in C string", "[string]")
 	/* Note that the terminating null is considered part of the C string, see man strchr */
 	CHECK( is_char_in_cstring('\0', sentence) );
 }
+
+TEST_CASE("Appending with format", "[string]")
+{
+	String tested = string_new();
+
+	string_append_format(&tested, "Simple");
+	CHECK( string_length(&tested) == 6 );
+	CHECK( *string_get(&tested, 5) == 'e' );
+	CHECK( strlen(string_to_cstring(&tested)) == 6 );
+	string_append_format(&tested, " %s", "words");
+	CHECK( string_length(&tested) == 12 );
+	string_append_format(&tested, " %c %i", '=', '*');
+	CHECK( string_length(&tested) == 17 );
+	CHECK( strlen(string_to_cstring(&tested)) == 17 );
+	CHECK( strcmp(string_to_cstring(&tested), "Simple words = 42") == 0 );
+}

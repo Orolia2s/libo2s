@@ -1,6 +1,6 @@
 .{
     .name = .libo2s,
-    .version = "1.8.0",
+    .version = "1.8.1",
     .fingerprint = 0xac0ebcdc58d0457d,
     .minimum_zig_version = "0.14.0",
     .dependencies = .{

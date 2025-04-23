@@ -47,9 +47,8 @@ bool string_append_format(string_t* self, const char* format, ...)
 	va_end(args1);
 	if (length > 0)
 	{
-		string_reserve(self, length);
-		vsnprintf(array_end(self), length, format, args2);
-		self->count += length;
+		string_reserve(self, length + 1);
+		self->count += vsnprintf(array_end(self), length + 1, format, args2);
 	}
 	va_end(args2);
 	return length >= 0;
