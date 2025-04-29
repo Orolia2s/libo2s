@@ -64,6 +64,9 @@ pub fn build(b: *std.Build) !void {
         test_exe.linkLibrary(catch2.artifact("Catch2"));
         test_exe.linkLibrary(catch2.artifact("Catch2WithMain"));
         test_step.dependOn(&run_test.step);
+        const test_install = b.step("install_test", "Build tests");
+        const install_test = b.addInstallArtifact(test_exe, .{});
+        test_install.dependOn(&install_test.step);
     }
     { // Documentation
         const doc_step = b.step("doc", "Generate the documentation as a static website");
