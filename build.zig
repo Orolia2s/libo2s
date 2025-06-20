@@ -93,7 +93,6 @@ const CFLAGS = .{
     "-Wmissing-declarations",
     "-Wold-style-definition",
     "-Wstrict-prototypes",
-    "-fno-sanitize=undefined", // NOTE: disable UndefinedBehaviorSanitizer
 };
 
 const TEST_SOURCES = .{

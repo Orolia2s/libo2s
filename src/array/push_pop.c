@@ -27,6 +27,8 @@
  */
 bool array_push_back_n(array_t* self, const void* elements, size_t count)
 {
+	if (count == 0)
+		return true;
 	if (not array_reserve(self, count))
 		return false;
 	memcpy(array_end(self), elements, array_offset(self, count));

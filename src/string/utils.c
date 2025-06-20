@@ -14,7 +14,7 @@
 
 #include "o2s/string.h"
 
-#include <iso646.h> // not
+#include <iso646.h> // not and or
 
 /**
  * Provide compatibility with legacy string functions.
@@ -44,13 +44,14 @@ bool string_trim(string_t* self)
 /** Compares the content of the 2 strings @return true if they are the same */
 bool string_is_equal(const string_t* one, const string_t* two)
 {
-	return (one->count == two->count)
-	       && (memcmp(one->start, two->start, one->count) == 0);
+	return (one->count == two->count) and (one->count == 0 or (memcmp(one->start, two->start, one->count) == 0));
 }
 
 /** Searches @p character in @p self */
 bool string_contains(const string_t* self, char character)
 {
+	if (self->count == 0)
+		return false;
 	return memchr(self->start, character, self->count);
 }
 
