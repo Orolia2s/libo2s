@@ -18,9 +18,14 @@
 
 #include "o2s/array.h"
 
-/** One-past-the-end pointer of the array */
+/**
+ * One-past-the-end pointer of the array
+ * @return NULL if the underlying storage isn't allocated
+ */
 void* array_end(const array_t* self)
 {
+	if (self->capacity == 0)
+		return NULL;
 	return (self->start + array_offset(self, self->count));
 }
 
