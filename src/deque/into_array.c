@@ -23,6 +23,10 @@
  */
 bool deque_pop_front_into_array(deque_t* self, struct array* destination, size_t count)
 {
+#ifndef NDEBUG
+	if (self->type_size != destination->type_size)
+		return false;
+#endif
 	if (not array_reserve(destination, count))
 		return false;
 	if (not deque_pop_front_n(self, array_end(destination), count))

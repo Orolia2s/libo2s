@@ -74,3 +74,9 @@ void* queue_get(const queue_t* self, size_t index)
 {
 	return deque_get(self, index);
 }
+
+/** Move the @p count first elements at the back of @p destination @see deque_pop_front_into_array */
+bool queue_pop_into_array(queue_t* self, struct array* destination, size_t count)
+{
+	return deque_pop_front_into_array(self, destination, count);
+}
