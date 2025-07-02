@@ -6,28 +6,17 @@
 /*     |____/_/   \_|_|   |_| \_/_/   \_|_| \_|   |_|    |_| |____/|____/     */
 /*                                                                            */
 /**
- * @copyright 2023-2024, SAFRAN T4DS, ALL RIGHTS RESERVED
- * @file constructors_destructors.c
+ * @copyright 2023-2025, SAFRAN T4DS, ALL RIGHTS RESERVED
+ * @file
  * @author Hugo FOLCHER
  * @author Antoine GAGNIERE
- * @brief Create and destroy deques
+ * @brief Create and destroy deques on the heap
  */
 /* ************************************************************************** */
 
 #include "o2s/deque.h"
 
-#include <stdlib.h> //free
-
-/** Contructs an deque, using externally owned memory */
-deque_t deque_new(void* storage, size_t capacity, size_t type_size)
-{
-	return (deque_t){.storage   = storage,
-	                 .front     = storage,
-	                 .back      = storage,
-	                 .count     = 0,
-	                 .type_size = type_size,
-	                 .capacity  = capacity};
-}
+#include <stdlib.h> // free
 
 /**
  * Constructs a deque, allocating the needed memory.
@@ -40,14 +29,6 @@ deque_t deque_allocate(size_t capacity, size_t type_size)
 	if (storage == NULL)
 		capacity = 0;
 	return deque_new(storage, capacity, type_size);
-}
-
-/** Clears properly the deque */
-void deque_clear(deque_t* self)
-{
-	self->front = self->storage;
-	self->back  = self->storage;
-	self->count = 0;
 }
 
 /** Frees properly the deque */

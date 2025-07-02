@@ -45,7 +45,7 @@ pub fn build(b: *std.Build) !void {
     lib.addIncludePath(include);
     lib.addCSourceFiles(try buildLibSourceFiles(b));
 
-    lib.installHeadersDirectory(include, "", .{});
+    lib.installHeadersDirectory(b.path("include/o2s"), "o2s", .{});
     b.installArtifact(lib);
 
     { // Test
@@ -75,6 +75,43 @@ pub fn build(b: *std.Build) !void {
         run_doxygen.addFileArg(b.path("doc/Doxyfile.cfg"));
         run_doxygen.setEnvironmentVariable("PROJECT_VERSION", VERSION);
         doc_step.dependOn(&run_doxygen.step);
+    }
+    { // Freestanding subset
+        const bare_step = b.step("micro", "Compile a subset of the library for a freestanding target");
+        const bare_target = b.resolveTargetQuery(.{
+            .cpu_arch = .arm,
+            .os_tag = .freestanding,
+            .abi = .eabi,
+        });
+        const bare_lib = b.addStaticLibrary(.{
+            .name = "micro2s",
+            .version = semver,
+            .target = bare_target,
+            .optimize = .ReleaseSmall,
+        });
+        bare_lib.addIncludePath(include);
+        bare_lib.addIncludePath(b.path("include/micro"));
+        bare_lib.addCSourceFiles(.{ .root = b.path("src/deque"), .files = &.{
+            "init_clear.c", "getters.c",
+            "internals.c",  "pop.c",
+            "push.c",
+        } });
+        bare_lib.addCSourceFiles(.{ .root = b.path("src"), .files = &.{
+            "stream/input.c",
+            "queue.c",
+        } });
+        bare_lib.installHeadersDirectory(b.path("include/o2s"), "o2s", .{
+            .include_extensions = &.{
+                "deque.h",         "queue.h",
+                "stack.h",         "input_stream.h",
+                "preprocessing.h", "private_prepro.h",
+            },
+            .exclude_extensions = &.{
+                "string_input_stream.h",
+                "file_input_stream.h",
+            },
+        });
+        bare_step.dependOn(&b.addInstallArtifact(bare_lib, .{}).step);
     }
 }
 
