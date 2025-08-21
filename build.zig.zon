@@ -5,8 +5,8 @@
     .minimum_zig_version = "0.14.0",
     .dependencies = .{
         .catch2 = .{
-            .url = "git+https://github.com/allyourcodebase/catch2?ref=3.8.0+1#b22736bea853f8ad71083cf034f2ac50869df745",
-            .hash = "catch2-3.8.0-UrP6znoxAAAtKLmm4Gnb4bjOpq3XaI8bpG242r0dIX74",
+            .url = "git+https://github.com/allyourcodebase/catch2?ref=master#0fe4fd5d1ad256ceff0e118d686280537ff6aab7",
+            .hash = "catch2-3.9.1-UrP6zq4zAAAtcw806u7OMcMcPT-HSXWRHzp9rUJ33Nen",
         },
     },
     .paths = .{

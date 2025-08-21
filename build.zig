@@ -6,8 +6,8 @@ const NAME = "o2s";
 const VERSION = std.mem.trim(u8, @embedFile("version.txt"), &std.ascii.whitespace);
 
 fn buildLibSourceFiles(b: *std.Build) !std.Build.Module.AddCSourceFilesOptions {
-    var source_files = std.ArrayList([]const u8).init(b.allocator);
-    defer source_files.deinit();
+    var source_files: std.ArrayListUnmanaged([]const u8) = .empty;
+    defer source_files.deinit(b.allocator);
     {
         var src = try std.fs.openDirAbsolute(b.pathFromRoot(SRC_DIR), .{ .iterate = true });
         var walker = try src.walk(b.allocator);
@@ -15,7 +15,7 @@ fn buildLibSourceFiles(b: *std.Build) !std.Build.Module.AddCSourceFilesOptions {
 
         while (try walker.next()) |entry| {
             if (entry.kind == .file and std.mem.eql(u8, std.fs.path.extension(entry.basename), ".c")) {
-                try source_files.append(b.dupe(entry.path));
+                try source_files.append(b.allocator, b.dupe(entry.path));
             }
         }
     }
@@ -34,12 +34,14 @@ pub fn build(b: *std.Build) !void {
 
     const include = b.path(INCLUDE_DIR);
 
-    const lib = b.addStaticLibrary(.{
+    const lib = b.addLibrary(.{
         .name = NAME,
         .version = semver,
-        .target = target,
-        .optimize = optimize,
-        .link_libc = true,
+        .root_module = b.createModule(.{
+            .target = target,
+            .optimize = optimize,
+            .link_libc = true,
+        }),
     });
     lib.root_module.addCMacro("LIBO2S_VERSION", VERSION);
     lib.addIncludePath(include);
@@ -50,7 +52,10 @@ pub fn build(b: *std.Build) !void {
 
     { // Test
         const test_step = b.step("test", "Run tests");
-        const test_exe = b.addExecutable(.{ .name = "test_libo2s", .target = target, .optimize = optimize });
+        const test_exe = b.addExecutable(.{
+            .name = "test_libo2s",
+            .root_module = b.createModule(.{ .target = target, .optimize = optimize }),
+        });
         const run_test = b.addRunArtifact(test_exe);
         const catch2 = b.dependency("catch2", .{ .target = target, .optimize = optimize });
 
