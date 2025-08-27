@@ -58,7 +58,7 @@ string_t int_to_string(const int* value)
 
 	if (not string_reserve(&result, maxsize))
 		return result;
-	const int size = snprintf(result.start, maxsize, "%" PRIi32, *value);
+	const int size = snprintf(result.start, maxsize, "%i", *value);
 	if (size > 0)
 		result.count = (unsigned)size;
 	return result;
@@ -72,7 +72,7 @@ string_t short_to_string(const short* value)
 
 	if (not string_reserve(&result, maxsize))
 		return result;
-	const int size = snprintf(result.start, maxsize, "%" PRIi16, *value);
+	const int size = snprintf(result.start, maxsize, "%hi", *value);
 	if (size > 0)
 		result.count = (unsigned)size;
 	return result;
@@ -86,7 +86,7 @@ string_t long_to_string(const long* value)
 
 	if (not string_reserve(&result, maxsize))
 		return result;
-	const int size = snprintf(result.start, maxsize, "%" PRIi64, *value);
+	const int size = snprintf(result.start, maxsize, "%li", *value);
 	if (size > 0)
 		result.count = (unsigned)size;
 	return result;
@@ -100,7 +100,7 @@ string_t unsigned_to_string(const unsigned* value)
 
 	if (not string_reserve(&result, maxsize))
 		return result;
-	const int size = snprintf(result.start, maxsize, "%" PRIu32, *value);
+	const int size = snprintf(result.start, maxsize, "%u", *value);
 	if (size > 0)
 		result.count = (unsigned)size;
 	return result;

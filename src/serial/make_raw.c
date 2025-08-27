@@ -18,8 +18,9 @@
 #include <termios.h> // tcsetattr
 
 #include <errno.h>
-#include <iso646.h>  // not
-#include <string.h>  // strerror
+#include <inttypes.h> // PRIi64
+#include <iso646.h>   // not
+#include <string.h>   // strerror
 
 /**
  * Modify the copy of the options, but do not apply them
@@ -64,7 +65,7 @@ bool serial_set_options_speed(serial_port_t* port, int64_t speed_bps)
 
 	if (speed == 0)
 	{
-		log_error("%li is not a valid baudrate, refer to termios(3) for further details", speed_bps);
+		log_error("%" PRIi64 " is not a valid baudrate, refer to termios(3) for further details", speed_bps);
 		return false;
 	}
 	if (not serial_get_options(port))

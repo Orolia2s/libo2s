@@ -62,7 +62,11 @@ o2s_timer_t o2s_timer_create()
 	struct sigevent event = {
 	    .sigev_notify   = SIGEV_THREAD_ID,
 	    .sigev_signo    = SIGALRM,
+#ifdef __USE_GNU
 	    ._sigev_un._tid = gettid(),
+#else
+	    .sigev_notify_thread_id = gettid(),
+#endif
 	};
 
 	timer.created = (timer_create(CLOCK_REALTIME, &event, &timer.timer_id) == 0);

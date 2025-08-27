@@ -13,7 +13,11 @@ SCENARIO("We can use mutexes with a RAII style", "[mutex]")
 {
 	GIVEN("A mutex")
 	{
+#ifdef __USE_GNU
 		pthread_mutex_t my_mutex = PTHREAD_ERRORCHECK_MUTEX_INITIALIZER_NP;
+#else
+		pthread_mutex_t my_mutex = PTHREAD_MUTEX_INITIALIZER;
+#endif
 
 		WHEN("It is locked")
 		{
