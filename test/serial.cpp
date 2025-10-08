@@ -14,7 +14,8 @@ TEST_CASE("We can convert baudrate constants to and from bps rates", "[serial]")
 {
 	SECTION("Decoding an invalid value yields -1")
 	{
-		speed_t value = GENERATE(50, 300, 4096);
+		// NOTE: These are arbitrary values that are not valid speed_t variants.
+		speed_t value = GENERATE(17, 242, 4096);
 
 		CHECK( serial_decode_baudrate(value) == -1 );
 	}
