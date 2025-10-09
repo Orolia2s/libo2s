@@ -74,7 +74,8 @@ bool deque_push_back_n(deque_t* self, const void* elements, size_t count)
 		return false;
 	first_pass = min(count, deque_distance(self, self->back, deque_end(self)));
 	first_pass_size = deque_offset(self, first_pass);
-	memcpy(self->back, elements, first_pass_size);
+	if (elements)
+		memcpy(self->back, elements, first_pass_size);
 	self->back += first_pass_size;
 	self->count += first_pass;
 	if (first_pass < count)
