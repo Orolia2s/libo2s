@@ -70,11 +70,11 @@ bool serial_set_options_speed(serial_port_t* port, int64_t speed_bps)
 	}
 	if (not serial_get_options(port))
 		return false;
-	port->options.input_speed              = speed;
-	port->options.output_speed             = speed;
-	port->options.input._dont_modify_speed = false;
-	port->options.control._speed_4lsb      = speed;
-	port->options.control._speed_is_extra  = speed >> 12;
+	if (cfsetspeed(&port->options.termios, speed) < 0)
+	{
+		log_error("Failed to set the baudrate: %s", strerror(errno));
+		return false;
+	}
 	return true;
 }
 
