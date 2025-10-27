@@ -81,7 +81,9 @@ bool array_pop_front_n(array_t* self, void* destination, size_t count)
 	size_t remaining = self->count - count;
 	if (destination)
 		memcpy(destination, self->start, array_offset(self, count));
-	memmove(self->start, array_get(self, count), array_offset(self, remaining));
+	void* src = array_get(self, count);
+	if (src)
+		memmove(self->start, src, array_offset(self, remaining));
 	self->count -= count;
 	return true;
 }
