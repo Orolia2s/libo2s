@@ -14,7 +14,8 @@ TEST_CASE("We can convert baudrate constants to and from bps rates", "[serial]")
 {
 	SECTION("Decoding an invalid value yields -1")
 	{
-		speed_t value = GENERATE(50, 300, 4096);
+		// NOTE: These are arbitrary values that are not valid speed_t variants.
+		speed_t value = GENERATE(17, 242, 4096);
 
 		CHECK( serial_decode_baudrate(value) == -1 );
 	}
@@ -92,5 +93,15 @@ TEST_CASE("We can set a serial port speed", "[serial]")
 	REQUIRE( cfsetspeed(&std.options.termios, baudrate) == 0 );
 	REQUIRE( serial_set_options_speed(&ours, rate) );
 
+	CHECK( std.options.termios.c_iflag == ours.options.termios.c_iflag );
+	CHECK( std.options.termios.c_oflag == ours.options.termios.c_oflag );
+	CHECK( std.options.termios.c_cflag == ours.options.termios.c_cflag );
+	CHECK( std.options.termios.c_lflag == ours.options.termios.c_lflag );
+	CHECK( std.options.termios.c_line == ours.options.termios.c_line );
+	for (int i = 0; i < NCCS; i++) {
+		CHECK( std.options.termios.c_cc[i] == ours.options.termios.c_cc[i] );
+	}
+	CHECK( std.options.termios.c_ispeed == ours.options.termios.c_ispeed );
+	CHECK( std.options.termios.c_ospeed == ours.options.termios.c_ospeed );
 	CHECK( memcmp(&std.options, &ours.options, sizeof(std.options)) == 0 );
 }
