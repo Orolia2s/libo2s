@@ -17,6 +17,10 @@
 #include "private.h"
 
 #include "o2s/deque.h"
+#include "o2s/preprocessing.h" // min
+
+#include <iso646.h>            // or
+#include <string.h>            // memcpy
 
 /** The number of elements currently held in the queue */
 size_t deque_count(const deque_t* self)
@@ -77,4 +81,30 @@ void* deque_get(const deque_t* self, size_t index)
 	if (result >= deque_end(self))
 		result -= deque_offset(self, deque_capacity(self));
 	return result;
+}
+
+/**
+ * Peeks the @p count elements of the queue, starting with @p start.
+ * @return false if there is less than @p start or @p start + @p count elements stored
+ */
+bool deque_get_n(const deque_t* self, void* destination, size_t start, size_t count)
+{
+	const void* begin;
+	size_t      first_pass;
+	size_t      first_pass_size;
+
+	if (count == 0 or destination == NULL)
+		return true;
+	if ((begin = deque_get(self, start)) == NULL)
+		return false;
+	if (deque_count(self) < start + count)
+		return false;
+
+	first_pass = min(count, deque_distance(self, begin, deque_end(self)));
+	first_pass_size = deque_offset(self, first_pass);
+	memcpy(destination, begin, first_pass_size);
+
+	if (first_pass < count)
+		return deque_get_n(self, destination + first_pass_size, start + first_pass, count - first_pass);
+	return true;
 }

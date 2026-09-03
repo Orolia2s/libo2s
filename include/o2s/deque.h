@@ -76,6 +76,7 @@ void    deque_free(deque_t* self);
 void*  deque_first(const deque_t* self);
 void*  deque_last(const deque_t* self);
 void*  deque_get(const deque_t* self, size_t index);
+bool   deque_get_n(const deque_t* self, void* destination, size_t start, size_t count);
 ///@}
 
 /** @name Capacity */

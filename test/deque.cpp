@@ -42,6 +42,7 @@ SCENARIO("We can populate a deque", "[deque]")
 
 		THEN("Popping zero elements is possible")
 		{
+			REQUIRE( deque_get_n(&tested, NULL, 0, 0) );
 			REQUIRE( deque_pop_back_n(&tested, NULL, 0) );
 			REQUIRE( deque_pop_front_n(&tested, NULL, 0) );
 		}
@@ -273,7 +274,9 @@ SCENARIO("We can populate a deque", "[deque]")
 
 			WHEN("10 element is popped from the front")
 			{
+				int get[10] = {};
 				int popped[10] = {};
+				CHECK( deque_get_n(&tested, get, 0, 10) );
 				CHECK( deque_pop_front_n(&tested, popped, 10) );
 
 				THEN("The size becomes 35")
@@ -286,6 +289,7 @@ SCENARIO("We can populate a deque", "[deque]")
 				{
 					for (unsigned i = 0; i < 10; i++)
 					{
+						REQUIRE( get[i] == popped[i] );
 						REQUIRE( popped[i] == pushed[capacity - 1 - i] );
 					}
 				}
@@ -293,7 +297,9 @@ SCENARIO("We can populate a deque", "[deque]")
 
 			WHEN("10 element are popped from the back")
 			{
+				int get[10] = {};
 				int popped[10] = {};
+				CHECK( deque_get_n(&tested, get, deque_count(&tested) - 10, 10) );
 				CHECK( deque_pop_back_n(&tested, popped, 10) );
 
 				THEN("The size becomes 35")
@@ -306,6 +312,7 @@ SCENARIO("We can populate a deque", "[deque]")
 				{
 					for (int i = 0; i < 10; i++)
 					{
+						REQUIRE( get[i] == popped[10 - 1 - i] );
 						REQUIRE( popped[i] == pushed[i] );
 					}
 				}
@@ -313,6 +320,7 @@ SCENARIO("We can populate a deque", "[deque]")
 				THEN("More than 35 elements cannot be popped")
 				{
 					int out[40];
+					REQUIRE_FALSE( deque_get_n(&tested, out, 0, 36) );
 					REQUIRE_FALSE( deque_pop_front_n(&tested, out, 36) );
 					REQUIRE_FALSE( deque_pop_back_n(&tested, out, 36) );
 				}
