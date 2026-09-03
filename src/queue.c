@@ -75,6 +75,12 @@ void* queue_get(const queue_t* self, size_t index)
 	return deque_get(self, index);
 }
 
+/** Access @p count elements of the queue, starting with @p start @see deque_get_n */
+bool queue_get_n(const queue_t* self, void* destination, size_t start, size_t count)
+{
+	return deque_get_n(self, destination, start, count);
+}
+
 /** Move the @p count first elements at the back of @p destination @see deque_pop_front_into_array */
 bool queue_pop_into_array(queue_t* self, struct array* destination, size_t count)
 {
