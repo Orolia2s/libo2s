@@ -40,6 +40,7 @@ bool   queue_pop_into_array(queue_t* self, struct array* destination, size_t cou
 ///@{
 void*  queue_first(const queue_t* self);
 void*  queue_get(const queue_t* self, size_t index);
+bool   queue_get_n(const queue_t* self, void* destination, size_t start, size_t count);
 ///@}
 
 /** @name Capacity */
