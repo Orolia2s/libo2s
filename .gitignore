@@ -30,3 +30,4 @@ result*
 sonar-project.properties
 .zig-cache
 zig-out
+/subprojects/*
